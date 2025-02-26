@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 
-import { useParams } from 'react-router-dom'
+import { useParams,useNavigate, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
 
@@ -9,8 +9,8 @@ const Detail = () => {
     const [article, setArticle] = useState({});
     const [error, setError] = useState(null);
 
-
-    const {id} = useParams()
+    const {id} = useParams();
+    const navigate = useNavigate();
     // console.log(id);
     useEffect(() => {
         const fetchArticle = async () => {
@@ -37,6 +37,23 @@ const Detail = () => {
         fetchArticle();
     }, [id]);
 
+    const deleteArticle = async () => {
+        try {
+            const reponse = await fetch(`${URL.DELETE_ARTICLE}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': "application/json"
+                }
+            });
+
+            if (reponse.status === 200) navigate('/');
+                
+        } catch (error) {
+            setError(error, "Erreur lors de la suppression de l'article");
+        }
+    }
+    
+
     if (error) {
         return <p>Erreur :{error}</p>
     }
@@ -48,6 +65,8 @@ const Detail = () => {
             <p>{article.description}</p>
             <p>{article.prix} €</p>
             <p>{article.stock}</p>
+            <button onClick={deleteArticle}>Supprimer</button>
+            <Link to={`/update/${article._id}`} className="btn btn-info">Modifier</Link>
         </>
     )
 }

@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
+
+
 const AddArticle = () => {
 
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
 
     const [article, setArticle] = useState({
+        marque: '',
         nom: '',
+        categorie: '',
         description: '',
         prix: '',
         photo: {
@@ -23,10 +27,13 @@ const AddArticle = () => {
 
     const handleChange = (e) => {
 
-        const { name, value } = e.target;
+        const { name, value, files } = e.target;
         if (name.startsWith('img')) {
-            setArticle(prev => ({ ...prev, photo: { ...prev.photo, [name]: value } }))
-            // console.log(article);
+
+            setArticle(prev => ({ ...prev, 
+
+                photo: files ? { ...prev.photo, [name]: value } : { ...prev.photo, [name]: '' } }))
+            
         } else {
 
             setArticle(prev => ({ ...prev, [name]: value }))
@@ -37,14 +44,26 @@ const AddArticle = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const formData = new FormData();
+        formData.append("Marque", article.marque)
+        formData.append("Nom", article.nom)
+        formData.append("Categorie", article.categorie)
+
+        formData.append("Description", article.description)
+        formData.append("Prix", parseInt(article.prix))
+        formData.append("Stock", parseInt(article.stock))
+        formData.append("Status", article.status)
+
+        article.photo.img.foreach((image) => {
+            formData.append("Photo", image)
+        });
+
         try {
-            const response = await fetch(URL.CREATE_ARTICLE, { 
+            const response = await fetch(URL.CREATE_ARTICLE, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(article)
+                body: formData
             });
+
             if (!response.ok) {
                 throw new Error(`Erreur lors de l'ajout de l'article : ${response.status}`);
             }
@@ -58,7 +77,7 @@ const AddArticle = () => {
 
     return (
         <div className="container py-5">
-            <div className="row justyfy-content-center">
+            <div className="row justify-content-center">
                 <div className="col-12 col-mb-8 col-lg-6">
                     <form onSubmit={handleSubmit} className="card shadow-sm">
                         <div className="card-body p-4">
@@ -84,8 +103,7 @@ const AddArticle = () => {
                                     required
                                 />
                             </div>
-                        
-                            
+
                             <div className="mb-3">
                                 <input type="text" name="categorie" onChange={handleChange}
                                     placeholder="Categorie de l'article"
@@ -95,6 +113,8 @@ const AddArticle = () => {
                             <div className="mb-3">
                                 <input type="number" name="prix" onChange={handleChange}
                                     placeholder="Prix de l'article"
+                                    min="0"
+                                    step="0.01"
                                     required
                                 />
                             </div>
@@ -104,7 +124,7 @@ const AddArticle = () => {
                                         <label className="form-label text-muted small">
                                             {index === 0 ? "Image principale(URL)" : `Image ${index}(URL)`}
                                         </label>
-                                        <input type="text" name={imgName} onChange={handleChange} placeholder={`Image ${imgName.slice(-1)}`} className="form-control" />
+                                        <input type="file" name={imgName} onChange={handleChange} placeholder={`Image ${imgName.slice(-1)}`} className="form-control" />
                                     </div>
                                 ))}
                             </div>
