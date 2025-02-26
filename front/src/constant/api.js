@@ -1,25 +1,25 @@
 const URL = {
     FETCH_ARTICLES : "https://frenchy-gurumi-vercel.vercel.app/api/article/get",
-    FETCH_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/get/",
+    FETCH_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/get",
     CREATE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/create",
-    UPDATE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/update/",
-    DELETE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/delete/"
+    UPDATE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/update",
+    DELETE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/delete"
 }
 
 const URL_USER = {
     FETCH_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
-    FETCH_USER_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/user/get/",
+    FETCH_USER_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
     CREATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/create",
-    UPDATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/update/",
-    DELETE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/delete/"
+    UPDATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/update",
+    DELETE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/delete"
 }
 
 const URL_AVIS = {
     FETCH_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/get",
-    FETCH_AVIS_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/avis/get/",
+    FETCH_AVIS_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/avis/get",
     CREATE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/create",
-    UPDATE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/update/",
-    DELETE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/delete/"
+    UPDATE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/update",
+    DELETE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/delete"
 }
 
 
