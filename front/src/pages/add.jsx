@@ -84,12 +84,8 @@ const AddArticle = () => {
                                     required
                                 />
                             </div>
-                            <div className="mb-3">
-                                <input type="text" name="marque" onChange={handleChange}
-                                    placeholder="Marque de l'article"
-                                    required
-                                />
-                            </div>
+                        
+                            
                             <div className="mb-3">
                                 <input type="text" name="categorie" onChange={handleChange}
                                     placeholder="Categorie de l'article"
@@ -124,7 +120,7 @@ const AddArticle = () => {
                                 />
                             </div>
 
-                            <button type="submit" className="btn btn-primary w-100">Ajouter l'article</button>
+                            <button onClick={handleSubmit} type="submit" className="btn btn-primary w-100">Ajouter l'article</button>
                         </div>
                     </form>
                 </div>
