@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import URL from '../constant/api';
 const AddArticle = () => {
 
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
@@ -38,7 +38,7 @@ const AddArticle = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:8000/api/article/create`, {
+            const response = await fetch(URL.CREATE_ARTICLE, { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 
 import { useParams } from 'react-router-dom'
-// import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import URL from '../constant/api';
 
 const Detail = () => {
 
@@ -15,7 +15,7 @@ const Detail = () => {
     useEffect(() => {
         const fetchArticle = async () => {
             try {
-                const reponse = await fetch(`http://localhost:8000/api/article/get/${id}`, {
+                const reponse = await fetch(`${URL.FETCH_ARTICLE}/${id}`, {
                     headers: {
                         'Content-Type': "application/json"
                     }
