@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  URL  from '../constants/api';
 
 
 const Home = () => {
@@ -15,7 +14,7 @@ const Home = () => {
                 // const token = localStorage.getItem("token");
                 // if(!token)
                 //     throw new Error("Token non trouvé");
-                const response = await fetch(URL.FETCH_ARTICLES, {
+                const response = await fetch(, {
                     headers: {
                         // 'Authorization' : `Bearer ${token}`,
                         'Content-Type': "application/json"
