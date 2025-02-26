@@ -23,4 +23,4 @@ const URL = {
 }
 
 
-export {URL}
+export default URL
