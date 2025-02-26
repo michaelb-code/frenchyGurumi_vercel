@@ -24,7 +24,7 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
 //MIDDLEWARE
 app.use(express.json());// permet de lire le corps de la requete en json
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://frenchy-gurumi-vercel-oauk.vercel.app"],
     credentials: true}));
 app.use(cookieParser());// permet de lire les cookies
 
