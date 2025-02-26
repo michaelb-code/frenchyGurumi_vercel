@@ -39,17 +39,17 @@ const Detail = () => {
 
     const deleteArticle = async () => {
         try {
-            const reponse = await fetch(`${URL.DELETE_ARTICLE}/${id}`, {
+            const response = await fetch(`${URL.DELETE_ARTICLE}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': "application/json"
                 }
             });
 
-            if (reponse.status === 200) navigate('/');
+            if (response.status === 200) navigate('/');
                 
         } catch (error) {
-            setError(error, "Erreur lors de la suppression de l'article");
+            setError( `${error.message}`, "Erreur lors de la suppression de l'article");
         }
     }
     
@@ -60,7 +60,7 @@ const Detail = () => {
     
     return(
         <>
-            <h1>Detail de mon article : {article.nom}</h1>
+            <h1>Détail de mon article : {article.nom}</h1>
             <h2>{article.nom}</h2>
             <p>{article.description}</p>
             <p>{article.prix} €</p>
