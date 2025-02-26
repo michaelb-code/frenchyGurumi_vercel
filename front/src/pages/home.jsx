@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {URL} from '../constant/api';
+import URL from '../constant/api';
 
 
 const Home = () => {
