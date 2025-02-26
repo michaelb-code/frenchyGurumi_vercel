@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import URL from '../constant/api';
+import {URL} from '../constant/api';
 const AddArticle = () => {
 
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
