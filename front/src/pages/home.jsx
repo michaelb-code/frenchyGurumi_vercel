@@ -64,7 +64,7 @@ const Home = () => {
             <nav className="navbar navbar-expand-lg navbar-light bg-white py-3">
                 <div className="container">
                     <Link className="navbar-brand" to="/">
-                        <img src="/logo.png" alt="Logo" height="50" />
+                        <img src="capture.png" alt="Logo" height="50" />
                     </Link>
                     
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
