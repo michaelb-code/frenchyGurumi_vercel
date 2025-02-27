@@ -65,7 +65,7 @@ const Detail = () => {
             <p>{article.description}</p>
             <p>{article.prix} €</p>
             <p>{article.stock}</p>
-            <button onClick={deleteArticle}>Supprimer</button>
+            <button className="btn btn-danger" onClick={deleteArticle}>Supprimer</button>
             <Link to={`/update/${article._id}`} className="btn btn-info">Modifier</Link>
         </>
     )
