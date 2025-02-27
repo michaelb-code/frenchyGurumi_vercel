@@ -7,6 +7,7 @@ const AddArticle = () => {
 
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
 
+    // state avec un objet article vide 
     const [article, setArticle] = useState({
         marque: '',
         nom: '',
