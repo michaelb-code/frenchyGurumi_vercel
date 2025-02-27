@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import Carousel from 'react-bootstrap/Carousel';
+import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
 
@@ -64,7 +64,7 @@ const Home = () => {
             <nav className="navbar navbar-expand-lg navbar-light bg-white py-3">
                 <div className="container">
                     <Link className="navbar-brand" to="/">
-                        <img src="capture.png" alt="Logo" height="50" />
+                        <img src="/Logo/Logo.png" alt="Logo" height="50" />
                     </Link>
                     
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -102,7 +102,7 @@ const Home = () => {
                     <Carousel.Item>
                         <img
                             className="d-block w-100"
-                            src="/carousel1.jpg"
+                            src="/photoSlide/photoSlide1.jpg"
                             alt="First slide"
                             style={{ maxHeight: '500px', objectFit: 'cover' }}
                         />
