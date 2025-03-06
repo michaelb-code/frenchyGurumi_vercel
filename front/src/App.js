@@ -5,6 +5,7 @@ import Home from './pages/home';
 import Detail from './pages/detail';
 import AddArticle from './pages/add';
 import Update from './pages/update';
+import RegisterUser from './pages/registerUser';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/detail/:id" element={<Detail />} />
       <Route path="/add" element={<AddArticle />} />
       <Route path="/update/:id" element={<Update />} />
+      <Route path="/register" element={<RegisterUser />} />
     </Routes>
   );
 }

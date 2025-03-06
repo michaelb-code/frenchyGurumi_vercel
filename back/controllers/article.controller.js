@@ -43,9 +43,9 @@ export const createArticle = async (req, res) => {
         if (fieldsMissing) {
             return res.status(400).json({ message: `Le champ ${fieldsMissing} est obligatoire pour la création d'un article` });
         }
-         const articleData = {...req.body, 
+        const articleData = {...req.body, 
             photo: req.body.photo,
-            avis: req.body.avis || [] };
+            avis: req.body.avis || []};
 
 
         const newArticle = await Article.create(articleData);

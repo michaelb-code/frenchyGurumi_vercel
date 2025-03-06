@@ -9,7 +9,7 @@ const URL = {
 //USER
     FETCH_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
     FETCH_USER_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
-    CREATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/create",
+    CREATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/signup",
     UPDATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/update",
     DELETE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/delete",
 
