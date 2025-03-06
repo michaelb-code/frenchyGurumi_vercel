@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
+import { useNavigate } from 'react-router-dom';
 
 
 const AddArticle = () => {
+    const navigate = useNavigate();
 
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
 
@@ -29,11 +31,11 @@ const AddArticle = () => {
     const handleChange = (e) => {
 
         const { name, value, files } = e.target;
-        if (name.startsWith('img')) {
 
+        if (name.startsWith('img')) {
             setArticle(prev => ({ ...prev, 
 
-                photo: files ? { ...prev.photo, [name]: value } : { ...prev.photo, [name]: '' } }))
+                photo: { ...prev.photo, [name]: files ? files[0] : '' } }))
             
         } else {
 
@@ -45,24 +47,24 @@ const AddArticle = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("Marque", article.marque)
-        formData.append("Nom", article.nom)
-        formData.append("Categorie", article.categorie)
-
-        formData.append("Description", article.description)
-        formData.append("Prix", parseInt(article.prix))
-        formData.append("Stock", parseInt(article.stock))
-        formData.append("Status", article.status)
-
-        article.photo.img.foreach((image) => {
-            formData.append("Photo", image)
-        });
+        const newArticle = {
+            marque: article.marque,
+            nom: article.nom,
+            categorie: article.categorie,
+            description: article.description,
+            prix: parseInt(article.prix),
+            photo: article.photo,
+            status: Boolean(article.status),
+            stock: parseInt(article.stock)
+        }
 
         try {
             const response = await fetch(URL.CREATE_ARTICLE, {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newArticle)
             });
 
             if (!response.ok) {
@@ -71,6 +73,7 @@ const AddArticle = () => {
 
             const data = await response.json();
             console.log("Article ajouté", data);
+            navigate('/');
         } catch (error) {
             console.error(error.message);
         }

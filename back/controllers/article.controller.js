@@ -36,17 +36,19 @@ export const createArticle = async (req, res) => {
         // }
 
         //verification des champs du corps de la requete
-        const fieldsChecked = ["marque","nom","categorie","description","photo","prix","avis","stock"];
+        const fieldsChecked = ["marque","nom","categorie","description","photo","prix","status","stock"];
 
         const fieldsMissing = fieldsChecked.find((field) => !req.body[field]);
 
         if (fieldsMissing) {
             return res.status(400).json({ message: `Le champ ${fieldsMissing} est obligatoire pour la création d'un article` });
         }
+         const articleData = {...req.body, 
+            photo: req.body.photo,
+            avis: req.body.avis || [] };
 
-// console.log(req.body)
 
-        const newArticle = await Article.create(req.body);
+        const newArticle = await Article.create(articleData);
         res.status(201).json({message: "Article créé avec succés", data: newArticle});
     } catch (error){
 

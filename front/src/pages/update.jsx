@@ -68,21 +68,24 @@ const Update = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("Marque", article.marque)
-        formData.append("Nom", article.nom)
-        formData.append("Categorie", article.categorie)
-
-        formData.append("Description", article.description)
-        formData.append("Prix", parseInt(article.prix))
-        formData.append("Stock", parseInt(article.stock))
-        formData.append("Status", article.status)
+        const UpdateArticle = {
+            marque: article.marque,
+            nom: article.nom,
+            categorie: article.categorie,
+            description: article.description,
+            photo: article.photo,
+            prix: parseInt(article.prix),
+            stock: parseInt(article.stock),
+            status: article.status
+        };
 
         try {
             const response = await fetch(`${URL.UPDATE_ARTICLE}/${id}`, {
                 method: 'PUT',
-                
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(UpdateArticle)
             });
 
             if (!response.ok) {
