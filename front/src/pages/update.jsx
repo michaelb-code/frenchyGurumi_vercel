@@ -81,9 +81,7 @@ const Update = () => {
         try {
             const response = await fetch(`${URL.UPDATE_ARTICLE}/${id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                
                 body: formData
             });
 
