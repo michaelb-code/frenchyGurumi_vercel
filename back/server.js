@@ -17,25 +17,24 @@ const PORT = process.env.PORT || 8080
 
 // DATABASE MONGOOSE 
 // connexion a la base de donnee
-mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri stockée dans le fichier .env
+mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri stockée dans mes variables d'environnement
 .then(() => console.log("Connexion à la base de donnée réussie !"))// affiche le message de connexion dans la console
 .catch((error) => console.log("Problème de connexion à la base de donnée",error))// affiche le message d'erreur dans la console 
 
 //MIDDLEWARE
 app.use(express.json());// permet de lire le corps de la requete en json
 app.use(cors({
-    origin: ["http://localhost:3000", "https://frenchy-gurumi-vercel-oauk.vercel.app"],
+    origin: ["http://localhost:3000", "https://frenchy-gurumi-vercel-oauk.vercel.app"], 
+    // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true}));
-app.use(cookieParser());// permet de lire les cookies
 
-//FICHIERS STATIC
-// app.use('/uploads', express.static('uploads'));//pour les images uploads
+app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
+
 
 //PREFIX ROUTES
 app.use("/api/user", userRoutes)// le préfixe pour toutes les routes user
 app.use("/api/avis", avisRoutes) // le préfixe pour toutes les routes avis
 app.use("/api/article", articleRoutes) // le préfixe pour toutes les routes article
-
 
 
 // SERVER

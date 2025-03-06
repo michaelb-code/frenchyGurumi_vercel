@@ -23,7 +23,7 @@ const Home = () => {
                 });
 
                 if (!response.ok)
-                    throw new Error("Erreur lors de la recuperation des articles");
+                    throw new Error("Erreur lors de la récupération des articles");
 
                 const data = await response.json();
 

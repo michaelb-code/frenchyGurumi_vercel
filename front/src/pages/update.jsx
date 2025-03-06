@@ -101,7 +101,7 @@ const Update = () => {
 
     return (
         <div>
-            <h1>Modifier l'article {article.nom}</h1>
+            <h1>Modification de l'article {article.nom}</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Marque</label>

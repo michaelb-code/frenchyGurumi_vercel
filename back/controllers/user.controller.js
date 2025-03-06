@@ -22,11 +22,15 @@ export const signup = async (req, res) => {
         if (userExists) {
             res.status(400).json({ message: "Cet utilisateur existe déjà!" }); //message erreur pour specifier que l'utilisateur existe deja
         }
+
+        //hashage du mot de passe
         const hashedPassword = await bcrypt.hash(req.body.password, 10); //permet le cryptage du mot de passe
         req.body.password = hashedPassword;
-        
+
+        //creation du compte
         await Model.create(req.body); //crée le compte avec les infos fournies par le user
         res.status(201).json({ message: `Création du compte de ${req.body.nom} ${req.body.prenom} créé avec succés!`}); //message de succes
+
     } catch (error) {
         console.log("Erreur lors de la création du compte", error);
 
