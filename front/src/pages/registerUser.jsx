@@ -1,11 +1,11 @@
-import react, { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import URL from '../constant/api';
 
 
-const userRegister = () => {
+const UserRegister = () => {
 const navigate = useNavigate();
 const [user, setUser] = useState({
     isActive: true,
@@ -22,8 +22,6 @@ const [user, setUser] = useState({
     role: '',
     
 });
-
-
 
 const handleChange = (event) => {
     const { name, value } = event.target;
@@ -54,6 +52,7 @@ const handleSubmit= async (event) => {
     } catch (error) {
         console.error(error.message);
     }
+};
 
     return (
         <form onSubmit={handleSubmit}>
@@ -83,13 +82,7 @@ const handleSubmit= async (event) => {
 
             {/* <Link to="/login">Se connecter</Link> */}
         </form>
-    )
+    );
+};
 
-
-}
-
-
-
-}
-
-export default userRegister;
+export default UserRegister;
