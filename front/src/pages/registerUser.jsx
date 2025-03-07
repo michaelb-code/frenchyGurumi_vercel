@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import URL from '../constant/api';
+import { useSelector } from 'react-redux';
 
 
 const UserRegister = () => {
+    const { loading } = useSelector((state) => state.article);
 const navigate = useNavigate();
 const [user, setUser] = useState({
     isActive: true,
@@ -52,6 +54,7 @@ const handleSubmit= async (event) => {
         console.error(error.message);
     }
 };
+if (loading) return <div className='text-center'>Chargement...</div>
 
     return (
         <form onSubmit={handleSubmit}>
