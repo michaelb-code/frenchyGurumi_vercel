@@ -63,7 +63,8 @@ const handleSubmit= async (event) => {
 
             <input type="date" name="date_naissance" onChange={handleChange} placeholder="Date de naissance" required/>
 
-            <select name="sexe" onChange={handleChange} placeholder="Sexe" required>
+            <select name="sexe" value={user.sexe} onChange={handleChange} placeholder="Sexe" required>
+                <option value="">Sélectionnez votre sexe</option>
                 <option value="masculin">Masculin</option>
                 <option value="feminin">Feminin</option>
             </select>
@@ -80,10 +81,9 @@ const handleSubmit= async (event) => {
 
             <input type="text" name="telephone" onChange={handleChange} placeholder="Telephone" required/>
 
-            <select name="role" onChange={handleChange} placeholder="Role" required>
+            <select name="role" value={user.role} onChange={handleChange} placeholder="Role" required>
                 <option value="admin">Admin</option>
                 <option value="user">User</option>
-                <option value="visiteur">Visiteur</option>
             </select>
 
             <button type="submit" className="btn btn-primary">S'inscrire</button>
