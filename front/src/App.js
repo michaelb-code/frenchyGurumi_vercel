@@ -6,6 +6,8 @@ import Detail from './pages/detail';
 import AddArticle from './pages/add';
 import Update from './pages/update';
 import RegisterUser from './pages/registerUser';
+import Sign from './pages/sign';
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
       <Route path="/add" element={<AddArticle />} />
       <Route path="/update/:id" element={<Update />} />
       <Route path="/register" element={<RegisterUser />} />
+      <Route path="/login" element={<Sign />} />
     </Routes>
   );
 }

@@ -5,9 +5,13 @@ import { useAuth } from "../context/AuthContext";
 //import du link pour la navigation
 import { Link } from "react-router-dom";
 //import de l'api
+import URL from "../constant/api";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const Sign = () => {
+    const navigate = useNavigate();
     const { login, isLoading } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
@@ -27,6 +31,7 @@ const Sign = () => {
 
         try {
             await login(formData.email, formData.password);
+            navigate('/');
         } catch (error) {
             console.log(error);
             setError(error.message || "Connexion echouée");
