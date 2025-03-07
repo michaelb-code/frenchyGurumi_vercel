@@ -31,10 +31,10 @@ const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Accueil</Link>
+                            <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/products">Produits</Link>
+                            <Link className="nav-link" to="/products">Nos Articles</Link>
                         </li>
                         {auth && auth.role === 'admin' && (
                             <li className="nav-item">
