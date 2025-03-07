@@ -12,8 +12,8 @@ const NavBar = () => {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
                 <Link className="navbar-brand" to="/">
-                    <img src="/Logo/Logo.png" alt="FrenchyGurumi" height="30" className="me-2" />
-                    FrenchyGurumi
+                    {/* <img src="/Logo/Logo.png" alt="FrenchyGurumi" height="30" className="me-2" /> */}
+                    <a href="/">FrenchyGurumi</a>
                 </Link>
                 
                 <button 

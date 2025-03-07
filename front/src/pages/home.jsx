@@ -10,6 +10,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 
 const Home = () => {
     const dispatch = useDispatch();
+    const { loading, data } = useSelector((state) => state.article);
     
     const [articles, setArticles] = useState([]);
     const [error, setError] = useState(null);
@@ -17,10 +18,9 @@ const Home = () => {
     useEffect(() => {
 
         const fetchArticles = async () => {
-
+            try {
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             
-            try {
                 // const token = localStorage.getItem("token");
                 // if(!token)
                 //     throw new Error("Token non trouvé");
@@ -46,8 +46,9 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, []);
+    }, [dispatch]);
 
+    if (loading) return <div>Loading...</div>
     if (error)
         return <div>{error}</div>
 
@@ -56,7 +57,7 @@ const Home = () => {
             <div className="container py-4">
                 <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> 
-                    {articles.map((article) => (
+                    {data.map((article) => (
                         <div key={article._id} className="col">
                             <div className="card h-100">
                             <h2 className="card-title h5">Marque : {article.marque}</h2>
