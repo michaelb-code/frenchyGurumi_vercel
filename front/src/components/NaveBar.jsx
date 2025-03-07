@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Navbar = () => {
+
+const NavBar = () => {
     const { auth, logout } = useAuth();
+    
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
                 <Link className="navbar-brand" to="/">
-                    <img src="/logo.png" alt="FrenchyGurumi" height="30" className="me-2" />
+                    <img src="/Logo/Logo.png" alt="FrenchyGurumi" height="30" className="me-2" />
                     FrenchyGurumi
                 </Link>
                 
@@ -106,4 +108,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default NavBar;

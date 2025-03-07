@@ -7,12 +7,13 @@ import AddArticle from "./pages/add";
 import Update from "./pages/update";
 import RegisterUser from "./pages/registerUser";
 import Sign from "./pages/sign";
-import Navbar from "./components/navBar";
+import NavBar from "./components/NaveBar";
+
 
 function App() {
   return (
     <>
-      <Navbar />
+      <NavBar />
       <main className="container py-4">
         <Routes>
           <Route index element={<Home />} />
