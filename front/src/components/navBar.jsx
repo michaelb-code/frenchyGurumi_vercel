@@ -60,17 +60,16 @@ const Navbar = () => {
                         ) : (
                             <>
                                 <li className="nav-item dropdown">
-                                    <a 
-                                        className="nav-link dropdown-toggle" 
-                                        href="#" 
+                                    <button 
+                                        className="nav-link dropdown-toggle border-0 bg-transparent" 
+                                        type="button" 
                                         id="navbarDropdown" 
-                                        role="button" 
                                         data-bs-toggle="dropdown" 
                                         aria-expanded="false"
                                     >
                                         <i className="bi bi-person-circle me-1"></i>
                                         {auth.nom}
-                                    </a>
+                                    </button>
                                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <li>
                                             <Link className="dropdown-item" to="/profile">
