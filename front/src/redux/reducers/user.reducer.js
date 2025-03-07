@@ -11,21 +11,32 @@ export const User = createSlice({
     name: "user", 
     initialState,
     reducers: {
-        FETCH_USER_START: (store) => {
-            store.loading = true;
+        FETCH_USER_START: (state) => {
+            state.loading = true;
+            state.error = null;
         },
 
-        FETCH_USER_SUCCESS: (store, actions) => {
-            store.loading = false;
-            store.data = actions.payload;
+        FETCH_USER_SUCCESS: (state, actions) => {
+            state.loading = false;
+            state.data = actions.payload;
+            state.error = null;
         },
-        FETCH_USER_ERROR: (store, actions) => {
-            store.loading = false;
-            store.error = actions.payload;
+        FETCH_USER_ERROR: (state, actions) => {
+            state.loading = false;
+            state.error = actions.payload;
+        },
+        CLEAR_USER: (state) => {
+            state.data = [];
+            state.loading = null;
+            state.error = null;
         }
     }
 });
 
-export const {FETCH_USER_START, FETCH_USER_SUCCESS, FETCH_USER_ERROR} = User.actions
+export const {  FETCH_USER_START, 
+                FETCH_USER_SUCCESS, 
+                FETCH_USER_ERROR, 
+                CLEAR_USER
+            } = User.actions
 
 export default User.reducer
