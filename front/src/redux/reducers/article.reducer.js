@@ -18,9 +18,10 @@ export const Article = createSlice({
         },
 
         FETCH_ARTICLE_SUCCESS: (store, actions) => {
-            store.loading = false; // on met loading a false apres la recuperation des donnees
+            store.loading = false; // on met loading a false apres la recuperation des donnees chargement termine
             store.data = actions.payload;
             // on met les donnees recuperees dans le store
+            //on stocke les articles recu dans data 
         },
     }
 

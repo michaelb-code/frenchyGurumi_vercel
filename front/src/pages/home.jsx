@@ -2,15 +2,24 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
+import { useDispatch, useSelector } from 'react-redux';
+
+// importer les actions de redux
+import * as ACTIONS from '../redux/reducers/article.reducer';
 
 
 const Home = () => {
+    const dispatch = useDispatch();
+    
     const [articles, setArticles] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
 
         const fetchArticles = async () => {
+
+            dispatch(ACTIONS.FETCH_ARTICLE_START());
+            
             try {
                 // const token = localStorage.getItem("token");
                 // if(!token)
@@ -20,16 +29,15 @@ const Home = () => {
                         // 'Authorization' : `Bearer ${token}`,
                         'Content-Type': "application/json"
                     }
-                });
+                } );
 
                 if (!response.ok)
                     throw new Error("Erreur lors de la récupération des articles");
 
                 const data = await response.json();
-
                 console.log(data);
 
-                setArticles(data.articles);
+                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data.articles));
                 setError(null);
 
             } catch (error) {
