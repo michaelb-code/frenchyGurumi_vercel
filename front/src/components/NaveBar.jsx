@@ -13,7 +13,7 @@ const NavBar = () => {
             <div className="container">
                 <Link className="navbar-brand" to="/">
                     {/* <img src="/Logo/Logo.png" alt="FrenchyGurumi" height="30" className="me-2" /> */}
-                    <a href="/">FrenchyGurumi</a>
+                    FrenchyGurumi
                 </Link>
                 
                 <button 
