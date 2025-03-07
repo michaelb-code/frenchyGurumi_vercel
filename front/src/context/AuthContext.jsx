@@ -1,10 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import URL from "../constant/api";
-import { useContext } from "react";
 
 //creation du contexte d'authentification
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 
 export const useAuth = () => {
@@ -73,6 +72,9 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
+
+export  {AuthContext};
+
 
 
 
