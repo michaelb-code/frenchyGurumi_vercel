@@ -28,8 +28,8 @@ app.use(cors({
     //
     // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true,
-    methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
-    allowedHeaders: ["Content-Type","Authorization"]
+    methods: ['GET','PUT','POST','DELETE'],
+    allowedHeaders: ["Content-Type","Authorization", "Accept"]
 }));
 
 app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
