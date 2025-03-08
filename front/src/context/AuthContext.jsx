@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import URL from "../constant/api";
 
 //creation du contexte d'authentification
-const AuthContext = createContext();
-
+const AuthContext = createContext(null);
 
 export const useAuth = () => {
     return useContext(AuthContext)
@@ -73,7 +72,8 @@ export const AuthProvider = ({ children }) => {
     )
 }
 
-export  {AuthContext};
+export default AuthContext
+
 
 
 

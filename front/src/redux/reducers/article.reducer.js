@@ -28,6 +28,11 @@ export const Article = createSlice({
         FETCH_ARTICLE_ERROR: (store, actions) => {
             store.loading = false;
             store.error = actions.payload;
+        },
+        CLEAR_ARTICLE: (store) => {
+            store.data = [];
+            store.loading = null;
+            store.error = null;
         }
     }
 

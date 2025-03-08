@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 
 // importer les actions de redux
 import * as ACTIONS from '../redux/reducers/article.reducer';
@@ -18,6 +18,7 @@ const Home = () => {
         const fetchArticles = async () => {
             try {
             dispatch(ACTIONS.FETCH_ARTICLE_START());
+            console.log("Fetching articles...");
             
                 // const token = localStorage.getItem("token");
                 // if(!token)
@@ -40,6 +41,7 @@ const Home = () => {
 
             } catch (error) {
                 console.error(error.message);
+                dispatch(ACTIONS.FETCH_ARTICLE_FAILURE(error.message));
             }
         };
 

@@ -27,11 +27,11 @@ const Sign = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
         
-
         try {
             await login(formData.email, formData.password);
-            navigate('/');
+            
         } catch (error) {
             console.log(error);
             setError(error.message || "Connexion echouée");
