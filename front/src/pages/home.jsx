@@ -27,7 +27,8 @@ const Home = () => {
                     headers: {
                         // 'Authorization' : `Bearer ${token}`,
                         'Content-Type': "application/json"
-                    }
+                    },
+                    credentials: "include"
                 } );
 
                 if (!response.ok)
@@ -36,7 +37,12 @@ const Home = () => {
                 const data = await response.json();
                 console.log(data);
 
-                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data.articles));
+                if (data && data.articles) {
+                    dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data.articles));
+                }
+                else {
+                    dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
+                }
                 
 
             } catch (error) {
