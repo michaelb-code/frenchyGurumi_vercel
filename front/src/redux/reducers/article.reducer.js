@@ -38,7 +38,7 @@ export const Article = createSlice({
 
 });
 
-export const { FETCH_ARTICLE_START, FETCH_ARTICLE_SUCCESS, FETCH_ARTICLE_ERROR } = Article.actions
+export const { FETCH_ARTICLE_START, FETCH_ARTICLE_SUCCESS, FETCH_ARTICLE_ERROR, CLEAR_ARTICLE } = Article.actions
 // les actions seront utilisées par les composants
 export default Article.reducer
 // fourni le store de redux a toute notre application

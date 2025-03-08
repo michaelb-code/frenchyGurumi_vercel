@@ -41,7 +41,7 @@ const Home = () => {
 
             } catch (error) {
                 console.error(error.message);
-                dispatch(ACTIONS.FETCH_ARTICLE_FAILURE(error.message));
+                dispatch(ACTIONS.FETCH_ARTICLE_ERROR(error.message));
             }
         };
 
