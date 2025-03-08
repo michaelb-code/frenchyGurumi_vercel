@@ -29,7 +29,7 @@ app.use(cors({
     // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true,
     methods: ['GET','PUT','POST','DELETE'],
-    allowedHeaders: ["Content-Type","Application/json","Authorization", "Accept"]
+    // allowedHeaders: ["Content-Type","Application/json","Authorization", "Accept"]
 }));
 
 app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur

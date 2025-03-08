@@ -59,6 +59,7 @@ const AddArticle = () => {
         }
 
         try {
+            
             const response = await fetch(URL.CREATE_ARTICLE, {
                 method: 'POST',
                 headers: {

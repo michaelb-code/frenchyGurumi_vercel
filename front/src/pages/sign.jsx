@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 //import de l'api
 import URL from "../constant/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+
+import {AuthContext} from "../context/AuthContext";
+
 
 
 const Sign = () => {
-    const navigate = useNavigate();
-    const { login, isLoading } = useAuth();
+    
+    const { login, isLoading } = useAuth(AuthContext);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -25,12 +27,12 @@ const Sign = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setError("");
         
         try {
-            await login(formData.email, formData.password);
+            login(formData.email, formData.password);
             
         } catch (error) {
             console.log(error);
