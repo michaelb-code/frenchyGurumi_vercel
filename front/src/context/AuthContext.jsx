@@ -56,7 +56,13 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const savedAuth = localStorage.getItem("auth")
         if (savedAuth) {
-            setAuth(JSON.parse(savedAuth))
+            try {
+                setAuth(JSON.parse(savedAuth))
+
+            } catch (error) {
+                console.error("Erreur lors du parsing", error)
+                localStorage.removeItem("auth")
+            }
         }
     }, [])
 
