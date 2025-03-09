@@ -26,9 +26,9 @@ const Home = () => {
                 const response = await fetch(URL.FETCH_ARTICLES, {
                     headers: {
                         // 'Authorization' : `Bearer ${token}`,
-                        'Content-Type': "application/json",
+                        'Content-Type': 'application/json',
                     },
-                    credentials: "include"
+                    // credentials: "include"
                 } );
 
                 if (!response.ok)
