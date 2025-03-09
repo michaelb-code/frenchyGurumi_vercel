@@ -35,11 +35,9 @@ const Home = () => {
                     throw new Error("Erreur lors de la récupération des articles");
 
                 const data = await response.json();
-                console.log(data);
 
-                if (data && data.articles) {
-                    dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data.articles));
-                }
+                console.log(data);
+                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
 
             } catch (error) {
                 console.error(error.message);
@@ -57,7 +55,7 @@ const Home = () => {
         <div className="container py-4">
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> 
-                {Array.isArray(data) && data.map((article) => (
+                {data && data.map((article) => (
                     <div key={article._id} className="col">
                         <div className="card h-100">
                             <h2 className="card-title h5">Marque : {article.marque}</h2>
