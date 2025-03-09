@@ -3,7 +3,7 @@ import {createSlice }from "@reduxjs/toolkit";
 const initialState = {
     data: [],
     loading: null,
-    error: null,
+    error: false,
 };
 
 export const User = createSlice({
@@ -24,11 +24,6 @@ export const User = createSlice({
         FETCH_USER_ERROR: (state, actions) => {
             state.loading = false;
             state.error = actions.payload;
-        },
-        CLEAR_USER: (state) => {
-            state.data = [];
-            state.loading = null;
-            state.error = null;
         }
     }
 });

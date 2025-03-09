@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
@@ -10,7 +10,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { loading, data, error } = useSelector((state) => state.article);
+    const { loading, data, error } = useSelector((state) => state.article.data);
     
 
     useEffect(() => {
@@ -40,14 +40,10 @@ const Home = () => {
                 if (data && data.articles) {
                     dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data.articles));
                 }
-                else {
-                    dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
-                }
-                
 
             } catch (error) {
                 console.error(error.message);
-                dispatch(ACTIONS.FETCH_ARTICLE_ERROR(error.message));
+                // dispatch(ACTIONS.FETCH_ARTICLE_ERROR(error.message));
             }
         };
 

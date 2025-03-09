@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     data: [],
     loading: null,
-    error: null, 
+    error: false, 
 };
 
 export const Article = createSlice({
@@ -29,16 +29,16 @@ export const Article = createSlice({
             store.loading = false;
             store.error = actions.payload;
         },
-        CLEAR_ARTICLE: (store) => {
-            store.data = [];
-            store.loading = null;
-            store.error = null;
-        }
+        // CLEAR_ARTICLE: (store) => {
+        //     store.data = [];
+        //     store.loading = null;
+        //     store.error = null;
+        // }
     }
 
 });
 
-export const { FETCH_ARTICLE_START, FETCH_ARTICLE_SUCCESS, FETCH_ARTICLE_ERROR, CLEAR_ARTICLE } = Article.actions
+export const { FETCH_ARTICLE_START, FETCH_ARTICLE_SUCCESS, FETCH_ARTICLE_ERROR } = Article.actions
 // les actions seront utilisées par les composants
 export default Article.reducer
 // fourni le store de redux a toute notre application
