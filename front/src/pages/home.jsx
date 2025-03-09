@@ -48,7 +48,7 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, [dispatch]);
+    }, []);
 
     if (loading) return <div className='text-center'>Chargement...</div>
     if (error) return <div className='text-center'>Erreur:{error}</div>
