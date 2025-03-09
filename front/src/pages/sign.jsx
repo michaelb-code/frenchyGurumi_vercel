@@ -32,7 +32,7 @@ const Sign = () => {
         setError("");
         
         try {
-            login(formData.email, formData.password);
+            login(formData);
             
         } catch (error) {
             console.log(error);

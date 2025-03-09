@@ -22,15 +22,16 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(true);
 
         try {
-            const {data, status } = await fetch(URL.SIGNIN, {
+            const response = await fetch(URL.SIGNIN, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(dataForm)
             });
-
-            if (status === 200) {
+            
+            const data = await response.json();
+            if (response.ok) {
                 localStorage.setItem("auth", JSON.stringify(data))
                 setAuth(data)
                 navigate("/")
