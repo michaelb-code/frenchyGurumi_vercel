@@ -1,20 +1,18 @@
 //import du usecontext pour acceder au contexte d'authentification
-import React, { useState } from "react";
-//import du useauth pour acceder au contexte d'authentification
-import { useAuth } from "../context/AuthContext";
+import React, { useState, useContext} from "react";
 //import du link pour la navigation
 import { Link } from "react-router-dom";
 //import de l'api
 import URL from "../constant/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import AuthContext from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 
 
 const Sign = () => {
     
-    const { login, isLoading } = useAuth(AuthContext);
+    const { login, isLoading } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         email: "",
         password: "",

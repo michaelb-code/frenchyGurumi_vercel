@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
                 },
                 body: JSON.stringify(dataForm)
             });
-            
+
             const data = await response.json();
             if (response.ok) {
                 localStorage.setItem("auth", JSON.stringify(data))
@@ -47,9 +47,11 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
+        setIsLoading(true);
         localStorage.removeItem("auth")
         setAuth(null)
         navigate("/")
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -57,10 +59,10 @@ export const AuthProvider = ({ children }) => {
         if (savedAuth) {
             try {
                 setAuth(JSON.parse(savedAuth))
-
+                setIsLoading(false)
             } catch (error) {
                 console.error("Erreur lors du parsing", error)
-                localStorage.removeItem("auth")
+                setIsLoading(false)
             }
         }
     }, [])

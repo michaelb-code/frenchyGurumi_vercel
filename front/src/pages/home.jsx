@@ -20,15 +20,10 @@ const Home = () => {
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             console.log("Fetching articles...");
             
-                // const token = localStorage.getItem("token");
-                // if(!token)
-                //     throw new Error("Token non trouvé");
                 const response = await fetch(URL.FETCH_ARTICLES, {
                     headers: {
-                        // 'Authorization' : `Bearer ${token}`,
                         'Content-Type': 'application/json',
                     },
-                    // credentials: "include"
                 } );
 
                 if (!response.ok)
