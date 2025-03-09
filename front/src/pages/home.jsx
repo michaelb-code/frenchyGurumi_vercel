@@ -10,7 +10,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { loading, data, error } = useSelector((state) => state.article.data);
+    const { loading, data, error } = useSelector((state) => state.article);
     
 
     useEffect(() => {
