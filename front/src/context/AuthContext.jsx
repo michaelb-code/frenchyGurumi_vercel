@@ -6,7 +6,7 @@ import URL from "../constant/api";
 export const AuthContext = createContext(null);
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    return useContext();
 }
 
 //creation du provider
