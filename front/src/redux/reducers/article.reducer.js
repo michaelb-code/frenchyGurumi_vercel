@@ -23,7 +23,7 @@ export const Article = createSlice({
             store.data = actions.payload;
             // on met les donnees recuperees dans le store
             //on stocke les articles recu dans data 
-            store.error = null;
+            // store.error = null;
         },
         // FETCH_ARTICLE_ERROR: (store, actions) => {
         //     store.loading = false;

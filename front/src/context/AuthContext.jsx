@@ -18,14 +18,14 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         isLoggedIN();
-    }, []);
+    }, [])
 
     const login = async (dataForm) => {
 
         setIsLoading(true);
 
         try {
-            const response = await fetch(URL.SIGNIN, {
+            const {data, status} = await fetch(URL.SIGNIN, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -33,8 +33,8 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(dataForm)
             });
 
-            const data = await response.json();
-            if (response.ok) {
+            // const data = await response.json();
+            if (status === 200) {
                 localStorage.setItem("auth", JSON.stringify(data))
                 setAuth(data)
                 navigate("/")
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(true);
         localStorage.removeItem("auth")
         setAuth(null)
-        navigate("/")
+        navigate("/login")
         setIsLoading(false);
     }
 
