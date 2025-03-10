@@ -21,7 +21,7 @@ console.log("store", store);
 
         const fetchArticles = async () => {
 
-            dispatch(ACTIONS.FETCH_ARTICLE_START());
+            dispatch(ACTIONS.FETCH_ARTICLE_START(store));
             console.log("Fetching articles...");
             try {
                 const response = await fetch(URL.GETALL_ARTICLES,
