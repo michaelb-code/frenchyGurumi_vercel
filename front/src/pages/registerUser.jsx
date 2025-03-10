@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import URL from '../constant/api';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 
 
 const UserRegister = () => {
