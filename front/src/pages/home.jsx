@@ -27,6 +27,9 @@ console.log("store", store);
                 const response = await fetch(URL.GETALL_ARTICLES,
                     {
                         method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
                     }
                 );
                 
