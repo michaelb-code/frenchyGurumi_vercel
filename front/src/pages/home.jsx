@@ -9,7 +9,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 
 
 const Home = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const store = useSelector((state) => state.article.data);
     const loading = useSelector((state) => state.article.loading);
@@ -32,7 +32,7 @@ const Home = () => {
                 // }
 
                 const data = await response.json();
-                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
+                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS([]));
                 console.log(data);
 
 
@@ -43,7 +43,7 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, []);
+    }, [dispatch]);
 
     if (loading) return <div className='text-center'>Chargement...</div>
     if (error) return <div className='text-center'>Erreur:{error}</div>
