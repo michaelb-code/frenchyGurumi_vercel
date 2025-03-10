@@ -53,7 +53,7 @@ console.log("store", store);
         <div className="container py-4">
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {store && store.map((article) => (
+                {Array.isArray(store) && store.length > 0 ? store.map((article) => (
                     <div key={article._id} className="col">
                         <div className="card h-100">
                             <h2 className="card-title h5">Marque : {article.marque}</h2>
@@ -66,7 +66,7 @@ console.log("store", store);
                             <span className="badge bg-primary">Catégorie : {article.categorie}</span>
                         </div>
                     </div>
-                ))}
+                )) : <p>Aucun article trouvé</p>}
             </div>
         </div>
     );
