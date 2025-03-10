@@ -32,7 +32,7 @@ const Home = () => {
                 // }
 
                 const data = await response.json();
-                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS());
+                dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
                 console.log(data);
 
 
@@ -52,7 +52,7 @@ const Home = () => {
         <div className="container py-4">
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {store && store.map(article => (
+                {store.map((article) => (
                     <div key={article._id} className="col">
                         <div className="card h-100">
                             <h2 className="card-title h5">Marque : {article.marque}</h2>
