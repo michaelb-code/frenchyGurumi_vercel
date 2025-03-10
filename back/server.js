@@ -27,7 +27,7 @@ app.use(cors({
     origin: ["http://localhost:3000","https://frenchy-gurumi-vercel.vercel.app","https://frenchy-gurumi-vercel-ouak.vercel.app"], 
     // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json());// permet de lire le corps de la requete en json

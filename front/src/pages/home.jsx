@@ -24,7 +24,12 @@ console.log("store", store);
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             console.log("Fetching articles...");
             try {
-                const response = await fetch(URL.GETALL_ARTICLES);
+                const response = await fetch(URL.GETALL_ARTICLES,
+                    {
+                        method: 'GET',
+                    }
+                );
+                
                 
                 console.log(response);
 
