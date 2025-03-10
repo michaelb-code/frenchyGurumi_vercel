@@ -1,9 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import URL from "../constant/api";
 
 //creation du contexte d'authentification
 export const AuthContext = createContext(null);
+
+export const useAuth = () => {
+    return useContext(AuthContext);
+}
 
 //creation du provider
 export const AuthProvider = ({ children }) => {
@@ -63,7 +67,7 @@ export const AuthProvider = ({ children }) => {
         navigate("/")
         setIsLoading(false);
     }
-    
+
     return (
         <AuthContext.Provider value={{
             isLoading,

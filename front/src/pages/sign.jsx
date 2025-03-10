@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 import URL from "../constant/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import AuthContext from "../context/AuthContext";
+import AuthContext, { useAuth } from "../context/AuthContext";
 
 
 
 const Sign = () => {
     
-    const { login, isLoading } = useContext(AuthContext);
+    const { login, isLoading } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
