@@ -25,7 +25,7 @@ const Home = () => {
             try {
                 const response = await fetch(URL.GETALL_ARTICLES, {
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                 });
 
@@ -34,8 +34,6 @@ const Home = () => {
                 // }
 
                 const data = await response.json();
-
-                console.log(data);
                 dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
 
             } catch (error) {
