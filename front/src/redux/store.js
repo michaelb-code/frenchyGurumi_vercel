@@ -1,14 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+
+//REDUCERS
 import Article from './reducers/article.reducer';
 import User from './reducers/user.reducer';
 
-export default configureStore({
+export const store = configureStore({
     reducer: {
         article: Article,
         user: User
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-        serializableCheck: false,
-        immutableCheck: false
-    })
 })

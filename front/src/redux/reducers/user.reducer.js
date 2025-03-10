@@ -31,7 +31,6 @@ export const User = createSlice({
 export const {  FETCH_USER_START, 
                 FETCH_USER_SUCCESS, 
                 FETCH_USER_ERROR, 
-                CLEAR_USER
             } = User.actions
 
 export default User.reducer
