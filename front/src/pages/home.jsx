@@ -11,7 +11,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 const Home = () => {
     const dispatch = useDispatch();
 
-    const store= useSelector((state) => state.article.data);
+    const store= useSelector((state) => state.article);
     const loading = useSelector((state) => state.article.loading);
     const [error, setError] = useState(null);
     
