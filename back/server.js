@@ -24,7 +24,7 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
 //MIDDLEWARE
 
 app.use(cors({
-    origin: ["http://localhost:3000","https://frenchy-gurumi-vercel.vercel.app"], 
+    origin: ["http://localhost:3000","https://frenchy-gurumi-vercel.vercel.app","https://frenchy-gurumi-vercel-ouak.vercel.app", "https://frenchy-gurumi-vercel.vercel.app/api/article/get"], 
     // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true,
 }));
