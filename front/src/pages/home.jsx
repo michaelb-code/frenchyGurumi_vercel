@@ -23,11 +23,11 @@ const Home = () => {
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             console.log("Fetching articles...");
             try {
-                const response = await fetch(URL.FETCH_ARTICLES, {
+                const response = await fetch(URL.FETCH_ARTICLES, 
                     // headers: {
                     //     'Content-Type': 'application/json',
                     // },
-                } );
+                );
 
                 if (!response.ok)
                     throw new Error("Erreur lors de la récupération des articles");
