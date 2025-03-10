@@ -3,10 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import URL from '../constant/api';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 const UserRegister = () => {
-    const { loading } = useSelector((state) => state.article);
+    const { loading } = useSelector((state) => state.user);
 const navigate = useNavigate();
 const [user, setUser] = useState({
     isActive: true,
@@ -90,7 +91,7 @@ if (loading) return <div className='text-center'>Chargement...</div>
 
             <button type="submit" className="btn btn-primary">S'inscrire</button>
 
-            {/* <Link to="/login">Se connecter</Link> */}
+            <Link to="/login">Se connecter</Link>
         </div>
         </form>
     );
