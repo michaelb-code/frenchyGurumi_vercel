@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
 import { useDispatch, useSelector} from 'react-redux';
-import { store } from '../redux/store';
 
 // importer les actions de redux
 import * as ACTIONS from '../redux/reducers/article.reducer';
@@ -11,7 +10,9 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { loading, data, error } = useSelector((state) => state.article);
+    const store= useSelector((state) => state.article.data);
+    const loading = useSelector((state) => state.article.loading);
+    const [error, setError] = useState(null);
     
 
     useEffect(() => {
@@ -37,6 +38,7 @@ const Home = () => {
 
             } catch (error) {
                 console.error(error.message);
+                setError(error.message);
                 // dispatch(ACTIONS.FETCH_ARTICLE_ERROR(error.message));
             }
         };
@@ -51,7 +53,7 @@ const Home = () => {
         <div className="container py-4">
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> 
-                {data && data.map((article) => (
+                {store && store.map((article) => (
                     <div key={article._id} className="col">
                         <div className="card h-100">
                             <h2 className="card-title h5">Marque : {article.marque}</h2>

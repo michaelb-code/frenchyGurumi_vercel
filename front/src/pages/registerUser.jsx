@@ -91,7 +91,7 @@ if (loading) return <div className='text-center'>Chargement...</div>
 
             <button type="submit" className="btn btn-primary">S'inscrire</button>
 
-            <Link to="/login">Se connecter</Link>
+            <Link className="btn btn-link" to="/login">Se connecter</Link>
         </div>
         </form>
     );
