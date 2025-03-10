@@ -35,6 +35,8 @@ const Home = () => {
 
                 const data = await response.json();
                 dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
+                console.log(data);
+                
 
             } catch (error) {
                 setError(error.message);
