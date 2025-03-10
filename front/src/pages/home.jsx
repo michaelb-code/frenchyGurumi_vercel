@@ -11,7 +11,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 const Home = () => {
     const dispatch = useDispatch();
 
-    const store= useSelector((state) => state.article);
+    const store= useSelector((state) => state.article.data);
     const loading = useSelector((state) => state.article.loading);
     const [error, setError] = useState(null);
     
@@ -25,7 +25,7 @@ const Home = () => {
             try {
                 const response = await fetch(URL.GETALL_ARTICLES, {
                     headers: {
-                        'Content-Type':'application/json',
+                        "Content-Type":"application/json",
                     },
                 });
 
@@ -43,7 +43,7 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, []);
+    }, [dispatch]);
 
     if (loading) return <div className='text-center'>Chargement...</div>
     if (error) return <div className='text-center'>Erreur:{error}</div>
