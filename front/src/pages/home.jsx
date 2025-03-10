@@ -23,14 +23,15 @@ const Home = () => {
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             console.log("Fetching articles...");
             try {
-                const response = await fetch(URL.FETCH_ARTICLES, 
+                const response = await fetch(URL.GETALL_ARTICLES, 
                     // headers: {
                     //     'Content-Type': 'application/json',
                     // },
                 );
 
-                if (!response.ok)
-                    throw new Error("Erreur lors de la récupération des articles");
+                // if (!response.ok) {
+                //     throw new Error("Erreur lors de la récupération des articles");
+                // }
 
                 const data = await response.json();
 
@@ -38,7 +39,7 @@ const Home = () => {
                 dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
 
             } catch (error) {
-                console.error(error.message);
+                // console.error(error.message);
                 setError(error.message);
                 
             }
