@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // importer les actions de redux
 import * as ACTIONS from '../redux/reducers/article.reducer';
@@ -11,24 +11,21 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 const Home = () => {
     const dispatch = useDispatch();
 
-    const store= useSelector((state) => state.article.data);
+    const store = useSelector((state) => state.article.data);
     const loading = useSelector((state) => state.article.loading);
     const [error, setError] = useState(null);
-    
+
 
     useEffect(() => {
 
-        const fetchArticles = async () => {  
+        const fetchArticles = async () => {
 
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             console.log("Fetching articles...");
             try {
-                const response = await fetch(URL.GETALL_ARTICLES, {
-                    headers: {
-                        "Content-Type":"application/json",
-                    },
-                });
-console.log(response);
+                const response = await fetch(URL.GETALL_ARTICLES);
+                
+                console.log(response);
 
                 // if (!response.ok) {
                 //     throw new Error("Erreur lors de la récupération des articles");
@@ -37,11 +34,11 @@ console.log(response);
                 const data = await response.json();
                 dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
                 console.log(data);
-                
+
 
             } catch (error) {
                 setError(error.message);
-                
+
             }
         };
 
@@ -54,7 +51,7 @@ console.log(response);
     return (
         <div className="container py-4">
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> 
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {store && store.map(article => (
                     <div key={article._id} className="col">
                         <div className="card h-100">
