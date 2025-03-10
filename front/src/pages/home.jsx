@@ -18,17 +18,16 @@ const Home = () => {
 
     useEffect(() => {
 
-        const fetchArticles = async () => {
-            try {
+        const fetchArticles = async () => {  
+
             dispatch(ACTIONS.FETCH_ARTICLE_START());
             console.log("Fetching articles...");
-            
+            try {
                 const response = await fetch(URL.FETCH_ARTICLES, {
                     // headers: {
                     //     'Content-Type': 'application/json',
                     // },
                 } );
-console.log(response);
 
                 if (!response.ok)
                     throw new Error("Erreur lors de la récupération des articles");
