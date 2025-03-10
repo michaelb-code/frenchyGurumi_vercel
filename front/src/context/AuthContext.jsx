@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(true);
 
         try {
-            const {data, status} = await fetch(URL.SIGNIN, {
+            const response= await fetch(URL.SIGNIN, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }) => {
             });
 
             // const data = await response.json();
-            if (status === 200) {
+            if (response.status === 200) {
+                const data = await response.json();
                 localStorage.setItem("auth", JSON.stringify(data))
                 setAuth(data)
                 navigate("/")

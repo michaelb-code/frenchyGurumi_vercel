@@ -37,7 +37,6 @@ const Home = () => {
                 dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data));
 
             } catch (error) {
-                // console.error(error.message);
                 setError(error.message);
                 
             }
