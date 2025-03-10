@@ -10,6 +10,7 @@ import * as ACTIONS from '../redux/reducers/article.reducer';
 
 const Home = () => {
     const dispatch = useDispatch();
+
     const store= useSelector((state) => state.article.data);
     const loading = useSelector((state) => state.article.loading);
     const [error, setError] = useState(null);
@@ -23,9 +24,9 @@ const Home = () => {
             console.log("Fetching articles...");
             
                 const response = await fetch(URL.FETCH_ARTICLES, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    // headers: {
+                    //     'Content-Type': 'application/json',
+                    // },
                 } );
 
                 if (!response.ok)

@@ -91,7 +91,7 @@ if (loading) return <div className='text-center'>Chargement...</div>
 
             <button type="submit" className="btn btn-primary">S'inscrire</button>
 
-            <Link className="btn btn-link" to="/login">Se connecter</Link>
+            <button type="button" className="btn btn-secondary" onClick={() => navigate('/login')}>Se connecter</button>
         </div>
         </form>
     );

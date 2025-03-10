@@ -1,12 +1,12 @@
 //import du usecontext pour acceder au contexte d'authentification
-import React, { useState, useContext} from "react";
+import React, { useState} from "react";
 //import du link pour la navigation
 import { Link } from "react-router-dom";
 //import de l'api
-import URL from "../constant/api";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import AuthContext, { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 
 
