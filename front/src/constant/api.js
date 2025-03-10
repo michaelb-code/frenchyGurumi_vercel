@@ -1,6 +1,6 @@
 const URL = {
 //ARTICLE
-    GETALL_ARTICLES : "https://frenchy-gurumi-vercel-oauk.vercel.app/api/article/get",
+    GETALL_ARTICLES : "https://frenchy-gurumi-vercel.vercel.app/api/article/get",
     FETCH_ARTICLE : "https://frenchy-gurumi-vercel-oauk.vercel.app/api/article/get",
     CREATE_ARTICLE : "https://frenchy-gurumi-vercel-oauk.vercel.app/api/article/create",
     UPDATE_ARTICLE : "https://frenchy-gurumi-vercel-oauk.vercel.app/api/article/update",

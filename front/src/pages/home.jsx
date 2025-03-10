@@ -14,6 +14,7 @@ const Home = () => {
     const store = useSelector((state) => state.article.data);
     const loading = useSelector((state) => state.article.loading);
     const [error, setError] = useState(null);
+console.log("store", store);
 
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const Home = () => {
         <div className="container py-4">
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {store.map((article) => (
+                {store && store.map((article) => (
                     <div key={article._id} className="col">
                         <div className="card h-100">
                             <h2 className="card-title h5">Marque : {article.marque}</h2>
