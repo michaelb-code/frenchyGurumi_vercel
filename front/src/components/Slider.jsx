@@ -5,15 +5,31 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 
 function Slider() {
-  
+  const datas = [
+    {
+      id: 1, 
+      image: '/photosSlide/photoslide1.jpg',
+      alt: 'Slider 1'
+    },
+    {
+      id: 2, 
+      image: '/photosSlide/photoslide2.jpg',
+      alt: 'Slider 2'
+    },
+    {
+      id: 3, 
+      image: '/photosSlide/photoslide3.jpg',
+      alt: 'Slider 3'
+    },
+  ]
   return (
-    
-        <Carousel>
-            <div><img src={'/photosSlide/photoslide1.jpg'} alt="Slider 1" /></div>
-            <div><img src={'/photosSlide/photoslide2.jpg'} alt="Slider 2" /></div>
-            <div><img src={'/photosSlide/photoslide3.jpg'} alt="Slider 3" /></div>
-        </Carousel>
-    
+    <Carousel>
+      {datas.map((data) => (
+        <div key={data.id}>
+          <img src={data.image} alt={data.alt} />
+        </div>
+      ))}
+    </Carousel>
   )
 }
 
