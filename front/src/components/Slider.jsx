@@ -33,7 +33,14 @@ function Slider() {
     },
   ]
   return (
-    <Carousel className="carousel-root" autoPlay={true} infiniteLoop={true}>
+    <Carousel className="carousel-root" 
+    autoPlay={true} 
+    infiniteLoop={true}
+    dynamicHeight={true}
+    showStatus={false}
+    showThumbs={false}
+    emulateTouch={true}
+    >
       {datas.map((data) => (
         <div key={data.id}>
           <img src={data.image} alt={data.alt} />
