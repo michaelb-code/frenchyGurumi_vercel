@@ -1,55 +1,90 @@
-.slider-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
+.carousel-root {
+    max-width: 100%;
+    margin: 0 auto 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 20px;
   }
   
-  .slider {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  
-  .slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
-  
-  .slide.active {
-    opacity: 1;
-  }
-  
-  .slide img {
-    width: 100%;
-    height: 100%;
+  /* Style pour les images */
+  .carousel .slide img {
+    max-height: 500px;
     object-fit: cover;
   }
   
-  .slider-buttons {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
+  /* Style pour les indicateurs */
+  .carousel .control-dots {
+    padding: 10px 0;
   }
   
-  .slider-dot {
+  .carousel .control-dots .dot {
+    box-shadow: none;
+    background: #e0e0e0;
+    opacity: 0.8;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    cursor: pointer;
+    transition: all 0.3s ease;
   }
   
-  .slider-dot.active {
-    background-color: white;
+  .carousel .control-dots .dot.selected {
+    background: #ff6b6b;
+    transform: scale(1.2);
+  }
+  
+  /* Style pour les flèches de navigation */
+  .carousel .control-arrow {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+  
+  .carousel .control-arrow:hover {
+    background: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+  }
+  
+  .carousel .control-prev.control-arrow:before,
+  .carousel .control-next.control-arrow:before {
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+  }
+  
+  .carousel .control-prev.control-arrow:before {
+    border-right: 12px solid #333;
+    margin-left: -6px;
+  }
+  
+  .carousel .control-next.control-arrow:before {
+    border-left: 12px solid #333;
+    margin-right: -6px;
+  }
+  
+  /* Animation de transition */
+  .carousel .slide {
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  /* Style pour la légende */
+  .carousel .carousel-status {
+    display: none; /* Masquer le statut par défaut */
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .carousel .slide img {
+      max-height: 300px;
+    }
+    
+    .carousel .control-arrow {
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+    }
   }

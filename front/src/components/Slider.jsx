@@ -23,10 +23,11 @@ function Slider() {
     },
   ]
   return (
-    <Carousel>
+    <Carousel className="carousel-root" autoPlay={true} infiniteLoop={true}>
       {datas.map((data) => (
         <div key={data.id}>
           <img src={data.image} alt={data.alt} />
+          
         </div>
       ))}
     </Carousel>
