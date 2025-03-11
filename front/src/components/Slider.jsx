@@ -8,7 +8,7 @@ function Slider() {
   const datas = [
     {
       id: 1, 
-      image: '/photosSlide/photoslide1.jpg',
+      image: '/photosSlide/photoslide4.jpg',
       alt: 'Slider 1'
     },
     {
@@ -20,6 +20,16 @@ function Slider() {
       id: 3, 
       image: '/photosSlide/photoslide3.jpg',
       alt: 'Slider 3'
+    },
+    {
+      id: 4, 
+      image: '/photosSlide/photoslide5.jpg',
+      alt: 'Slider 4'
+    },
+    {
+      id: 5, 
+      image: '/photosSlide/photoslide6.jpg',
+      alt: 'Slider 5'
     },
   ]
   return (
