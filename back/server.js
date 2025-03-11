@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 8080
 // connexion a la base de donnee
 mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri stockée dans mes variables d'environnement
 .then(() => console.log("Connexion à la base de donnée mongo DB réussie !"))// affiche le message de connexion dans la console
-.catch((error) => console.log("Problème de connexion à la base de donnée mongo DB",error))// affiche le message d'erreur dans la console 
+.catch((error) => console.log("Problème de connexion à la base de donnée mongo DB",error))// affiche le message d'erreur dans la  console 
 
 //MIDDLEWARE
 
