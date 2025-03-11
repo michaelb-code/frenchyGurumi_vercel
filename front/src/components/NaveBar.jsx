@@ -37,10 +37,10 @@ const NavBar = () => {
                             <Link className="nav-link" to="/products">Nos Articles</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/about">A Propos</Link>
+                            <Link className="nav-link" to="/">A Propos</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/contact">Contact</Link>
+                            <Link className="nav-link" to="/">Contact</Link>
                         </li>
                         {auth && auth.role === 'admin' && (
                             <li className="nav-item">
