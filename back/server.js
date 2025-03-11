@@ -47,7 +47,6 @@ app.use("/api/user", userRoutes)// le préfixe pour toutes les routes user
 app.use("/api/avis", avisRoutes) // le préfixe pour toutes les routes avis
 app.use("/api/article", articleRoutes) // le préfixe pour toutes les routes article
 
-
 // SERVER
 app.listen(PORT, () => {
     console.log(`LISTENING AT http: //localhost:${PORT}`)

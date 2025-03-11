@@ -37,7 +37,10 @@ function Slider() {
     
     <Carousel className="carousel-root" 
     autoPlay={true} 
-    infiniteLoop={true}>
+    infiniteLoop={true}
+    interval={5000}
+    transitionTime={700}>
+    
       {datas.map((data) => (
         <div key={data.id}>
           <img src={data.image} alt={data.alt} />

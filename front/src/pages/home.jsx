@@ -60,9 +60,10 @@ const Home = () => {
     if (error) return <div className='text-center'>Erreur:{error}</div>
 
     return (
-        <div>
-            <Slider className="carousel-root" />,
-
+        <>
+            <div>
+                <Slider />
+            </div>
             <div className="container py-4">
                 <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -82,7 +83,7 @@ const Home = () => {
                     )) : <p>Aucun article trouvé</p>}
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
