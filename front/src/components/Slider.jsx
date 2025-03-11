@@ -33,6 +33,7 @@ function Slider() {
     },
   ]
   return (
+    <div className="slider-wrapper">
     <Carousel className="carousel-root" 
     autoPlay={true} 
     infiniteLoop={true}>
@@ -43,6 +44,7 @@ function Slider() {
         </div>
       ))}
     </Carousel>
+    </div>
   )
 }
 
