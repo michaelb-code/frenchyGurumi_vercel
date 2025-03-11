@@ -13,7 +13,7 @@ function Slider() {
     },
     {
       id: 2, 
-      image: '/photosSlide/photoslide2.jpg',
+      image: '/photosSlide/photoSlide2.jpg',
       alt: 'Slider 2'
     },
     {
@@ -23,12 +23,12 @@ function Slider() {
     },
     {
       id: 4, 
-      image: '/photosSlide/photoslide5.jpg',
+      image: '/photosSlide/photoSlide5.jpg',
       alt: 'Slider 4'
     },
     {
       id: 5, 
-      image: '/photosSlide/photoslide6.jpg',
+      image: '/photosSlide/photoSlide6.jpg',
       alt: 'Slider 5'
     },
   ]

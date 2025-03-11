@@ -4,35 +4,35 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     overflow: hidden;
-  }
-  
-  /* Style pour les images */
-  .carousel .slide img {
+}
+
+/* Style pour les images */
+.carousel .slide img {
     max-height: 500px;
     object-fit: cover;
-  }
-  
-  /* Style pour les indicateurs */
-  .carousel .control-dots {
+}
+
+/* Style pour les indicateurs */
+.carousel .control-dots {
     padding: 10px 0;
-  }
-  
-  .carousel .control-dots .dot {
+}
+
+.carousel .control-dots .dot {
     box-shadow: none;
     background: #e0e0e0;
     opacity: 0.8;
     width: 12px;
     height: 12px;
     transition: all 0.3s ease;
-  }
-  
-  .carousel .control-dots .dot.selected {
+}
+
+.carousel .control-dots .dot.selected {
     background: #ff6b6b;
     transform: scale(1.2);
-  }
-  
-  /* Style pour les flèches de navigation */
-  .carousel .control-arrow {
+}
+
+/* Style pour les flèches de navigation */
+.carousel .control-arrow {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     width: 40px;
@@ -43,48 +43,49 @@
     margin: 0 20px;
     opacity: 0.8;
     transition: all 0.3s ease;
-  }
-  
-  .carousel .control-arrow:hover {
+}
+
+.carousel .control-arrow:hover {
     background: rgba(255, 255, 255, 0.9);
     opacity: 1;
-  }
-  
-  .carousel .control-prev.control-arrow:before,
-  .carousel .control-next.control-arrow:before {
+}
+
+.carousel .control-prev.control-arrow:before,
+.carousel .control-next.control-arrow:before {
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
-  }
-  
-  .carousel .control-prev.control-arrow:before {
+}
+
+.carousel .control-prev.control-arrow:before {
     border-right: 12px solid #333;
     margin-left: -6px;
-  }
-  
-  .carousel .control-next.control-arrow:before {
+}
+
+.carousel .control-next.control-arrow:before {
     border-left: 12px solid #333;
     margin-right: -6px;
-  }
-  
-  /* Animation de transition */
-  .carousel .slide {
+}
+
+/* Animation de transition */
+.carousel .slide {
     transition: opacity 0.5s ease-in-out;
-  }
-  
-  /* Style pour la légende */
-  .carousel .carousel-status {
-    display: none; /* Masquer le statut par défaut */
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
+}
+
+/* Style pour la légende */
+.carousel .carousel-status {
+    display: none;
+    /* Masquer le statut par défaut */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
     .carousel .slide img {
-      max-height: 300px;
+        max-height: 300px;
     }
-    
+
     .carousel .control-arrow {
-      width: 30px;
-      height: 30px;
-      margin: 0 10px;
+        width: 30px;
+        height: 30px;
+        margin: 0 10px;
     }
-  }
+}
