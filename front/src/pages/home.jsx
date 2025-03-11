@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
 import { useDispatch, useSelector } from 'react-redux';
+import Carousel from '../components/carousel';
 
 // importer les actions de redux
 import * as ACTIONS from '../redux/reducers/article.reducer';
