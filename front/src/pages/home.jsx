@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
 import { useDispatch, useSelector } from 'react-redux';
-import Slider from '../components/Slider';
+
 
 // importer les actions de redux
 import * as ACTIONS from '../redux/reducers/article.reducer';
@@ -60,6 +60,7 @@ console.log("store", store);
 
     return (
         <div className="container py-4">
+        
             <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {Array.isArray(store) && store.length > 0 ? store.map((article) => (
