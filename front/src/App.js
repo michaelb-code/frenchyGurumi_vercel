@@ -15,7 +15,6 @@ function App() {
   return (
     <>
       <NavBar />
-      
       <main className="container py-4">
         <Routes>
           <Route index element={<Home />} />

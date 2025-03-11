@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import './Slider.css';
 
 
+
 function Slider() {
   const datas = [
     {
