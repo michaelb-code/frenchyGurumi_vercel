@@ -36,9 +36,20 @@ const NavBar = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/products">Nos Articles</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/about">A Propos</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/contact">Contact</Link>
+                        </li>
                         {auth && auth.role === 'admin' && (
                             <li className="nav-item">
                                 <Link className="nav-link" to="/add">Ajouter un article</Link>
+                            </li>
+                        )}
+                        {auth && auth.role === 'admin' && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/dashboard">Dashboard</Link>
                             </li>
                         )}
                     </ul>
