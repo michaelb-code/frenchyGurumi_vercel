@@ -93,21 +93,21 @@
     /* Masquer le statut par défaut */
 }
 
-.slider-container {
+/* .slider-container {
     width: 100%;
     max-width: 100%;
     padding: 0;
     margin-bottom: 2rem;
     overflow: hidden;
-}
+} */
 /* Styles pour le wrapper du slider */
-.slider-wrapper {
+/* .slider-wrapper {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
-}
+} */
 
 /* Responsive design */
 @media (max-width: 768px) {

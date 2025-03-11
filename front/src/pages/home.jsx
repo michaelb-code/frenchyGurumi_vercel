@@ -61,7 +61,7 @@ const Home = () => {
 
     return (
         <>
-            <div className="slider-container mb-5">
+            
                 <Slider />
                 <div className="container py-4">
 
@@ -83,7 +83,7 @@ const Home = () => {
                         )) : <p>Aucun article trouvé</p>}
                     </div>
                 </div>
-            </div>
+            
         </>
     );
 };
