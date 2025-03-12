@@ -29,8 +29,7 @@ const Home = () => {
                 const response = await fetch(URL.GETALL_ARTICLES,
                     {
                         method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
+                        headers: {'Content-Type': 'application/json',
                         }
                     }
                 );
@@ -61,9 +60,7 @@ const Home = () => {
 
     return (
         <>
-            <div>
                 <Slider />
-            </div>
             <div className="container py-4">
                 <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">

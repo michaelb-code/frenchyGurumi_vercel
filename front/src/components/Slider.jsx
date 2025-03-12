@@ -42,7 +42,7 @@ function Slider() {
     transitionTime={700}>
     
       {datas.map((data) => (
-        <div key={data.id}>
+        <div key={data.id} className='carousel-slide'>
           <img src={data.image} alt={data.alt} />
         </div>
       ))}

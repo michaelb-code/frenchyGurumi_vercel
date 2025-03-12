@@ -7,16 +7,18 @@ import AddArticle from "./pages/add";
 import Update from "./pages/update";
 import RegisterUser from "./pages/registerUser";
 import Sign from "./pages/sign";
+
+
 import NavBar from "./components/NaveBar";
-import Slider from "./components/Slider";
+
 
 
 
 function App() {
   return (
+  
     <>
       <NavBar />
-      <Slider />
       <main className="container py-4"> 
         <Routes>
           <Route index element={<Home />} />
@@ -28,6 +30,7 @@ function App() {
         </Routes>
       </main>
     </>
+   
   );
 }
 
