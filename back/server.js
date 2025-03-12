@@ -33,7 +33,7 @@ app.use(cors({
         } else {
             callback(new Error("CORS bloqué pour cette origine"));
         }
-    }
+    },
     // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
