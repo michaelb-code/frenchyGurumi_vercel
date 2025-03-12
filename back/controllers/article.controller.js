@@ -1,5 +1,7 @@
 import express from "express"; // express framework pour la creation des routes et pour gerer les requetes
 import Article from "../models/article.model.js";
+import Avis from "../models/avis.model.js";
+import User from "../models/user.model.js";
 
 
 //Fonction pour recuperer tous les articles

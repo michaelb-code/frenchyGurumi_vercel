@@ -13,7 +13,7 @@ const SchemaCommande = mongoose.Schema({
                 ref: "Article", // relation avec le model article
                 required: true,
             },
-            quantity: {
+            quantite: {
                 type: Number,
                 required: true,
             },
@@ -25,19 +25,18 @@ const SchemaCommande = mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true,
+        default: Date.now
     },
     statut: {
         type: String,
-        enum: ["en attente", "traitement", "livraison", "termine"],
+        enum: ["en attente", "traitement", "livraison","annulée", "termine"],
         default: "en attente"
     },
     mode_de_paiement: {
         type: String,
-        enum: "card",
+        enum: ["card"],
         default: "card"
     },
-    timestamp: true
-});
+}, { timestamps: true });
 
 export default mongoose.model("Commande", SchemaCommande);

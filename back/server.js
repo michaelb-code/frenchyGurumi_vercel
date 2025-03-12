@@ -8,6 +8,7 @@ import cors from "cors"
 import userRoutes from "./routes/user.router.js" //ceci est mon import des routes user
 import avisRoutes from "./routes/avis.router.js" //ceci est mon import des routes avis
 import articleRoutes from "./routes/article.router.js" //ceci est mon import des routes article
+import commandeRoutes from "./routes/commande.router.js" //ceci est mon import des routes commande
 
 // APP EXPRESS
 const app = express() //crée une nouvelle application Express un genre de point de depart
@@ -24,13 +25,14 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
 //MIDDLEWARE
 
 app.use(cors({
-    origin: ["http://localhost:3000",
+    allowedOrigin: ["http://localhost:3000",
         "https://frenchy-gurumi-vercel.vercel.app",
         "https://frenchy-gurumi-vercel-ouak.vercel.app"], 
     // vercel permet de pouvoir accéder au backend depuis le front
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
+    
     
 }));
 
@@ -46,6 +48,7 @@ app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
 app.use("/api/user", userRoutes)// le préfixe pour toutes les routes user
 app.use("/api/avis", avisRoutes) // le préfixe pour toutes les routes avis
 app.use("/api/article", articleRoutes) // le préfixe pour toutes les routes article
+app.use("/api/commande", commandeRoutes) // le préfixe pour toutes les routes commande
 
 // SERVER
 app.listen(PORT, () => {
