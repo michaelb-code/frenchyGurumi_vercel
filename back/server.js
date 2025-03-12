@@ -23,23 +23,16 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
 .catch((error) => console.log("Problème de connexion à la base de donnée mongo DB",error))// affiche le message d'erreur dans la  console 
 
 //MIDDLEWARE
-const allowedOrigins = ["http://localhost:3000",
-    "https://frenchy-gurumi-vercel.vercel.app",
-    "https://frenchy-gurumi-vercel-ouak.vercel.app"];
 
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Cors not allowed"));
-        }
-    },
+    allowedOrigin: ["http://localhost:3000",
+        "https://frenchy-gurumi-vercel.vercel.app",
+        "https://frenchy-gurumi-vercel-ouak.vercel.app"], 
     // vercel permet de pouvoir accéder au backend depuis le front
-    allowedHeaders: ["Content-Type", "Authorization"],
-    
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    
 }));
 
 // MIDDLEWARES pour gerer les requetes options
