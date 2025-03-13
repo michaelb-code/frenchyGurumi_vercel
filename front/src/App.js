@@ -9,7 +9,7 @@ import RegisterUser from "./pages/registerUser";
 import Sign from "./pages/sign";
 
 
-import NavBar from "./components/NaveBar";
+import NavBar from "./components/NavBar/NaveBar";
 
 
 

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../constant/api';
 import { useDispatch, useSelector } from 'react-redux';
-import Slider from '../components/Slider';
-
+import Slider from '../components/Slider/Slider';
+import SearchBar from '../components/SeachBar/SearchBar';
 
 // importer les actions de redux
 import * as ACTIONS from '../redux/reducers/article.reducer';
@@ -61,6 +61,7 @@ const Home = () => {
     return (
         <>
                 <Slider />
+                <SearchBar />
             <div className="container py-4">
                 <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">

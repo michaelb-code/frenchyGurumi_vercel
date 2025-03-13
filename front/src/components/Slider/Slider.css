@@ -1,16 +1,22 @@
 /* Styles de base pour le carousel */
 .carousel-root {
-    width: 100%;
+    width: 90vw;
+    max-width: 90vw;
     margin: 0 auto 30px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     overflow: hidden;
-    height: 500px;
+    height: 600px;
+    position: relative;
+    right: 50%;
+    left: 50%;
+    margin-left: -45vw;
+    margin-right: -45vw;
 }
 
 /* Slides */
 .carousel .slide {
-    height: 500px;
+    height: 600px;
     background-color: #f5f5f5;
     display: flex;
     align-items: center;

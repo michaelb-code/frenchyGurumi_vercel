@@ -1,25 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './NavBar.css';
 
 
 const NavBar = () => {
     const { auth, logout } = useAuth();
-    
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
                 <Link className="navbar-brand" to="/">
-                    {/* <img src="/Logo/Logo.png" alt="FrenchyGurumi" height="30" className="me-2" /> */}
-                    FrenchyGurumi
+                    <img src="/Logo/LogoMarque2.jpg" alt="logo de la marqueFrenchyGurumi" height="70" className="me-2" />
+                    
                 </Link>
-                
-                <button 
-                    className="navbar-toggler" 
-                    type="button" 
-                    data-bs-toggle="collapse" 
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
                     data-bs-target="#navbarNav"
                     aria-controls="navbarNav"
                     aria-expanded="false"
@@ -42,6 +42,7 @@ const NavBar = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/">Contact</Link>
                         </li>
+
                         {auth && auth.role === 'admin' && (
                             <li className="nav-item">
                                 <Link className="nav-link" to="/add">Ajouter un article</Link>
@@ -59,25 +60,30 @@ const NavBar = () => {
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/login">
-                                        <i className="bi bi-box-arrow-in-right me-1"></i>
-                                        Se connecter
+                                        <img src="/photoIcon/logoId.png" alt="logo" height="30" className="me-2" style={{ display: 'inline-block' }} />
+
                                     </Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/register">
-                                        <i className="bi bi-person-plus me-1"></i>
-                                        S'inscrire
+                                        <img src="/photoIcon/connexion.png" alt="icon connexion" height="30" className="iconColored me-2" style={{ display: 'inline-block' }} />
                                     </Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/panier">
+                                        <img src="/photoIcon/basket-shop.png" alt="icon panier" height="30" className="iconColored me-2" style={{ display: 'inline-block' }} />
+                                    </Link>
+                                </li>
+
                             </>
                         ) : (
                             <>
                                 <li className="nav-item dropdown">
-                                    <button 
-                                        className="nav-link dropdown-toggle border-0 bg-transparent" 
-                                        type="button" 
-                                        id="navbarDropdown" 
-                                        data-bs-toggle="dropdown" 
+                                    <button
+                                        className="nav-link dropdown-toggle border-0 bg-transparent"
+                                        type="button"
+                                        id="navbarDropdown"
+                                        data-bs-toggle="dropdown"
                                         aria-expanded="false"
                                     >
                                         <i className="bi bi-person-circle me-1"></i>
@@ -100,8 +106,8 @@ const NavBar = () => {
                                         )}
                                         <li><hr className="dropdown-divider" /></li>
                                         <li>
-                                            <button 
-                                                className="dropdown-item text-danger" 
+                                            <button
+                                                className="dropdown-item text-danger"
                                                 onClick={logout}
                                             >
                                                 <i className="bi bi-box-arrow-right me-2"></i>
