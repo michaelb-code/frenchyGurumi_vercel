@@ -28,26 +28,34 @@ const allowedOrigin = ["http://localhost:3000",
     "https://frenchy-gurumi-vercel.vercel.app",
     "https://frenchy-gurumi-vercel-ouak.vercel.app"];
 
-// app.use(cors({
-//     origin: function(origin, callback) {
-//         if (!origin || allowedOrigin.includes(origin)) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error("Not allowed by CORS"));
-//         }
-//     },
-    
-//     // vercel permet de pouvoir accéder au backend depuis le front
-//     credentials: true,
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    
-// }));
 app.use(cors({
-    origin: 'https://frenchy-gurumi-vercel-oauk.vercel.app', // Your frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  }));
+    origin: function(origin, callback) {
+        if (!origin || allowedOrigin.includes(origin)) {
+            callback(null, true);
+        } if(allowedOrigin.includes(origin)) {
+            return callback(null, true);
+        }
+        if (origin.startsWith("http://localhost:3000")) {
+            return callback(null, true);
+        }
+         else {
+            console.log("Origin not allowed by CORS:", origin);
+            
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+}));
+// en local (voir faire une condition)
+// app.use(cors());
+// //pour production ligne
+// app.use(cors({
+//     origin: 'https://frenchy-gurumi-vercel-oauk.vercel.app', // Your frontend URL
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization']
+//   }));
 
 
 // MIDDLEWARES pour gerer les requetes options
