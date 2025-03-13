@@ -43,7 +43,11 @@ const allowedOrigin = ["http://localhost:3000",
 //     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     
 // }));
-app.use(cors());
+app.use(cors({
+    origin: 'https://frenchy-gurumi-vercel-oauk.vercel.app', // Your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
 
 
 // MIDDLEWARES pour gerer les requetes options
