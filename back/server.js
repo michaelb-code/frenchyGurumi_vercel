@@ -24,9 +24,9 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
 
 //MIDDLEWARE
 
-const allowedOrigin = ["http://localhost:3000",
-    "https://frenchy-gurumi-vercel.vercel.app",
-    "https://frenchy-gurumi-vercel-ouak.vercel.app"];
+// const allowedOrigin = ["http://localhost:3000",
+//     "https://frenchy-gurumi-vercel.vercel.app",
+//     "https://frenchy-gurumi-vercel-ouak.vercel.app"];
 
 // app.use(cors({
 //     origin: function(origin, callback) {
@@ -54,7 +54,6 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
-
 
 // MIDDLEWARES pour gerer les requetes options
 app.options("*", cors());
