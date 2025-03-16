@@ -5,8 +5,8 @@ import Home from "./pages/Home/home";
 import Detail from "./pages/detail";
 import AddArticle from "./pages/add";
 import Update from "./pages/update";
-import RegisterUser from "./pages/registerUser";
-import Sign from "./pages/sign";
+import RegisterUser from "./pages/Register/registerUser";
+import Sign from "./pages/Sign/sign";
 
 
 import NavBar from "./components/NavBar/NaveBar";

@@ -29,8 +29,8 @@ const SchemaCommande = mongoose.Schema({
     },
     statut: {
         type: String,
-        enum: ["en attente", "traitement", "livraison","annulée", "termine"],
-        default: "en attente"
+        enum: ["En attente", "En traitement", "En livraison","Annulée", "Terminée"],
+        default: "En attente"
     },
     mode_de_paiement: {
         type: String,
