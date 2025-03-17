@@ -5,7 +5,7 @@ import URL from '../../constant/api';
 import { useDispatch, useSelector } from 'react-redux';
 import Slider from '../../components/Slider/Slider';
 import SearchBar from '../../components/SeachBar/SearchBar';
-import './Home.css';
+import styles from './Home.module.css';
 // importer les actions de redux
 import * as ACTIONS from '../../redux/reducers/article.reducer';
 
@@ -56,8 +56,8 @@ const Home = () => {
         fetchArticles();
     }, []);
 
-    if (loading) return <div className='loading'><img src="/Logo/LogoMarque.jpg" alt="loading" />
-        <p className="loadingTest">Chargement...</p>
+    if (loading) return <div className={styles.loading}><img src="/Logo/LogoMarque.jpg" alt="loading" />
+        <p className={styles.loadingTest}>Chargement...</p>
     </div>
 
     if (error) return <div className='text-center'>Erreur:{error}</div>
@@ -67,53 +67,53 @@ const Home = () => {
             <Slider />
             <SearchBar />
             {/* <CategorieCircle /> */}
-            <div className="categories-container">
-                <div className="blockCircle">
-                    <div className="circle" >
+            <div className={styles.categoriesContainer}>
+                <div className={styles.blockCircle}>
+                    <div className={styles.circle} >
                         <Link to="/poupees">
-                            <img className="img-circle" src="/Poupee/poupeeLily1.jpg" alt="poupee métisse avec deux couettes, un ensemble orange et des chaussures orange" />
+                            <img className={styles.imgCircle} src="/Poupee/poupeeLily1.jpg" alt="poupee métisse avec deux couettes, un ensemble orange et des chaussures orange" />
                         </Link>
                     </div>
-                    <div className="categorie">
-                        <p className="categorieText">Nos Poupées...</p>
+                    <div className={styles.categorie}>
+                        <p className={styles.categorieText}>Nos Poupées...</p>
                     </div>
                 </div>
-                <div className="blockCircle">
-                    <div className="circle" >
+                <div className={styles.blockCircle}>
+                    <div className={styles.circle} >
                         <Link to="/creations">
-                            <img className="img-circle" src="/Noscreations/coeurSurprise.jpg" alt="3 Petits coeurs crochetés en laine rose " />
+                            <img className={styles.imgCircle} src="/Noscreations/coeurSurprise.jpg" alt="3 Petits coeurs crochetés en laine rose " />
                         </Link>
                     </div>
-                    <div className="categorie">
-                        <p className="categorieText">Nos Créations...</p>
+                    <div className={styles.categorie}>
+                        <p className={styles.categorieText}>Nos Créations...</p>
                     </div>
                 </div>
-                <div className="blockCircle">
-                    <div className="circle" >
+                <div className={styles.blockCircle}>
+                    <div className={styles.circle} >
                         <Link to="/anigurumi">
-                            <img className="img-circle" src="/aniGurumi/krakinou3.png" alt="Pieuvre de couleur rose avec une pelotte de laine rose et un crochet" />
+                            <img className={styles.imgCircle} src="/aniGurumi/krakinou3.png" alt="Pieuvre de couleur rose avec une pelotte de laine rose et un crochet" />
                         </Link>
                     </div>
-                    <div className="categorie">
-                        <p className="categorieText">Nos Anigurumi...</p>
+                    <div className={styles.categorie}>
+                        <p className={styles.categorieText}>Nos Anigurumi...</p>
                     </div>
                 </div>
-                <div className="blockCircle">
-                    <div className="circle" >
+                <div className={styles.blockCircle}>
+                    <div className={styles.circle} >
                         <Link to="/premiersSouvenirs">
-                            <img className="img-circle" src="/PremiersSouvenirs/kitRose.jpg" alt="Kit naissance avec un hochet, un attache-tétine et une petite pieuvre" />
+                            <img className={styles.imgCircle} src="/PremiersSouvenirs/kitRose.jpg" alt="Kit naissance avec un hochet, un attache-tétine et une petite pieuvre" />
                         </Link>
                     </div>
-                    <div className="categorie">
-                        <p className="categorieText">Nos Premiers souvenirs...</p>
+                    <div className={styles.categorie}>
+                        <p className={styles.categorieText}>Nos Premiers souvenirs...</p>
                     </div>
                 </div>
             </div>
-            <hr />
-            <div className="block">
-                <div className="blockTitre">
-                    <h3>Nos Best Sellers...</h3>
-                    <div className="blockIcon">
+            <hr className={styles.hr} />
+            <div className={styles.block}>
+                <div className={styles.blockTitre}>
+                    <h3 className={styles.h3}>Nos Best Sellers...</h3>
+                    <div className={styles.blockIcon}>
                         <img style={{ width: '30px', height: '30px' }} src="/photoIcon/Vector.png" alt="" />
                     </div>
                 </div>

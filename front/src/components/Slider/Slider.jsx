@@ -1,7 +1,7 @@
 import React from 'react'
 import {Carousel} from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import './Slider.css';
+import style from'./Slider.module.css';
 
 
 
@@ -35,15 +35,15 @@ function Slider() {
   ]
   return (
     
-    <Carousel className="carousel-root" 
+    <Carousel className={style.carouselRoot} 
     autoPlay={true} 
     infiniteLoop={true}
     interval={5000}
     transitionTime={700}>
     
       {datas.map((data) => (
-        <div key={data.id} className='carousel-slide'>
-          <img src={data.image} alt={data.alt} />
+        <div key={data.id} className={style.carouselSlide}>
+          <img src={data.image} alt={data.alt} className={style.slideImage} />
         </div>
       ))}
     </Carousel>
