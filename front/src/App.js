@@ -7,6 +7,7 @@ import AddArticle from "./pages/add";
 import Update from "./pages/update";
 import RegisterUser from "./pages/Register/registerUser";
 import Sign from "./pages/Sign/sign";
+import FormulaireContact from "./components/Formulaire/FormulaireContact";
 
 
 import NavBar from "./components/NavBar/NaveBar";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/update/:id" element={<Update />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<Sign />} />
+          <Route path="/contact" element={<FormulaireContact />} />
         </Routes>
       </main>
     </>

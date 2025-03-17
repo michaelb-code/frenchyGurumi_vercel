@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../../constant/api';
 import { useDispatch, useSelector } from 'react-redux';
+// importation des styles
+import styles from './Home.module.css';
+// importation des components
+import FormulaireContact from '../../components/Formulaire/FormulaireContact';
 import Slider from '../../components/Slider/Slider';
 import SearchBar from '../../components/SeachBar/SearchBar';
-import styles from './Home.module.css';
 // importer les actions de redux
 import * as ACTIONS from '../../redux/reducers/article.reducer';
 
@@ -118,6 +121,16 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <hr className={styles.hr} />
+            <div className={styles.block}>
+                <div className={styles.blockTitre}>
+                    <h3 className={styles.h3}>Contactez Nous...</h3>
+                    <div className={styles.blockIcon}>
+                        <img style={{ width: '30px', height: '30px' }} src="/photoIcon/ContactezNous.png" alt="" />
+                    </div>
+                </div>
+            </div>
+            <FormulaireContact />
             <div className="container py-4">
                 <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
