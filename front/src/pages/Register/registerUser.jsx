@@ -66,31 +66,31 @@ const UserRegister = () => {
             <h1 className={styles.heading}>Inscription</h1>
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className="container py-5">
-                    <input type="text" name="nom" onChange={handleChange} placeholder="Nom" required className={styles.input} />
+                    <input type="text" name="nom" onChange={handleChange} placeholder="Nom*" required className={styles.input} />
 
-                    <input type="text" name="prenom" onChange={handleChange} placeholder="Prenom" required className={styles.input} />
+                    <input type="text" name="prenom" onChange={handleChange} placeholder="Prenom*" required className={styles.input} />
 
-                    <input type="date" name="date_naissance" onChange={handleChange} placeholder="Date de naissance" required className={styles.input} />
+                    <input type="date" name="date_naissance" onChange={handleChange} placeholder="Date de naissance*" required className={styles.input} />
 
-                    <select name="sexe" value={user.sexe} onChange={handleChange} placeholder="Sexe" required className={styles.select}>
-                        <option value="">Sélectionnez votre sexe</option>
+                    <select name="sexe" value={user.sexe} onChange={handleChange} placeholder="Sexe*" required className={styles.select}>
+                        <option value="">Sélectionnez votre sexe*</option>
                         <option value="masculin">Masculin</option>
                         <option value="feminin">Feminin</option>
                     </select>
 
-                    <input type="email" name="email" onChange={handleChange} placeholder="Email" required className={styles.input} />
+                    <input type="email" name="email" onChange={handleChange} placeholder="Email*" required className={styles.input} />
 
-                    <input type="password" name="password" onChange={handleChange} placeholder="Mot De Passe" required className={styles.input} />
+                    <input type="password" name="password" onChange={handleChange} placeholder="Mot De Passe*" required className={styles.input} />
 
-                    <input type="text" name="adresse" onChange={handleChange} placeholder="Adresse" required className={styles.input} />
+                    <input type="text" name="adresse" onChange={handleChange} placeholder="Adresse*" required className={styles.input} />
 
-                    <input type="text" name="code_postal" onChange={handleChange} placeholder="Code postal" required className={styles.input} />
+                    <input type="text" name="code_postal" onChange={handleChange} placeholder="Code postal*" required className={styles.input} />
 
-                    <input type="text" name="ville" onChange={handleChange} placeholder="Ville" required className={styles.input} />
+                    <input type="text" name="ville" onChange={handleChange} placeholder="Ville*" required className={styles.input} />
 
-                    <input type="text" name="telephone" onChange={handleChange} placeholder="Telephone" required className={styles.input} />
+                    <input type="text" name="telephone" onChange={handleChange} placeholder="Telephone*" required className={styles.input} />
 
-                    <select name="role" value={user.role} onChange={handleChange} placeholder="Role" required className={styles.select}>
+                    <select name="role" value={user.role} onChange={handleChange} placeholder="Role*" required className={styles.select}>
                         <option value="admin">Admin</option>
                         <option value="user">User</option>
                     </select>
