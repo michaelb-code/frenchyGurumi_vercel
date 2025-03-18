@@ -23,13 +23,10 @@ const schemaArticle = mongoose.Schema({
         required: true,
     },
 
-    // photo: {
-    //     type: String, 
-    //     required: true, 
-    //     // img: {},
-    //     // img1: {},
-    //     // img2: {}
-    // },
+    photo: {
+        type: String, 
+        required: true, 
+    },
 
     prix: {
         type: Number,

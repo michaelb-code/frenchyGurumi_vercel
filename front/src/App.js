@@ -4,7 +4,7 @@ import { CartProvider } from "./context/CartContext";
 import "./App.css";
 import Home from "./pages/Home/home"; 
 import Detail from "./pages/detail";
-import AddArticle from "./pages/add";
+import AddArticle from "./pages/Add/add";
 import Update from "./pages/update";
 import RegisterUser from "./pages/Register/registerUser";
 import Sign from "./pages/Sign/sign";
