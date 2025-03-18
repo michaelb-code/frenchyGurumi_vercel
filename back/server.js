@@ -3,6 +3,14 @@ import mongoose from "mongoose" //pour la connexion a la base de donnee mongo
 import {env} from "./config/index.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+//module pour gerer les chemins de fichiers
+import path from "path"
+// module pour convertir les url en chemin de fichier
+import { fileURLToPath } from "url";
+
+//Création des équivalents de __dirname et __filename pour les modules ES(module es /common js)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //ROUTES 
 import userRoutes from "./routes/user.router.js" //ceci est mon import des routes user
@@ -63,6 +71,12 @@ app.use(express.json());// permet de lire le corps de la requete en json
 
 app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
 
+// Middleware pour gérer les données de formulaire
+//extended: true permet de gerer des objets
+app.use(express.urlencoded ({extended:true}));
+
+
+
 
 //PREFIX ROUTES
 app.use("/api/user", userRoutes)// le préfixe pour toutes les routes user
@@ -70,6 +84,10 @@ app.use("/api/avis", avisRoutes) // le préfixe pour toutes les routes avis
 app.use("/api/article", articleRoutes) // le préfixe pour toutes les routes article
 app.use("/api/commande", commandeRoutes) // le préfixe pour toutes les routes commande
 app.use("/api/categorie", categorieRoutes) // le préfixe pour toutes les routes categorie
+
+//accessibles via l'URL '/uploads'
+// Par exemple: une image 'photo.jpg' sera Accessible via http://localhost:8000/uploads/photo.jpg
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // SERVER
 app.listen(PORT, () => {

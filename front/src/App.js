@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
 
 import "./App.css";
 import Home from "./pages/Home/home"; 
@@ -8,7 +9,7 @@ import Update from "./pages/update";
 import RegisterUser from "./pages/Register/registerUser";
 import Sign from "./pages/Sign/sign";
 import FormulaireContact from "./components/Formulaire/FormulaireContact";
-
+import Panier from "./pages/Panier/panier";
 
 import NavBar from "./components/NavBar/NaveBar";
 
@@ -19,6 +20,7 @@ function App() {
   return (
   
     <>
+    <CartProvider>
       <NavBar />
       
       <main className="container py-4"> 
@@ -30,10 +32,12 @@ function App() {
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<Sign />} />
           <Route path="/contact" element={<FormulaireContact />} />
+          <Route path="/panier" element={<Panier />} />
         </Routes>
       </main>
+      </CartProvider>
     </>
-   
+
   );
 }
 

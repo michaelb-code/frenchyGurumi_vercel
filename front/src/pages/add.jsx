@@ -16,15 +16,9 @@ const AddArticle = () => {
         categorie: '',
         description: '',
         prix: '',
-        photo: {
-            img: '',
-            img1: '',
-            img2: '',
-            img3: '',
-            img4: '',
-        },
-        status: '',
-        stock: ''
+        photo: [],
+        status: true,
+        stock: 0
 
     });
 

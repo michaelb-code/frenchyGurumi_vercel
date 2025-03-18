@@ -45,8 +45,19 @@ export const createArticle = async (req, res) => {
         if (fieldsMissing) {
             return res.status(400).json({ message: `Le champ ${fieldsMissing} est obligatoire pour la création d'un article` });
         }
+
+        //recuperation des fichiers immages depuis la requete
+        const images = req.files;
+
+        const PathImgExtrated = images.reduce((acc, file, index) => {
+            if(acc[`img`]) acc[`img${index}`] = `/uploads/${file.filename}`;
+            else acc[`img`]= `/uploads/${file.filename}`;
+            return acc;
+        }, {});
+
+        
         const articleData = {...req.body, 
-            photo: req.body.photo,
+            photo: PathImgExtrated.img,
             avis: req.body.avis || []};
 
 
@@ -88,7 +99,7 @@ export const updateArticle = async (req, res) => {
         //     return res.status(403).json({ message: "Vous n'avez pas les droits pour modifier cet article" });
         // }
         const article = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .populate('user')
+            .populate('user')
         .populate('avis');
         if (!article){ 
             return res.status(404).json({ message: "Article non trouvé" });
