@@ -1,42 +1,47 @@
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+? 'https://frenchy-gurumi-vercel.vercel.app'
+: 'http://localhost:3000';
+
+
 const URL = {
     
 //ARTICLE
-    GETALL_ARTICLES : "https://frenchy-gurumi.vercel.app/api/article/get",
-    FETCH_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/get",
-    CREATE_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/create",
-    UPDATE_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/update",
-    DELETE_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/delete",
+    GETALL_ARTICLES : `${API_BASE_URL}/api/article/get`,
+    FETCH_ARTICLE : `${API_BASE_URL}/api/article/get`,
+    CREATE_ARTICLE : `${API_BASE_URL}/api/article/create`,
+    UPDATE_ARTICLE : `${API_BASE_URL}/api/article/update`,
+    DELETE_ARTICLE : `${API_BASE_URL}/api/article/delete`,
 
 //USER
-    GET_ALL_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
-    GET_USER_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
-    CREATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/signup",
-    SIGNIN : "https://frenchy-gurumi-vercel.vercel.app/api/user/signin",
-    UPDATE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/update",
-    DELETE_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/delete",
+    GET_ALL_USER : `${API_BASE_URL}/api/user/get`,
+    GET_USER_BY_ID : `${API_BASE_URL}/api/user/get`,
+    CREATE_USER : `${API_BASE_URL}/api/user/signup`,
+    SIGNIN : `${API_BASE_URL}/api/user/signin`,
+    UPDATE_USER : `${API_BASE_URL}/api/user/update`,
+    DELETE_USER : `${API_BASE_URL}/api/user/delete`,
 
 //AVIS
-    GET_ALL_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/get",
-    GET_AVIS_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/avis/get",
-    CREATE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/create",
-    UPDATE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/update",
-    DELETE_AVIS : "https://frenchy-gurumi-vercel.vercel.app/api/avis/delete",
+    GET_ALL_AVIS : `${API_BASE_URL}/api/avis/get`,
+    GET_AVIS_BY_ID : `${API_BASE_URL}/api/avis/get`,
+    CREATE_AVIS : `${API_BASE_URL}/api/avis/create`,
+    UPDATE_AVIS : `${API_BASE_URL}/api/avis/update`,
+    DELETE_AVIS : `${API_BASE_URL}/api/avis/delete`,
 
 
 
 //CATEGORIE
-GET_ALL_CATEGORIES : "https://frenchy-gurumi-vercel.vercel.app/api/categorie/get",
-GET_CATEGORIES_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/categorie/get",
-CREATE_CATEGORIE : "https://frenchy-gurumi-vercel.vercel.app/api/categorie/create",
-UPDATE_CATEGORIE : "https://frenchy-gurumi-vercel.vercel.app/api/categorie/update",
-DELETE_CATEGORIE : "https://frenchy-gurumi-vercel.vercel.app/api/categorie/delete",
+GET_ALL_CATEGORIES : `${API_BASE_URL}/api/categorie/get`,
+GET_CATEGORIES_BY_ID : `${API_BASE_URL}/api/categorie/get`,
+CREATE_CATEGORIE : `${API_BASE_URL}/api/categorie/create`,
+UPDATE_CATEGORIE : `${API_BASE_URL}/api/categorie/update`,
+DELETE_CATEGORIE : `${API_BASE_URL}/api/categorie/delete`,
 
 // COMMANDE
-GET_ALL_COMMANDES : "https://frenchy-gurumi-vercel.vercel.app/api/commande/get",
-GET_COMMANDE_BY_ID : "https://frenchy-gurumi-vercel.vercel.app/api/commande/get",
-CREATE_COMMANDE : "https://frenchy-gurumi-vercel.vercel.app/api/commande/create",
-UPDATE_COMMANDE : "https://frenchy-gurumi-vercel.vercel.app/api/commande/update",
-DELETE_COMMANDE : "https://frenchy-gurumi-vercel.vercel.app/api/commande/delete",
+GET_ALL_COMMANDES : `${API_BASE_URL}/api/commande/get`,
+GET_COMMANDE_BY_ID : `${API_BASE_URL}/api/commande/get`,
+CREATE_COMMANDE : `${API_BASE_URL}/api/commande/create`,
+UPDATE_COMMANDE : `${API_BASE_URL}/api/commande/update`,
+DELETE_COMMANDE : `${API_BASE_URL}/api/commande/delete`,
 
 }
 

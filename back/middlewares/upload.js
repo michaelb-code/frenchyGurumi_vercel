@@ -1,5 +1,5 @@
 import multer from "multer";
-import { v2 as cloudinary } from "cloudinary";
+import cloudinary from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import path from "path";
 
@@ -10,12 +10,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+console.log("Cloudinary config:", { 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  key_exists: !!process.env.CLOUDINARY_API_KEY,
+  secret_exists: !!process.env.CLOUDINARY_API_SECRET 
+});
+
 // Configuration du stockage Cloudinary
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "frenchyGurumi", // Nom du dossier dans Cloudinary
-    allowed_formats: ["jpg", "jpeg", "png", "gif"],
+    allowedFormats: ["jpg", "jpeg", "png", "gif"],
     transformation: [{ width: 1000, crop: "limit" }], // Redimensionnement automatique
   },
 });

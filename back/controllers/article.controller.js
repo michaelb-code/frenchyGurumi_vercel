@@ -42,8 +42,12 @@ export const createArticle = async (req, res) => {
         if (fieldsMissing) {
             return res.status(400).json({ message: `Le champ ${fieldsMissing} est obligatoire pour la création d'un article` });
         }
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ message: "Au moins une photo est requise pour créer un article" });
+        }
 
         const photoUrls = req.files ? req.files.map(file => file.path) : [];
+        console.log(photoUrls);
     
 
         const newArticle = await Article.create({
@@ -87,6 +91,9 @@ export const updateArticle = async (req, res) => {
         // if (req.user.role !== "admin"){
         //     return res.status(403).json({ message: "Vous n'avez pas les droits pour modifier cet article" });
         // }
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ message: "Au moins une photo est requise pour modifier un article" });
+        }
         const article = await Article.findByIdAndUpdate(req.params.id, {...req.body, photo: req.files ? req.files.map(file => file.path) : []}, { new: true })
             .populate('user')
         .populate('avis');

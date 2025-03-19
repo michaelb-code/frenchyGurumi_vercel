@@ -49,9 +49,11 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
 //pour production ligne
 
 app.use(cors({
-    origin: ['https://frenchy-gurumi-vercel.vercel.app',
-      'http://localhost:3000',
-      'https://frenchy-gurumi-vercel-oauk.vercel.app'], // Your frontend URL
+    origin: ['https://frenchy-gurumi-vercel-oauk.vercel.app',
+            'http://localhost:3000',
+            'https://frenchy-gurumi-vercel.vercel.app',
+            ],
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
