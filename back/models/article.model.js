@@ -24,7 +24,7 @@ const schemaArticle = mongoose.Schema({
     },
 
     photo: {
-        type: String, 
+        type: [String], 
         required: true, 
     },
 
