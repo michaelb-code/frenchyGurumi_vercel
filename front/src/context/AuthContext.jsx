@@ -41,8 +41,10 @@ export const AuthProvider = ({ children }) => {
                 navigate("/")
                 setIsLoading(false)
             }
-            // else {
-            //     throw new Error(data.message || "Connexion echouée");}
+            else {
+                const errordata = await response.json().catch(() =>({message: 'erreur de connexion'}))
+                throw new Error(errordata.message || "Connexion echouée");
+            }
             
         } catch (error) {
             console.log(error)

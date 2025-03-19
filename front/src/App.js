@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
 
 import "./App.css";
 import Home from "./pages/Home/home"; 
@@ -20,7 +19,7 @@ function App() {
   return (
   
     <>
-    <CartProvider>
+    
       <NavBar />
       
       <main className="container py-4"> 
@@ -35,9 +34,8 @@ function App() {
           <Route path="/panier" element={<Panier />} />
         </Routes>
       </main>
-      </CartProvider>
-    </>
-
+      
+</>
   );
 }
 

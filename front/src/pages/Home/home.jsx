@@ -131,7 +131,7 @@ const Home = () => {
                 </div>
             </div>
             <FormulaireContact />
-            <div className="container py-4">
+            {/* <div className="container py-4">
                 <h1 className="text-center mb-4">Bienvenue sur FrenchyGurumi</h1>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {Array.isArray(store) && store.length > 0 ? store.map((article) => (
@@ -149,7 +149,7 @@ const Home = () => {
                         </div>
                     )) : <p>Aucun article trouvé</p>}
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };

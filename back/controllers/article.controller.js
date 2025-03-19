@@ -1,7 +1,4 @@
-import express from "express"; // express framework pour la creation des routes et pour gerer les requetes
 import Article from "../models/article.model.js";
-import Avis from "../models/avis.model.js";
-import User from "../models/user.model.js";
 
 
 //Fonction pour recuperer tous les articles
@@ -46,22 +43,14 @@ export const createArticle = async (req, res) => {
             return res.status(400).json({ message: `Le champ ${fieldsMissing} est obligatoire pour la création d'un article` });
         }
 
-        //recuperation des fichiers immages depuis la requete
-        const images = req.files;
+        const photoUrls = req.files ? req.files.map(file => file.path) : [];
+    
 
-        const PathImgExtrated = images.reduce((acc, file, index) => {
-            if(acc[`img`]) acc[`img${index}`] = `/uploads/${file.filename}`;
-            else acc[`img`]= `/uploads/${file.filename}`;
-            return acc;
-        }, {});
+        const newArticle = await Article.create({
+            ...req.body, 
+            photo: photoUrls
+        });
 
-        
-        const articleData = {...req.body, 
-            photo: PathImgExtrated.img,
-            avis: req.body.avis || []};
-
-
-        const newArticle = await Article.create(articleData);
         res.status(201).json({message: "Article créé avec succés", data: newArticle});
     } catch (error){
 
@@ -98,7 +87,7 @@ export const updateArticle = async (req, res) => {
         // if (req.user.role !== "admin"){
         //     return res.status(403).json({ message: "Vous n'avez pas les droits pour modifier cet article" });
         // }
-        const article = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        const article = await Article.findByIdAndUpdate(req.params.id, {...req.body, photo: req.files ? req.files.map(file => file.path) : []}, { new: true })
             .populate('user')
         .populate('avis');
         if (!article){ 

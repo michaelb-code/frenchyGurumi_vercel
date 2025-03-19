@@ -31,15 +31,15 @@ const AddArticle = () => {
             setArticle(prev => ({
                 ...prev,
 
-                photo: { ...prev.photo, [name]: files ? files[0] : '' }
+                photo: files ? [...prev.photo,files[0]]: prev.photo,
             }))
 
         } else {
 
-            setArticle(prev => ({ ...prev, [name]: value }))
+            setArticle((prev) => ({ ...prev, [name]: value }));
         }
 
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,38 +56,18 @@ const AddArticle = () => {
         formData.append('status', Boolean(article.status));
         formData.append('stock', parseInt(article.stock));
 
-        // Ajout d'une photo par défaut si aucune n'est fournie
-        let hasPhoto = false;
+        article.photo.forEach((image) => {
+            formData.append('photo', image);
+        });
 
-        // Ajout des fichiers images
-        if (article.photo) {
-            Object.entries(article.photo).forEach(([key, file]) => {
-
-                if (file) {
-                    formData.append('image', file);
-                    hasPhoto = true;
-                }
-            });
-        }
-
-        // Si aucune photo n'est fournie,
-        if (!hasPhoto) {
-            formData.append('image', '');
-        }
         try {
-
-            console.log("Envoi de la requête");
-            console.log("formData contient:", [...formData.entries()]);
-
-
             const response = await fetch(URL.CREATE_ARTICLE, {
                 method: 'POST',
-                credentials: 'include',
                 body: formData
             });
 
             if (!response.ok) {
-                throw new Error(`Erreur lors de l'ajout de l'article : ${response.data}`);
+                throw new Error(`Erreur lors de l'ajout de l'article : ${response.status}`);
             }
 
             const data = await response.json();

@@ -28,6 +28,10 @@ const schemaArticle = mongoose.Schema({
         required: true, 
     },
 
+    // images: [{
+    //     type: String,
+    // }],
+
     prix: {
         type: Number,
         required: true,

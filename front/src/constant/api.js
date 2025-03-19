@@ -1,11 +1,11 @@
 const URL = {
     
 //ARTICLE
-    GETALL_ARTICLES : "https://frenchy-gurumi-vercel.vercel.app/api/article/get",
-    FETCH_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/get",
-    CREATE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/create",
-    UPDATE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/update",
-    DELETE_ARTICLE : "https://frenchy-gurumi-vercel.vercel.app/api/article/delete",
+    GETALL_ARTICLES : "https://frenchy-gurumi.vercel.app/api/article/get",
+    FETCH_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/get",
+    CREATE_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/create",
+    UPDATE_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/update",
+    DELETE_ARTICLE : "https://frenchy-gurumi.vercel.app/api/article/delete",
 
 //USER
     GET_ALL_USER : "https://frenchy-gurumi-vercel.vercel.app/api/user/get",
@@ -38,8 +38,6 @@ CREATE_COMMANDE : "https://frenchy-gurumi-vercel.vercel.app/api/commande/create"
 UPDATE_COMMANDE : "https://frenchy-gurumi-vercel.vercel.app/api/commande/update",
 DELETE_COMMANDE : "https://frenchy-gurumi-vercel.vercel.app/api/commande/delete",
 
-//MULTER
-UPLOAD_IMG : "https://frenchy-gurumi-vercel.vercel.app/api/multer"
 }
 
 export default URL
