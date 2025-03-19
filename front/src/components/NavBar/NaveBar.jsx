@@ -1,86 +1,91 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import'./NavBar.css';
+import styles from './NavBar.module.css';
 
 
 const NavBar = () => {
     const { auth, logout } = useAuth();
+    const navbarRef = useRef(null);
+    const togglerRef = useRef(null);
+
+    // Fonction pour fermer le menu
+    const closeMenu = () => {
+        const navbarCollapse = document.getElementById('navbarNav');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            navbarCollapse.classList.remove('show');
+        }
+    };
 
     useEffect(() => {
-        const menu = document.querySelector('#navbarNav');
-        const toggler = document.querySelector('.navbar-toggler');
-
-        // Fermer le menu quand on clique sur un lien
-        const links = document.querySelectorAll('.nav-link');
-    links.forEach(link => {
-        // Remplacer le lien pour supprimer les écouteurs précédents
-        const newLink = link.cloneNode(true);
-        if (link.parentNode) {
-            link.parentNode.replaceChild(newLink, link);
-            
-            // Ajouter l'écouteur d'événement pour fermer le menu
-            newLink.addEventListener('click', () => {
+        // Fermer le menu quand on clique sur le toggler
+        const handleToggleClick = () => {
+            const menu = document.querySelector('#navbarNav');
+            if (menu.classList.contains('show')) {
                 menu.classList.remove('show');
-            });
-        }
-    });
+            } else {
+                menu.classList.add('show');
+            }
+        };
 
-    // Fermer le menu quand on clique sur le toggler
-    toggler.addEventListener('click', () => {
-        if(menu.classList.contains('show')) {
-            menu.classList.remove('show');
-        } else {
-            menu.classList.add('show');
+        const toggler = togglerRef.current;
+        if (toggler) {
+            toggler.addEventListener('click', handleToggleClick);
         }
-    });
 
+        // Nettoyage lors du démontage
+        return () => {
+            if (toggler) {
+                toggler.removeEventListener('click', handleToggleClick);
+            }
+        };
     }, []);
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className={`navbar navbar-expand-lg navbar-light bg-light ${styles.navbar}`} ref={navbarRef}>
             <div className="container">
-                <Link className="navbar-brand" to="/">
+                <Link className={`navbar-brand ${styles.navbarBrand}`} to="/" onClick={closeMenu}>
                     <img src="/Logo/LogoMarque2.jpg" alt="logo de la marqueFrenchyGurumi" height="70" className="me-2" />
 
                 </Link>
                 <button
-                    className="navbar-toggler"
+                    className={`navbar-toggler ${styles.navbarToggler}`}
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarNav"
                     aria-controls="navbarNav"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
+                    ref={togglerRef}
                 >
-                    <span className="navbar-toggler-icon"></span>
+                    <span className={`navbar-toggler-icon ${styles.navbarTogglerIcon}`}></span>
                 </button>
 
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div className={`collapse navbar-collapse ${styles.navbarCollapse}`} id="navbarNav">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Nos Catégories</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>Nos Catégories</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">A Propos</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>A Propos</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Contact</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>Contact</Link>
                         </li>
 
-                        {auth && auth.role === 'admin' && (
+                        {auth && auth.data && auth.data.role === 'admin' && (
                             <li className="nav-item">
-                                <Link className="nav-link" to="/add">Ajouter un article</Link>
+                                <Link className={`nav-link ${styles.navLink}`} to="/add" onClick={closeMenu}>Ajouter un article</Link>
                             </li>
                         )}
-                        {auth && auth.role === 'admin' && (
+                        {auth && auth.data && auth.data.role === 'admin' && (
                             <li className="nav-item">
-                                <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                                <Link className={`nav-link ${styles.navLink}`} to="/dashboard" onClick={closeMenu}>Dashboard</Link>
                             </li>
                         )}
                     </ul>
@@ -89,19 +94,19 @@ const NavBar = () => {
                         {!auth ? (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/login">
+                                    <Link className={`nav-link ${styles.navLink}`} to="/login" onClick={closeMenu}>
                                         <img src="/photoIcon/logoId.png" alt="logo" height="30" className="me-2" style={{ display: 'inline-block' }} />Connexion
 
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/register">
-                                        <img src="/photoIcon/connexion.png" alt="icon connexion" height="30" className="iconColored me-2" style={{ display: 'inline-block' }} />Inscription
+                                    <Link className={`nav-link ${styles.navLink}`} to="/register" onClick={closeMenu}>
+                                        <img src="/photoIcon/connexion.png" alt="icon connexion" height="30" className={`${styles.iconColored} me-2`} style={{ display: 'inline-block' }} />Inscription
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/panier">
-                                        <img src="/photoIcon/basket-shop.png" alt="icon panier" height="30" className="iconColored me-2" style={{ display: 'inline-block' }} />Panier
+                                    <Link className={`nav-link ${styles.navLink}`} to="/panier" onClick={closeMenu}>
+                                        <img src="/photoIcon/basket-shop.png" alt="icon panier" height="30" className={`${styles.iconColored} me-2`} style={{ display: 'inline-block' }} />Panier
                                     </Link>
                                 </li>
 
@@ -110,25 +115,25 @@ const NavBar = () => {
                             <>
                                 <li className="nav-item dropdown">
                                     <button
-                                        className="nav-link dropdown-toggle border-0 bg-transparent"
+                                        className={`nav-link dropdown-toggle border-0 bg-transparent ${styles.navLink}`}
                                         type="button"
                                         id="navbarDropdown"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
                                     >
                                         <i className="bi bi-person-circle me-1"></i>
-                                        {auth.nom}
+                                        {auth.data ? auth.data.nom : auth.nom}
                                     </button>
-                                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <ul className={`dropdown-menu dropdown-menu-end ${styles.dropdownMenu}`} aria-labelledby="navbarDropdown">
                                         <li>
-                                            <Link className="dropdown-item" to="/profile">
+                                            <Link className={`dropdown-item ${styles.dropdownItem}`} to="/profile" onClick={closeMenu}>
                                                 <i className="bi bi-person me-2"></i>
                                                 Mon profil
                                             </Link>
                                         </li>
-                                        {auth.role === 'admin' && (
+                                        {auth.data && auth.data.role === 'admin' && (
                                             <li>
-                                                <Link className="dropdown-item" to="/dashboard">
+                                                <Link className={`dropdown-item ${styles.dropdownItem}`} to="/dashboard" onClick={closeMenu}>
                                                     <i className="bi bi-speedometer2 me-2"></i>
                                                     Dashboard
                                                 </Link>
@@ -137,8 +142,11 @@ const NavBar = () => {
                                         <li><hr className="dropdown-divider" /></li>
                                         <li>
                                             <button
-                                                className="dropdown-item text-danger"
-                                                onClick={logout}
+                                                className={`dropdown-item ${styles.dropdownItem} ${styles.dangerItem}`}
+                                                onClick={() => {
+                                                    closeMenu();
+                                                    logout();
+                                                }}
                                             >
                                                 <i className="bi bi-box-arrow-right me-2"></i>
                                                 Se déconnecter

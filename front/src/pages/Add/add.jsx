@@ -41,9 +41,37 @@ const AddArticle = () => {
 
     };
 
+    const validateForm = () => {
+        const requiredFields = [
+            { name: 'marque', label: 'Marque' },
+            { name: 'nom', label: 'Nom' },
+            { name: 'categorie', label: 'Catégorie' },
+            { name: 'description', label: 'Description' },
+            { name: 'prix', label: 'Prix' }
+        ];
+        
+        for (const field of requiredFields) {
+            if (!article[field.name] || article[field.name].trim() === '') {
+                alert(`Le champ ${field.label} est obligatoire`);
+                return false;
+            }
+        }
+        
+        if (isNaN(parseInt(article.prix)) || parseInt(article.prix) <= 0) {
+            alert('Le prix doit être un nombre positif');
+            return false;
+        }
+        
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("soumission du formulaire");
+        console.log("soumission du formulaire", article);
+
+        if (!validateForm()) {
+            return;
+        }
 
         const formData = new FormData();
 
@@ -56,22 +84,30 @@ const AddArticle = () => {
         formData.append('status', Boolean(article.status));
         formData.append('stock', parseInt(article.stock));
 
-        article.photo.forEach((image) => {
+        article.photo.forEach((image,index) => {
+            console.log(`ajout de limage ${index} au formdata`,image.name);
+            
             formData.append('photo', image);
+
         });
 
         try {
+            console.log("Envoi de la requête via url", URL.CREATE_ARTICLE);
             const response = await fetch(URL.CREATE_ARTICLE, {
                 method: 'POST',
                 body: formData
             });
+
+            console.log("Response statut:", response.status, response.statusText);
+            console.log("Response headers:", [...response.headers.entries()]);
 
             if (!response.ok) {
                 throw new Error(`Erreur lors de l'ajout de l'article : ${response.status}`);
             }
 
             const data = await response.json();
-            console.log("Article ajouté", data);
+            console.log("Article ajouté avec succès", data);
+            alert('Article ajouté avec succès');
             navigate('/');
 
         } catch (error) {

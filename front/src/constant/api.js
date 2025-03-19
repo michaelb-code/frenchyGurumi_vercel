@@ -1,5 +1,5 @@
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-? 'https://frenchy-gurumi-vercel.vercel.app'
+? 'https://frenchy-gurumi-vercel-ouak.vercel.app'
 : 'http://localhost:8000';
 
 

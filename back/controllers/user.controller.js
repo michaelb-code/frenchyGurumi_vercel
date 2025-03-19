@@ -72,7 +72,7 @@ export const signin = async (req, res) => {
             httpOnly: true,
         });
 
-        res.status(201).json({
+        res.status(200).json({
             message: "Connexion reussie",
             token: token,
             data: userObject,

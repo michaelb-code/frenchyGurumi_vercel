@@ -3,7 +3,7 @@
     --primary-color: #f4887e;
     --primary-color-dark: #e05c78;
     --secondary-color: #6db4b8;
-    /* Couleur turquoise complémentaire */
+    /* Couleur turquoise complu00e9mentaire */
     --text-color: #f4887e;
     --background-color: #ffffff;
     --light-gray: #f8f9fa;
@@ -21,38 +21,38 @@
 }
 
 /* Logo de la marque */
-.navbar-brand img {
+.navbarBrand img {
     max-height: 70px;
     transition: transform var(--transition-speed) ease;
 }
 
-.navbar-brand:hover img {
+.navbarBrand:hover img {
     transform: scale(1.05);
 }
 
-/* Effet spécifique pour les icônes colorées */
+/* Effet spu00e9cifique pour les icu00f4nes coloru00e9es */
 .iconColored {
     filter: invert(65%) sepia(21%) saturate(1486%) hue-rotate(313deg) brightness(101%) contrast(96%);
     transition: all var(--transition-speed) ease;
 }
 
-.nav-link:hover .iconColored {
+.navLink:hover .iconColored {
     filter: invert(25%) sepia(10%) saturate(786%) hue-rotate(314deg) brightness(95%) contrast(85%);
     transform: scale(1.15);
 }
 
-/* Effet de survol pour les icônes */
-.nav-link img {
+/* Effet de survol pour les icu00f4nes */
+.navLink img {
     transition: all var(--transition-speed) ease;
 }
 
-.nav-link:hover img {
+.navLink:hover img {
     transform: scale(1.15);
     filter: brightness(1.2);
 }
 
 /* Style pour les liens de navigation */
-.nav-link {
+.navLink {
     color: var(--text-color) !important;
     font-weight: 500;
     padding: 0.5rem 1rem;
@@ -62,13 +62,13 @@
     position: relative;
 }
 
-.nav-link:hover {
+.navLink:hover {
     color: var(--primary-color) !important;
     background-color: rgba(248, 126, 154, 0.05);
 }
 
-/* Effet de soulignement animé au survol */
-.nav-link::after {
+/* Effet de soulignement animu00e9 au survol */
+.navLink::after {
     content: '';
     position: absolute;
     width: 0;
@@ -79,13 +79,13 @@
     transition: all var(--transition-speed) ease;
 }
 
-.nav-link:hover::after {
+.navLink:hover::after {
     width: 80%;
     left: 10%;
 }
 
-/* Style pour le menu déroulant */
-.dropdown-menu {
+/* Style pour le menu du00e9roulant */
+.dropdownMenu {
     border: none;
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
@@ -107,56 +107,56 @@
     }
 }
 
-.dropdown-item {
+.dropdownItem {
     padding: 0.6rem 1.5rem;
     transition: all var(--transition-speed) ease;
     color: var(--text-color);
 }
 
-.dropdown-item:hover {
+.dropdownItem:hover {
     background-color: rgba(248, 126, 154, 0.1);
     color: var(--primary-color);
 }
 
-.dropdown-item i {
+.dropdownItem i {
     margin-right: 0.5rem;
     transition: transform var(--transition-speed) ease;
 }
 
-.dropdown-item:hover i {
+.dropdownItem:hover i {
     transform: translateX(3px);
 }
 
 /* Style pour le toggler */
-.navbar-toggler {
+.navbarToggler {
     border: none;
     padding: 0.5rem;
     border-radius: var(--border-radius);
     transition: all var(--transition-speed) ease;
 }
 
-.navbar-toggler:focus {
+.navbarToggler:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(248, 126, 154, 0.25);
 }
 
-.navbar-toggler-icon {
+.navbarTogglerIcon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28248, 126, 154, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
-/* Style pour le bouton déconnexion */
-.dropdown-item.text-danger {
+/* Style pour le bouton du00e9connexion */
+.dangerItem {
     color: #dc3545 !important;
 }
 
-.dropdown-item.text-danger:hover {
+.dangerItem:hover {
     background-color: rgba(220, 53, 69, 0.1);
     color: #b02a37 !important;
 }
 
 /* Responsive styles */
 @media (max-width: 992px) {
-    .navbar-collapse {
+    .navbarCollapse {
         background-color: var(--light-gray);
         border-radius: var(--border-radius);
         padding: 1rem;
@@ -164,16 +164,16 @@
         box-shadow: var(--shadow);
     }
 
-    .nav-link {
+    .navLink {
         padding: 0.7rem 1rem;
         margin: 0.2rem 0;
     }
 
-    .nav-link::after {
+    .navLink::after {
         display: none;
     }
 
-    .navbar-nav .dropdown-menu {
+    .dropdownMenuMobile {
         box-shadow: none;
         padding-left: 1.5rem;
         animation: none;
