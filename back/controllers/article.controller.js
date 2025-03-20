@@ -35,7 +35,7 @@ export const createArticle = async (req, res) => {
         // }
 
         //verification des champs du corps de la requete
-        const fieldsChecked = ["marque","nom","categorie","description","prix","status","stock"];
+        const fieldsChecked = ["marque","nom","categorie","description","photo","prix","status","stock"];
 
         const fieldsMissing = fieldsChecked.find((field) => !req.body[field]);
 
@@ -45,23 +45,9 @@ export const createArticle = async (req, res) => {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ message: "Au moins une photo est requise pour créer un article" });
         }
-        // Adapter en fonction du type de stockage
-        let photoUrls = [];
-        if (process.env.USE_LOCAL_STORAGE === 'true' || !process.env.CLOUDINARY_API_KEY) {
-            // Stockage local - construire les URLs relatives
-            photoUrls = req.files.map(file => {
-                console.log('Fichier stocku00e9 localement:', file.path);
-                return file.path.replace(/\\/g, '/'); // Remplacer les backslash par des slash
-            });
-        } else {
-            // Cloudinary - utiliser les URLs fournies par Cloudinary
-            photoUrls = req.files.map(file => {
-                console.log('URL Cloudinary:', file.path);
-                return file.path;
-            });
-        }
-        
-        console.log('photoUrls:', photoUrls);
+
+        const photoUrls = req.files ? req.files.map(file => file.path) : [];
+        console.log(photoUrls);
     
 
         const newArticle = await Article.create({
@@ -108,31 +94,15 @@ export const updateArticle = async (req, res) => {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ message: "Au moins une photo est requise pour modifier un article" });
         }
-        // Adapter en fonction du type de stockage
-        let photoUrls = [];
-        if (process.env.USE_LOCAL_STORAGE === 'true' || !process.env.CLOUDINARY_API_KEY) {
-            // Stockage local - construire les URLs relatives
-            photoUrls = req.files.map(file => {
-                console.log('Fichier stocké localement:', file.path);
-                return file.path.replace(/\\/g, '/'); // Remplacer les backslash par des slash
-            });
-        } else {
-            // Cloudinary - utiliser les URLs fournies par Cloudinary
-            photoUrls = req.files.map(file => {
-                console.log('URL Cloudinary:', file.path);
-                return file.path;
-            });
-        }
-        
-        console.log('photoUrls:', photoUrls);
-
-        const article = await Article.findByIdAndUpdate(req.params.id, {...req.body, photo: photoUrls}, { new: true })
+        const article = await Article.findByIdAndUpdate(req.params.id, {...req.body, photo: req.files ? req.files.map(file => file.path) : []}, { new: true })
             .populate('user')
-        .populate('avis');
+            .populate('avis');
+
         if (!article){ 
             return res.status(404).json({ message: "Article non trouvé" });
         }
         res.status(200).json({article,  message: `Article  ${article.nom}  modifié avec succés`});
+        
     } catch (error) {
         console.log(error, "Erreur lors de la modification de l'article");
         return res.status(500).json({ error: error.message });

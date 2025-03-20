@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { env } from "../config/index.js";
 import { createError } from "./error.js";
 
+
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.access_token;
     if (!token) {

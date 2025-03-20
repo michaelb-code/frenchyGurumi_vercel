@@ -11,6 +11,7 @@
     "react-responsive-carousel": "^3.2.23"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17"
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1"
   }
 }
