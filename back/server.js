@@ -62,7 +62,7 @@ app.use(cors({
 app.options("*", cors());
 
 app.use(express.json());// permet de lire le corps de la requete en json
-
+app.use(express.urlencoded({ extended: true })); // permet de lire le corps de la requete en urlencoded
 app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
 
 //PREFIX ROUTES

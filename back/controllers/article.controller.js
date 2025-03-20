@@ -45,9 +45,23 @@ export const createArticle = async (req, res) => {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ message: "Au moins une photo est requise pour créer un article" });
         }
-
-        const photoUrls = req.files ? req.files.map(file => file.path) : [];
-        console.log(photoUrls);
+        // Adapter en fonction du type de stockage
+        let photoUrls = [];
+        if (process.env.USE_LOCAL_STORAGE === 'true' || !process.env.CLOUDINARY_API_KEY) {
+            // Stockage local - construire les URLs relatives
+            photoUrls = req.files.map(file => {
+                console.log('Fichier stocku00e9 localement:', file.path);
+                return file.path.replace(/\\/g, '/'); // Remplacer les backslash par des slash
+            });
+        } else {
+            // Cloudinary - utiliser les URLs fournies par Cloudinary
+            photoUrls = req.files.map(file => {
+                console.log('URL Cloudinary:', file.path);
+                return file.path;
+            });
+        }
+        
+        console.log('photoUrls:', photoUrls);
     
 
         const newArticle = await Article.create({
@@ -94,7 +108,25 @@ export const updateArticle = async (req, res) => {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ message: "Au moins une photo est requise pour modifier un article" });
         }
-        const article = await Article.findByIdAndUpdate(req.params.id, {...req.body, photo: req.files ? req.files.map(file => file.path) : []}, { new: true })
+        // Adapter en fonction du type de stockage
+        let photoUrls = [];
+        if (process.env.USE_LOCAL_STORAGE === 'true' || !process.env.CLOUDINARY_API_KEY) {
+            // Stockage local - construire les URLs relatives
+            photoUrls = req.files.map(file => {
+                console.log('Fichier stocké localement:', file.path);
+                return file.path.replace(/\\/g, '/'); // Remplacer les backslash par des slash
+            });
+        } else {
+            // Cloudinary - utiliser les URLs fournies par Cloudinary
+            photoUrls = req.files.map(file => {
+                console.log('URL Cloudinary:', file.path);
+                return file.path;
+            });
+        }
+        
+        console.log('photoUrls:', photoUrls);
+
+        const article = await Article.findByIdAndUpdate(req.params.id, {...req.body, photo: photoUrls}, { new: true })
             .populate('user')
         .populate('avis');
         if (!article){ 
