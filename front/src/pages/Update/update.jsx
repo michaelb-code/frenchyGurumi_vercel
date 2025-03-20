@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import { useParams, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import URL from '../../constant/api';
-import { useNavigate } from 'react-router-dom';
-import styles from './Add.module.css';
+import { useState, useEffect } from 'react';
+import URL from '../../constant/api'
+import styles from './Update.module.css';
 
-
-const AddArticle = () => {
+const Update = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
 
-    // state avec un objet article vide 
     const [article, setArticle] = useState({
         marque: '',
         nom: '',
@@ -20,25 +19,72 @@ const AddArticle = () => {
         photo: [],
         status: true,
         stock: 0
-
     });
 
-    const handleChange = (e) => {
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [existingImages, setExistingImages] = useState([]);
 
-        const { name, value, files } = e.target;
+    useEffect(() => {
+        const fetchArticle = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${URL.FETCH_ARTICLE}/${id}`, {
+                    headers: {
+                        'Content-Type': "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération de l'article");
+                }
+
+                const data = await response.json();
+                
+                // On formate les données reçues pour correspondre à notre state
+                setArticle({
+                    marque: data.article.marque || '',
+                    nom: data.article.nom || '',
+                    categorie: data.article.categorie || '',
+                    description: data.article.description || '',
+                    prix: data.article.prix?.toString() || '',
+                    photo: [], // Nouvelles images à uploader
+                    status: data.article.status || true,
+                    stock: data.article.stock || 0
+                });
+
+                // On stocke les URLs des images existantes
+                if (data.article.photo && data.article.photo.length > 0) {
+                    setExistingImages(data.article.photo);
+                }
+
+                setError(null);
+            } catch (error) {
+                setError(error.message);
+                console.error("Erreur lors de la récupération de l'article:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchArticle();
+    }, [id]);
+
+    const handleChange = (e) => {
+        const { name, value, files, checked, type } = e.target;
 
         if (name.startsWith('img')) {
-            setArticle(prev => ({
-                ...prev,
-
-                photo: files ? [...prev.photo,files[0]]: prev.photo,
-            }))
-
+            if (files && files.length > 0) {
+                setArticle(prev => ({
+                    ...prev,
+                    photo: [...prev.photo, files[0]]
+                }));
+            }
+        } else if (type === 'checkbox') {
+            setArticle(prev => ({ ...prev, [name]: checked }));
         } else {
-
-            setArticle((prev) => ({ ...prev, [name]: value }));
+            setArticle(prev => ({ ...prev, [name]: value }));
         }
-
     };
 
     const validateForm = () => {
@@ -67,7 +113,7 @@ const AddArticle = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("soumission du formulaire", article);
+        console.log("Mise à jour de l'article", article);
 
         if (!validateForm()) {
             return;
@@ -84,47 +130,61 @@ const AddArticle = () => {
         formData.append('status', Boolean(article.status));
         formData.append('stock', parseInt(article.stock));
 
-        article.photo.forEach((image,index) => {
-            console.log(`ajout de limage ${index} au formdata`,image.name);
-            
+        // Ajout des nouvelles images
+        article.photo.forEach((image) => {
+            console.log(`Ajout de l'image au formdata`, image.name);
             formData.append('photo', image);
-
         });
 
+        // Ajout des URLs des images existantes que l'on souhaite conserver
+        formData.append('existingImages', JSON.stringify(existingImages));
+
         try {
-            console.log("Envoi de la requête via url", URL.CREATE_ARTICLE);
-            const response = await fetch(`${URL.CREATE_ARTICLE}`, {
-                method: 'POST',
+            console.log("Envoi de la requête via url", `${URL.UPDATE_ARTICLE}/${id}`);
+            const response = await fetch(`${URL.UPDATE_ARTICLE}/${id}`, {
+                method: 'PUT',
                 body: formData
             });
 
             console.log("Response statut:", response.status, response.statusText);
-            console.log("Response headers:", [...response.headers.entries()]);
 
             if (!response.ok) {
-                throw new Error(`Erreur lors de l'ajout de l'article : ${response.status}`);
+                throw new Error(`Erreur lors de la mise à jour de l'article : ${response.status}`);
             }
 
             const data = await response.json();
-            console.log("Article ajouté avec succès", data);
-            alert('Article ajouté avec succès');
-            navigate('/');
+            console.log("Article mis à jour avec succès", data);
+            alert('Article mis à jour avec succès');
+            navigate(`/detail/${id}`);
 
         } catch (error) {
-            console.error("Erreur lors de l'ajout de l'article:", error.message);
+            console.error("Erreur lors de la mise à jour de l'article:", error.message);
+            setError(error.message);
         }
     };
+
+
+
+    if (loading) {
+        return <div className={styles.loadingContainer}>Chargement...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.errorMessage}>Erreur : {error}</div>;
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
-                <h2 className={styles.heading}>Ajouter un article</h2>
+                <h2 className={styles.heading}>Modifier l'article</h2>
+                
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label className={styles.label}>Marque</label>
                         <input
                             type="text"
                             name="marque"
+                            value={article.marque}
                             onChange={handleChange}
                             placeholder="Marque de l'article"
                             required
@@ -137,6 +197,7 @@ const AddArticle = () => {
                         <input
                             type="text"
                             name="nom"
+                            value={article.nom}
                             onChange={handleChange}
                             placeholder="Nom de l'article"
                             required
@@ -149,6 +210,7 @@ const AddArticle = () => {
                         <input
                             type="text"
                             name="description"
+                            value={article.description}
                             onChange={handleChange}
                             placeholder="Description de l'article"
                             required
@@ -161,6 +223,7 @@ const AddArticle = () => {
                         <input
                             type="text"
                             name="categorie"
+                            value={article.categorie}
                             onChange={handleChange}
                             placeholder="Catégorie de l'article"
                             required
@@ -173,6 +236,7 @@ const AddArticle = () => {
                         <input
                             type="number"
                             name="prix"
+                            value={article.prix}
                             onChange={handleChange}
                             placeholder="Prix de l'article"
                             min="0"
@@ -183,11 +247,11 @@ const AddArticle = () => {
                     </div>
 
                     <div>
-                        <label className={styles.label}>Images</label>
+                        <label className={styles.label}>Ajouter des images</label>
                         {imgInput.map((imgName, index) => (
                             <div key={imgName} className={styles.imageGroup}>
                                 <label className={styles.imageLabel}>
-                                    {index === 0 ? "Image principale" : `Image ${index}`}
+                                    {`Image ${index + 1}`}
                                 </label>
                                 <input
                                     type="file"
@@ -204,6 +268,7 @@ const AddArticle = () => {
                         <input
                             type="number"
                             name="stock"
+                            value={article.stock}
                             onChange={handleChange}
                             placeholder="Stock disponible"
                             required
@@ -215,8 +280,8 @@ const AddArticle = () => {
                         <input
                             type="checkbox"
                             name="status"
-                            onChange={e => setArticle(prev => ({ ...prev, status: e.target.checked }))}
                             checked={article.status}
+                            onChange={handleChange}
                             className={styles.checkbox}
                         />
                         <label>Article disponible</label>
@@ -226,12 +291,12 @@ const AddArticle = () => {
                         type="submit"
                         className="btn btn-primary w-100" style={{ fontFamily: 'inter, sans-serif' }}
                     >
-                        Ajouter l'article
+                        Mettre à jour l'article
                     </button>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AddArticle;
+export default Update;
