@@ -13,6 +13,7 @@ import SearchBar from '../../components/SeachBar/SearchBar';
 import * as ACTIONS from '../../redux/reducers/article.reducer';
 
 
+
 const Home = () => {
     const dispatch = useDispatch();
 
@@ -37,8 +38,6 @@ const Home = () => {
                         }
                     }
                 );
-
-
                 console.log(response);
 
                 // if (!response.ok) {

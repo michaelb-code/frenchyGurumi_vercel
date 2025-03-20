@@ -35,7 +35,7 @@ export const createArticle = async (req, res) => {
         // }
 
         //verification des champs du corps de la requete
-        const fieldsChecked = ["marque","nom","categorie","description","photo","prix","status","stock"];
+        const fieldsChecked = ["marque","nom","categorie","description","prix","status","stock"];
 
         const fieldsMissing = fieldsChecked.find((field) => !req.body[field]);
 
@@ -102,7 +102,7 @@ export const updateArticle = async (req, res) => {
             return res.status(404).json({ message: "Article non trouvé" });
         }
         res.status(200).json({article,  message: `Article  ${article.nom}  modifié avec succés`});
-        
+
     } catch (error) {
         console.log(error, "Erreur lors de la modification de l'article");
         return res.status(500).json({ error: error.message });
