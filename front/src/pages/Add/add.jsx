@@ -93,7 +93,7 @@ const AddArticle = () => {
 
         try {
             console.log("Envoi de la requête via url", URL.CREATE_ARTICLE);
-            const response = await fetch(`${URL.CREATE_ARTICLE}`, {
+            const response = await fetch(URL.CREATE_ARTICLE, {
                 method: 'POST',
                 body: formData
             });

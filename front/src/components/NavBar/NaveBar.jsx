@@ -104,55 +104,31 @@ const NavBar = () => {
                                         <img src="/photoIcon/connexion.png" alt="icon connexion" height="30" className={`${styles.iconColored} me-2`} style={{ display: 'inline-block' }} />Inscription
                                     </Link>
                                 </li>
+                            </>
+                        ) : (
+                            <>
                                 <li className="nav-item">
                                     <Link className={`nav-link ${styles.navLink}`} to="/panier" onClick={closeMenu}>
                                         <img src="/photoIcon/basket-shop.png" alt="icon panier" height="30" className={`${styles.iconColored} me-2`} style={{ display: 'inline-block' }} />Panier
                                     </Link>
                                 </li>
-
-                            </>
-                        ) : (
-                            <>
-                                <li className="nav-item dropdown">
-                                    <button
-                                        className={`nav-link dropdown-toggle border-0 bg-transparent ${styles.navLink}`}
-                                        type="button"
-                                        id="navbarDropdown"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i className="bi bi-person-circle me-1"></i>
+                                <li className="nav-item">
+                                    <Link className={`nav-link ${styles.navLink}`} to="/profile" onClick={closeMenu}>
+                                        <img src="/photoIcon/logoId.png" alt="icon user" height="30" className="me-2" style={{ display: 'inline-block' }} />
                                         {auth.data ? auth.data.nom : auth.nom}
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <button
+                                        className={`nav-link border-0 bg-transparent ${styles.navLink} ${styles.dangerItem}`}
+                                        onClick={() => {
+                                            closeMenu();
+                                            logout();
+                                        }}
+                                    >
+                                        <i className="bi bi-box-arrow-right me-2"></i>
+                                        Déconnexion
                                     </button>
-                                    <ul className={`dropdown-menu dropdown-menu-end ${styles.dropdownMenu}`} aria-labelledby="navbarDropdown">
-                                        <li>
-                                            <Link className={`dropdown-item ${styles.dropdownItem}`} to="/profile" onClick={closeMenu}>
-                                                <i className="bi bi-person me-2"></i>
-                                                Mon profil
-                                            </Link>
-                                        </li>
-                                        {auth.data && auth.data.role === 'admin' && (
-                                            <li>
-                                                <Link className={`dropdown-item ${styles.dropdownItem}`} to="/dashboard" onClick={closeMenu}>
-                                                    <i className="bi bi-speedometer2 me-2"></i>
-                                                    Dashboard
-                                                </Link>
-                                            </li>
-                                        )}
-                                        <li><hr className="dropdown-divider" /></li>
-                                        <li>
-                                            <button
-                                                className={`dropdown-item ${styles.dropdownItem} ${styles.dangerItem}`}
-                                                onClick={() => {
-                                                    closeMenu();
-                                                    logout();
-                                                }}
-                                            >
-                                                <i className="bi bi-box-arrow-right me-2"></i>
-                                                Se déconnecter
-                                            </button>
-                                        </li>
-                                    </ul>
                                 </li>
                             </>
                         )}

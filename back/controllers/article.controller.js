@@ -45,9 +45,14 @@ export const createArticle = async (req, res) => {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ message: "Au moins une photo est requise pour créer un article" });
         }
+console.log("fichiers recus par multer",req.files);
 
-        const photoUrls = req.files ? req.files.map(file => file.path) : [];
-        console.log(photoUrls);
+console.log("📄 Corps de la requête:", req.body);
+
+const baseUrl = `${req.protocol}://${req.get("host")}/`; // Ex: http://localhost:8000/
+const photoUrls = req.files.map(file => file.secure_url || baseUrl + file.path.replace(/\\/g, "/"));
+
+        console.log("url des img:",photoUrls);
     
 
         const newArticle = await Article.create({

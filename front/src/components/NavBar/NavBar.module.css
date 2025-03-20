@@ -5,7 +5,7 @@
     --secondary-color: #6db4b8;
     /* Couleur turquoise complu00e9mentaire */
     --text-color: #f4887e;
-    --background-color: #ffffff;
+    --background-color: #f8f9fa;
     --light-gray: #f8f9fa;
     --transition-speed: 0.3s;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -30,7 +30,7 @@
     transform: scale(1.05);
 }
 
-/* Effet spu00e9cifique pour les icu00f4nes coloru00e9es */
+/* Effet spécifique pour les icônes colorées */
 .iconColored {
     filter: invert(65%) sepia(21%) saturate(1486%) hue-rotate(313deg) brightness(101%) contrast(96%);
     transition: all var(--transition-speed) ease;
@@ -41,7 +41,7 @@
     transform: scale(1.15);
 }
 
-/* Effet de survol pour les icu00f4nes */
+/* Effet de survol pour les icônes */
 .navLink img {
     transition: all var(--transition-speed) ease;
 }
@@ -67,7 +67,7 @@
     background-color: rgba(248, 126, 154, 0.05);
 }
 
-/* Effet de soulignement animu00e9 au survol */
+/* Effet de soulignement animé au survol */
 .navLink::after {
     content: '';
     position: absolute;
@@ -84,7 +84,7 @@
     left: 10%;
 }
 
-/* Style pour le menu du00e9roulant */
+/* Style pour le menu déroulant */
 .dropdownMenu {
     border: none;
     box-shadow: var(--shadow);
@@ -144,7 +144,7 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28248, 126, 154, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
-/* Style pour le bouton du00e9connexion */
+/* Style pour le bouton de déconnexion */
 .dangerItem {
     color: #dc3545 !important;
 }

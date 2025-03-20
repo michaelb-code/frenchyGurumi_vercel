@@ -45,18 +45,18 @@ mongoose.connect(env.MONGO_URI)//connexion a la base de donnee mongo via l'uri s
     
 // }));
 // en local (voir faire une condition)
-app.use(cors());
+// app.use(cors());
 //pour production ligne
 
-// app.use(cors({
-//     origin: [`https://frenchy-gurumi-vercel-oauk.vercel.app`,
-//             'http://localhost:3000',
-//             `https://frenchy-gurumi-vercel.vercel.app`,
-//             ],
-//     credentials: true,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization']
-//   }));
+app.use(cors({
+    origin: [`https://frenchy-gurumi-vercel-oauk.vercel.app`,
+            'http://localhost:3000',
+            `https://frenchy-gurumi-vercel.vercel.app`,
+            ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
 
 // MIDDLEWARES pour gerer les requetes options
 app.options("*", cors());
@@ -64,6 +64,9 @@ app.options("*", cors());
 app.use(express.json());// permet de lire le corps de la requete en json
 app.use(express.urlencoded({ extended: true })); // permet de lire le corps de la requete en urlencoded
 app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
+
+// Servir les fichiers statiques du dossier upload
+app.use("/uploads", express.static("uploads"));
 
 //PREFIX ROUTES
 app.use("/api/user", userRoutes)// le préfixe pour toutes les routes user
