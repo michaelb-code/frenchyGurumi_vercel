@@ -88,7 +88,7 @@ const Detail = () => {
                 <div className={styles.articleInfo}>
                     <h1 className={styles.articleName}>{article.nom}</h1>
                     <p className={styles.articleTagline}>"Un article à découvrir,<br />une nouvelle tendance à découvrir..."</p>
-                    <p className={styles.articleBrand}>Marque: {article.marque}</p>
+                    {/* <p className={styles.articleBrand}>Marque: {article.marque}</p> */}
                     <p className={styles.articleDescription}>{article.description}</p>
                     
                     <p className={styles.articlePrice}>

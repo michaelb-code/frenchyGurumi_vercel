@@ -113,6 +113,7 @@
 .buyButton {
     background-color: #f4887e;
     color: white;
+    font-family: 'Inter', sans-serif;
 }
 
 .buyButton:hover {
@@ -124,10 +125,11 @@
     background-color: #f4887e;
     color: white;
     border: 1px solid #f4887e;
+    font-family: 'Inter', sans-serif;
 }
 
 .addButton:hover {
-    background-color: #f9e9e7;
+    background-color: #e57268;
     transform: translateY(-2px);
 }
 
@@ -170,8 +172,10 @@
 
 .articleDescription {
     line-height: 1.6;
-    color: #444;
+    color: #555558;
     margin: 20px 0;
+    margin-top: 0;
+    font-family: 'Amaranth', sans-serif;
 }
 
 .articleBrand {

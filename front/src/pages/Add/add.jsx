@@ -22,6 +22,22 @@ const AddArticle = () => {
         stock: 0
 
     });
+    // État pour gérer les alertes
+    const [messageAlerte, setMessageAlerte] = useState('');
+    const [typeAlerte, setTypeAlerte] = useState('success');
+    const [showAlert, setShowAlert] = useState(false);
+
+    // Fonction pour afficher une alerte
+    const showAlertMessage = (message, type) => {
+        setMessageAlerte(message);
+        setTypeAlerte(type);
+        setShowAlert(true);
+
+        // Masquer l'alerte après 5 secondes
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 5000);
+    };
 
     const handleChange = (e) => {
 
@@ -31,7 +47,7 @@ const AddArticle = () => {
             setArticle(prev => ({
                 ...prev,
 
-                photo: files ? [...prev.photo,files[0]]: prev.photo,
+                photo: files ? [...prev.photo, files[0]] : prev.photo,
             }))
 
         } else {
@@ -49,19 +65,19 @@ const AddArticle = () => {
             { name: 'description', label: 'Description' },
             { name: 'prix', label: 'Prix' }
         ];
-        
+
         for (const field of requiredFields) {
             if (!article[field.name] || article[field.name].trim() === '') {
                 alert(`Le champ ${field.label} est obligatoire`);
                 return false;
             }
         }
-        
+
         if (isNaN(parseInt(article.prix)) || parseInt(article.prix) <= 0) {
             alert('Le prix doit être un nombre positif');
             return false;
         }
-        
+
         return true;
     };
 
@@ -84,9 +100,9 @@ const AddArticle = () => {
         formData.append('status', Boolean(article.status));
         formData.append('stock', parseInt(article.stock));
 
-        article.photo.forEach((image,index) => {
-            console.log(`ajout de limage ${index} au formdata`,image.name);
-            
+        article.photo.forEach((image, index) => {
+            console.log(`ajout de limage ${index} au formdata`, image.name);
+
             formData.append('photo', image);
 
         });
@@ -107,11 +123,14 @@ const AddArticle = () => {
 
             const data = await response.json();
             console.log("Article ajouté avec succès", data);
-            alert('Article ajouté avec succès');
-            navigate('/');
+            showAlertMessage('Article ajouté avec succès', 'success');
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
 
         } catch (error) {
             console.error("Erreur lors de l'ajout de l'article:", error.message);
+            showAlertMessage("Erreur lors de l'ajout de l'article", 'danger');
         }
     };
 
@@ -119,6 +138,9 @@ const AddArticle = () => {
         <div className={styles.container}>
             <div className={styles.formContainer}>
                 <h2 className={styles.heading}>Ajouter un article</h2>
+                
+                
+                
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label className={styles.label}>Marque</label>
@@ -221,7 +243,12 @@ const AddArticle = () => {
                         />
                         <label>Article disponible</label>
                     </div>
-
+                    {showAlert && (
+                    <div className={`alert alert-${typeAlerte} alert-dismissible fade show`} role="alert">
+                        {messageAlerte}
+                        <button type="button" className="btn-close" onClick={() => setShowAlert(false)} aria-label="Close"></button>
+                    </div>
+                )}
                     <button
                         type="submit"
                         className="btn btn-primary w-100" style={{ fontFamily: 'inter, sans-serif' }}
