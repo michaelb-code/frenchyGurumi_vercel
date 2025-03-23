@@ -9,6 +9,7 @@ import RegisterUser from "./pages/Register/registerUser";
 import Sign from "./pages/Sign/sign";
 import FormulaireContact from "./components/Formulaire/FormulaireContact";
 import Panier from "./pages/Panier/panier";
+import UserProfil from "./pages/UserProfil/userProfil";
 
 import NavBar from "./components/NavBar/NaveBar";
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/login" element={<Sign />} />
           <Route path="/contact" element={<FormulaireContact />} />
           <Route path="/panier" element={<Panier />} />
+          <Route path="/profil" element={<UserProfil />} />
         </Routes>
       </main>
       

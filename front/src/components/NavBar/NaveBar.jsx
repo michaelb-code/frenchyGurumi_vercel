@@ -113,7 +113,7 @@ const NavBar = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`nav-link ${styles.navLink}`} to="/profile" onClick={closeMenu}>
+                                    <Link className={`nav-link ${styles.navLink}`} to="/profil" onClick={closeMenu}>
                                         <img src="/photoIcon/logoId.png" alt="icon user" height="30" className="me-2" style={{ display: 'inline-block' }} />
                                         {auth.data ? auth.data.nom : auth.nom}
                                     </Link>

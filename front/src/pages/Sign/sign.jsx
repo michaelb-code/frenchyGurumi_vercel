@@ -11,13 +11,17 @@ import { useAuth } from "../../context/AuthContext";
 
 
 
+
 const Sign = () => {
+    
 
     const { login, isLoading } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
+
+    
 
     const [error, setError] = useState("");
 
@@ -32,6 +36,7 @@ const Sign = () => {
 
         try {
             login(formData);
+            
 
         } catch (error) {
             console.log(error);
