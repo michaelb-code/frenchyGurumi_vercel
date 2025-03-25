@@ -102,27 +102,39 @@
     border-collapse: collapse;
     width: 100%;
     margin-top: 15px;
+    table-layout: fixed;
+    font-size: 0.9rem;
 }
 
 .ordersTable th, .ordersTable td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 .ordersTable th {
     background-color: #f4887e;
     color: white;
+    position: sticky;
+    top: 0;
 }
 
 .ordersTable tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.7);
 }
 
 .ordersTable tr:hover {
-    background-color: #f1f1f1;
+    background-color: rgba(244, 136, 126, 0.2);
 }
 
+/* Style pour le container du tableau avec scroll */
+.card-body {
+    overflow-x: auto;
+    max-height: 400px;
+    overflow-y: auto;
+}
 
 /* Media queries */
 @media screen and (max-width: 992px) {
@@ -133,6 +145,16 @@
     
     .userInfoCard, .ordersCard {
         width: 90%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ordersTable {
+        font-size: 0.8rem;
+    }
+    
+    .ordersTable th, .ordersTable td {
+        padding: 8px 5px;
     }
 }
 
@@ -168,5 +190,18 @@
     
     .infoValue {
         font-size: 1rem;
+    }
+    
+    .ordersTable {
+        font-size: 0.7rem;
+    }
+    
+    .ordersTable th:first-child,
+    .ordersTable td:first-child {
+        width: 40px;
+    }
+    
+    .collapse .card-body {
+        padding: 0.5rem;
     }
 }

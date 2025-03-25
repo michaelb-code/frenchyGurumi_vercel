@@ -4,10 +4,10 @@ import mongooseUniqueValidator from "mongoose-unique-validator";//plugin pour am
 const userSchema = mongoose.Schema({
         //structure des champs user 
         //chaque user devra fournir les infos qui suit pour créer son compte
-        avatar: {
-                type: String,
+        // avatar: {
+        //         type: String,
                 
-        },
+        // },
         nom: {
                 type: String,
                 required: true
