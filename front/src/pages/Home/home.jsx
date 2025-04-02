@@ -69,7 +69,7 @@ const Home = () => {
             <Slider />
             <SearchBar />
             {/* <CategorieCircle /> */}
-            <div className={styles.categoriesContainer}>
+            <div id="categories" className={styles.categoriesContainer}>
                 <div className={styles.blockCircle}>
                     <div className={styles.circle} >
                         <Link to="/poupees">
@@ -102,7 +102,7 @@ const Home = () => {
                 </div>
                 <div className={styles.blockCircle}>
                     <div className={styles.circle} >
-                        <Link to="/premiersSouvenirs">
+                        <Link to="/premiers_souvenirs">
                             <img className={styles.imgCircle} src="/PremiersSouvenirs/kitRose.jpg" alt="Kit naissance avec un hochet, un attache-tétine et une petite pieuvre" />
                         </Link>
                     </div>

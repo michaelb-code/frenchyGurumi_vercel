@@ -13,7 +13,7 @@ const URL = {
     DELETE_ARTICLE : `${API_BASE_URL}/api/article/delete`,
 
 //USER
-    GET_ALL_USER : `${API_BASE_URL}/api/user/get`,
+    GET_ALL_USERS : `${API_BASE_URL}/api/user/get`,
     GET_USER_BY_ID : `${API_BASE_URL}/api/user/get`,
     CREATE_USER : `${API_BASE_URL}/api/user/signup`,
     SIGNIN : `${API_BASE_URL}/api/user/signin`,

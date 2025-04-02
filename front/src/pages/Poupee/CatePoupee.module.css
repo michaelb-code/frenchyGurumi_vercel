@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Header container */
+.headerContainer {
+    text-align: center;
+    margin: 20px 0;
+    font-family: 'Amaranth', sans-serif;
+}
+
+/* Info container */
+.infoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0 20px;
+}
+
+/* Block titre */
+.blockTitre {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid #f4887e;
+    border-radius: 150px;
+    width: 600px;
+    height: auto;
+    margin: 20px 0;
+    padding: 10px 20px;
+}
+
+.h3 {
+    font-family: 'Amaranth', sans-serif;
+    font-size: 20px;
+    font-style: italic;
+    color: #000000;
+}
+
+.blockIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4887e78;
+    border: 2px solid #000000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+/* Loading */
+.loading {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Styles pour l'affichage des produits */
+.separateur {
+    width: 80%;
+    align-items: center;
+    border: 1px solid #f4887e;
+    margin: 20px auto 30px auto;
+}
+
+.productImgContainer {
+    padding: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.productImg {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.productImg:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.productDetails {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.productTitle {
+    font-family: 'Amaranth', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    color: #000000;
+    text-align: left;
+    padding-bottom: 10px;
+    font-style: italic;
+}
+
+.productDescription {
+    flex-grow: 1;
+    margin-bottom: 20px;
+    color: #555558;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    text-align: left;
+    font-family: 'Amaranth', sans-serif;
+}
+
+.productDescription p {
+    margin: 0;
+    padding: 0 15px;
+}
+
+.productPriceContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    margin-left: 20px;
+}
+
+.productPrice {
+    text-align: left;
+    margin-left: 40px;
+    font-family: 'Amaranth', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #000000;
+    margin: 20px 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn {
+    
+    background-color: #f4887e;
+    color: white;
+    border: 2px solid #000000;
+    padding: 10px 25px;
+    font-size: 1rem;
+    font-family: 'inter', sans-serif;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #e5776d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Media Queries */
+@media screen and (max-width: 992px) {
+    .blockTitre {
+        width: 500px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .blockTitre {
+        width: 400px;
+        padding: 8px 15px;
+    }
+
+    .h3 {
+        font-size: 18px;
+    }
+
+    .blockIcon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .productTitle {
+        font-size: 1.5rem;
+    }
+
+    .productDescription {
+        font-size: 0.9rem;
+    }
+
+    .productPrice {
+        font-size: 1.4rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .blockTitre {
+        width: 100%;
+        padding: 5px 15px;
+        margin: 15px 0;
+    }
+
+    .h3 {
+        font-size: 16px;
+    }
+
+    .blockIcon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .productImageContainer {
+        margin-bottom: 20px;
+    }
+
+    .productDetails {
+        padding: 10px;
+    }
+}

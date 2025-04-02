@@ -1,0 +1,345 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+    font-family: 'Amaranth', sans-serif;
+    font-style: italic;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboardHeading {
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+/* Cards pour les sections principales */
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.dashboardCard {
+    background-color: #f4887e78;
+    border: 4px solid #000000;
+    border-radius: 25px;
+    padding: 20px;
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.dashboardCard:hover {
+    transform: translateY(-5px);
+}
+
+.dashboardCard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.dashboardCard button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 2px solid #000000;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-family: 'Amaranth', sans-serif;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.dashboardCard button:hover {
+    background-color: #f4887e;
+    color: white;
+}
+
+/* Tableaux */
+.tableSection {
+    background-color: #f4887e78;
+    border: 4px solid #000000;
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableSection h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 10px;
+}
+
+.tableContainer {
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.dashboardTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+    table-layout: fixed;
+    font-size: 0.9rem;
+}
+
+.dashboardTable th, .dashboardTable td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.dashboardTable th {
+    background-color: #f4887e;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.dashboardTable tr:nth-child(even) {
+    background-color: rgba(249, 249, 249, 0.7);
+}
+
+.dashboardTable tr:hover {
+    background-color: rgba(244, 136, 126, 0.2);
+}
+
+/* Boutons d'action dans les tableaux */
+.actionBtn {
+    background-color: transparent;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.actionBtn i {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.editBtn i {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.deleteBtn i {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: inline-block;
+
+}
+
+.editBtn i:hover {
+    background-color: #e0a800;
+}
+
+.deleteBtn i:hover {
+    background-color: #c82333;
+}
+
+/* Bouton ajouter */
+.addBtn {
+    background-color: #28a745;
+    border: 2px solid #000000;
+    border-radius: 15px;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 10px;
+    font-family: 'Amaranth', sans-serif;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.addBtn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Loading  */
+.loadingContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+}
+
+.loadingContainer img {
+    max-width: 600px;
+    height: auto;
+}
+
+.loadingContainer p {
+    margin-top: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Amaranth', sans-serif;
+    color: #f4887e;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+.successMessage {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s, fadeOut 0.3s 2.7s;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+}
+
+/* Error message */
+.errorMessage {
+    width: 100%;
+    padding: 15px;
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 2px solid #dc3545;
+    border-radius: 25px;
+    color: #721c24;
+    margin-bottom: 20px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Media queries */
+@media screen and (max-width: 1200px) {
+    .loadingContainer img { max-width: 500px; }
+}
+
+@media screen and (max-width: 992px) {
+    .cardContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+    .loadingContainer img { max-width: 400px; }
+    .loadingContainer p { font-size: 35px; }
+    
+    .dashboardCard {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboardHeading {
+        font-size: 2rem;
+    }
+    
+    .loadingContainer img { max-width: 300px; }
+    .loadingContainer p { font-size: 30px; }
+    
+    .tableSection {
+        padding: 20px;
+    }
+    
+    .dashboardTable {
+        font-size: 0.8rem;
+    }
+    
+    .dashboardTable th, .dashboardTable td {
+        padding: 8px 5px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .dashboardHeading {
+        font-size: 1.8rem;
+    }
+    
+    .dashboardCard, .tableSection {
+        border-width: 3px;
+        border-radius: 15px;
+        padding: 15px;
+    }
+    
+    .dashboardCard h2, .tableSection h2 {
+        font-size: 1.5rem;
+    }
+    
+    .dashboardTable {
+        font-size: 0.7rem;
+    }
+    
+    .loadingContainer img { max-width: 200px; }
+    .loadingContainer p { font-size: 25px; margin-top:15px;}
+}
+
+@media screen and (max-width: 400px) {
+    .dashboardHeading {
+        font-size: 1.6rem;
+    }
+    .loadingContainer img { max-width: 200px; }
+    .loadingContainer p { font-size: 20px; }
+}

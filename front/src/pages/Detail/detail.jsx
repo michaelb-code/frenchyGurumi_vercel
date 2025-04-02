@@ -4,15 +4,21 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../../constant/api';
 import styles from './Detail.module.css';
+import {useCart} from '../../context/CartContext'
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const Detail = () => {
     const [article, setArticle] = useState({});
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
     const { id } = useParams();
     const navigate = useNavigate();
+    const {addToCart} = useCart();
+    const notify = () => toast.success('Article ajouté au panier !',{autoClose: 2500,position: "top-center"});
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -25,14 +31,17 @@ const Detail = () => {
                 console.log(reponse);
 
                 if (!reponse.ok)
-                    throw new Error("Erreur lors de la recuperation de l'article");
+                    throw new Error("Erreur lors de la récupération de l'article");
 
                 const data = await reponse.json();
                 setArticle(data.article);
                 setError(null);
+                setLoading(false);
 
             } catch (error) {
                 setError(error.message);
+                setLoading(false);
+                
             }
         };
 
@@ -48,12 +57,14 @@ const Detail = () => {
                 }
             });
 
-            if (response.status === 200) navigate('/');
+            if (response.status === 200) {
+                navigate('/');
+            }
 
         } catch (error) {
-            setError(`${error.message}`, "Erreur lors de la suppression de l'article");
+            setError(error.message);
         }
-    }
+    };
 
     const decreaseQuantity = () => {
         if (quantity > 1) {
@@ -84,7 +95,7 @@ const Detail = () => {
         }
     };
 
-    // Fonction pour pourvoir  sélectionner une image spécifique
+    // Fonction pour pouvoir sélectionner une image spécifique
     const selectImage = (index) => {
         setCurrentImgIndex(index);
     };
@@ -92,6 +103,10 @@ const Detail = () => {
     if (error) {
         return <div className={styles.errorMessage}>Erreur : {error}</div>
     }
+
+    if (loading) return <div className={styles.loading}><img src="/Logo/LogoMarque.jpg" alt="loading" />
+        <p className={styles.loadingTest}>Chargement...</p>
+    </div>
 
     return (
         <>
@@ -151,7 +166,7 @@ const Detail = () => {
                     <p className={styles.articleDescription}>{article.description}</p>
 
                     <p className={styles.articlePrice}>
-                        {article.prix},00€ <span className={styles.priceUnit}>/article</span>
+                        {article.prix},00 € <span className={styles.priceUnit}>/article</span>
                     </p>
 
                     <div className={styles.quantitySelector}>
@@ -168,35 +183,40 @@ const Detail = () => {
                     <div className={styles.actionButtons}>
                         <button className={styles.buyButton}>
                             Acheter
-                            <span>💳</span>
+                            <span>🛒</span>
                         </button>
-                        <button className={styles.addButton}>
+                        <button className={styles.addButton} onClick={() => {
+                                const articleWithQuantity = { ...article, quantity };
+                                addToCart(articleWithQuantity);
+                                notify()
+                                
+                            }}>
                             Ajouter
                             <span>🛒</span>
                         </button>
+                        <ToastContainer />
                     </div>
 
                     <div className={styles.deliveryInfo}>
                         <div className={styles.deliveryRow}>
-                            <span className={styles.deliveryIcon}>🚚</span>
+                            <span className={styles.deliveryIcon}>🛒</span>
                             <span className={styles.deliveryTitle}>Livraison</span>
-                            <span className={styles.deliveryText}>Sous 4/5 jours ouvrés • 5,00€</span>
+                            <span className={styles.deliveryText}>Sous 4/5 jours ouverts 5</span>
                         </div>
                         <div className={styles.deliveryRow}>
-                            <span className={styles.deliveryIcon}>↩️</span>
+                            <span className={styles.deliveryIcon}>🔄</span>
                             <span className={styles.deliveryTitle}>Retour*</span>
                             <span className={styles.deliveryText}>Sous 14 jours</span>
                         </div>
-                    </div>
-
-                    <div className={styles.adminButtons}>
+                        <div className={styles.adminButtons}>
                         <button className={styles.deleteButton} onClick={deleteArticle}>Supprimer</button>
                         <Link to={`/update/${article._id}`} className={styles.editButton}>Modifier</Link>
+                    </div>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Detail;

@@ -45,6 +45,22 @@
     margin: 20px auto;
     border: 1px solid #f4887e;
 }
+.quantitySelector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.quantityBtn {
+    border: 1px solid #f4887e78;
+    border-radius: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
 /* Styles pour le panier vide */
 .emptyCart {
@@ -169,14 +185,13 @@
 
 .checkoutButton {
     width: 100%;
-    background-color: #f4887e;
     color: white;
     border: none;
     border-radius: 25px;
     padding: 10px;
     margin-bottom: 10px;
     cursor: pointer;
-    font-family: 'Amaranth', sans-serif;
+    font-family: 'inter', sans-serif;
     transition: all 0.3s ease;
 }
 

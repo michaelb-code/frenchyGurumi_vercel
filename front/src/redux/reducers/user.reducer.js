@@ -24,6 +24,10 @@ export const User = createSlice({
         FETCH_USER_ERROR: (state, actions) => {
             state.loading = false;
             state.error = actions.payload;
+        },
+        // Ajout de l'action pour mettre à jour les utilisateurs
+        setUsers: (state, action) => {
+            state.data = action.payload;
         }
     }
 });
@@ -31,6 +35,7 @@ export const User = createSlice({
 export const {  FETCH_USER_START, 
                 FETCH_USER_SUCCESS, 
                 FETCH_USER_ERROR, 
+                setUsers
             } = User.actions
 
 export default User.reducer

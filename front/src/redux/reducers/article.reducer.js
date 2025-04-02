@@ -25,10 +25,14 @@ export const Article = createSlice({
             //on stocke les articles recu dans data 
             // store.error = null;
         },
-        // FETCH_ARTICLE_ERROR: (store, actions) => {
-        //     store.loading = false;
-        //     store.error = actions.payload;
-        // },
+         // Ajout de l'action pour mettre à jour les articles
+        setArticles: (store, action) => {
+            store.data = action.payload;
+        },
+        FETCH_ARTICLE_ERROR: (store, actions) => {
+            store.loading = false;
+            store.error = actions.payload;
+        },
         // CLEAR_ARTICLE: (store) => {
         //     store.data = [];
         //     store.loading = null;
@@ -38,7 +42,7 @@ export const Article = createSlice({
 
 });
 
-export const { FETCH_ARTICLE_START, FETCH_ARTICLE_SUCCESS } = Article.actions
+export const { FETCH_ARTICLE_START, FETCH_ARTICLE_SUCCESS, setArticles, FETCH_ARTICLE_ERROR } = Article.actions
 // les actions seront utilisées par les composants
 export default Article.reducer
 // fourni le store de redux a toute notre application

@@ -69,7 +69,12 @@ const NavBar = () => {
                             <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>Nos Catégories</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/#categories" onClick={(e) => {closeMenu() 
+                                if(window.location.pathname === '/') {
+                                    e.preventDefault();
+                                    document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}>Nos Catégories</Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>A Propos</Link>

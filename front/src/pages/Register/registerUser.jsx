@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import URL from '../../constant/api';
 import { useSelector } from 'react-redux';
 import styles from './Register.module.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
 const UserRegister = () => {
     const { loading } = useSelector((state) => state.user);
+    const notify = () => toast.success('Utilisateur créé avec succès', { autoClose: 2500, position: "top-center" });
     const navigate = useNavigate();
     const [user, setUser] = useState({
         isActive: true,
@@ -51,7 +53,11 @@ const UserRegister = () => {
 
             const data = await response.json();
             console.log("Utilisateur créé", data);
-            navigate('/');
+            notify();
+            setTimeout(() => {
+                navigate('/');
+            }, 2500);
+
         } catch (error) {
             console.error(error.message);
         }
@@ -96,7 +102,7 @@ const UserRegister = () => {
                     </select>
                     <div className={styles.containerBtn}>
                         <button type="submit" className={`${styles.button} btn btn-primary`}>S'inscrire</button>
-
+                        <ToastContainer />
                         <p className={styles.paragraph}>Vous avez un compte,<a href="/login" > connectez-vous ici</a></p>
                     </div>
                 </div>
