@@ -21,8 +21,8 @@ import Dashboard from "./pages/Dashboard/dashboard";
 // import components
 import NavBar from "./components/NavBar/NaveBar";
 import FormulaireContact from "./components/Formulaire/FormulaireContact";
+import BestSeller from "./components/BestSeller/bestSeller";
 import { CartProvider } from "./context/CartContext";
-
 
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
           <Route path="/premiers_souvenirs" element={<PremiersSouvenirs />} />
           <Route path="/anigurumi" element={<Anigurumi />} />
           <Route path="/dashboard" element={<Dashboard />} />
-        
+          <Route path="/best-sellers" element={<BestSeller />} />
         </Routes>
       </main>
       </CartProvider>

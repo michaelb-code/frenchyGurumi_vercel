@@ -9,6 +9,7 @@ import styles from './Home.module.css';
 import FormulaireContact from '../../components/Formulaire/FormulaireContact';
 import Slider from '../../components/Slider/Slider';
 import SearchBar from '../../components/SeachBar/SearchBar';
+import BestSeller from '../../components/BestSeller/bestSeller';
 // importer les actions de redux
 import * as ACTIONS from '../../redux/reducers/article.reducer';
 
@@ -120,6 +121,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <BestSeller />
             <hr className={styles.hr} />
             <div className={styles.block}>
                 <div className={styles.blockTitre}>

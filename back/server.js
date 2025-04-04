@@ -10,6 +10,10 @@ import avisRoutes from "./routes/avis.router.js" //ceci est mon import des route
 import articleRoutes from "./routes/article.router.js" //ceci est mon import des routes article
 import commandeRoutes from "./routes/commande.router.js" //ceci est mon import des routes commande
 import categorieRoutes from "./routes/categorie.router.js" //ceci est mon import des routes categorie
+//route pour recuperer les meilleurs ventes
+import bestSellerRoutes from "./routes/bestSeller.router.js" //ceci est mon import des routes best-seller
+//route pour recuperer les messages
+import contactRoutes from "./routes/contact.router.js" //ceci est mon import des routes contact
 
 // APP EXPRESS
 const app = express() //crée une nouvelle application Express un genre de point de depart
@@ -74,6 +78,8 @@ app.use("/api/avis", avisRoutes) // le préfixe pour toutes les routes avis
 app.use("/api/article", articleRoutes) // le préfixe pour toutes les routes article
 app.use("/api/commande", commandeRoutes) // le préfixe pour toutes les routes commande
 app.use("/api/categorie", categorieRoutes) // le préfixe pour toutes les routes categorie
+app.use("/api/best-seller", bestSellerRoutes) // le préfixe pour toutes les routes best-seller
+app.use("/api/contact", contactRoutes) // le préfixe pour toutes les routes contact
 
 
 // SERVER
