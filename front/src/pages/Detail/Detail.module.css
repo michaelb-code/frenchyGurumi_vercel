@@ -268,11 +268,28 @@
     width: 100%;
 }
 
+/* Loading indicator */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.loadingTest {
+    margin-top: 15px;
+    font-family: 'Amaranth', sans-serif;
+    color: #555;
+}
+
 /* Boutons de modification et suppression */
 .adminButtons {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
 }
 
 .editButton, .deleteButton {
@@ -282,6 +299,10 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .editButton {
@@ -301,39 +322,117 @@
     transform: translateY(-2px);
 }
 
+/* Styles pour la modale de confirmation */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f4887e;
+    color: white;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.modalBody {
+    padding: 20px;
+    color: #555558;
+}
+
+.modalFooter {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #eee;
+}
+
+.cancelButton,
+.confirmButton {
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelButton {
+    background-color: #f1f1f1;
+    color: #555558;
+}
+
+.cancelButton:hover {
+    background-color: #e4e4e4;
+}
+
+.confirmButton {
+    background-color: #dc3545;
+    color: white;
+}
+
+.confirmButton:hover {
+    background-color: #c82333;
+}
+
 /* Media queries pour responsivité */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
-        margin: 20px 10px;
-        gap: 20px;
     }
     
-    .actionButtons {
-        flex-direction: column;
+    .mainImage {
+        height: 400px;
     }
     
-    .navButton {
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
-    }
-    
-    .thumbnail {
-        width: 50px;
-        height: 50px;
-    }
-}
-
-@media (max-width: 576px) {
-    .navButton {
-        width: 25px;
-        height: 25px;
-        font-size: 14px;
-    }
-    
-    .thumbnail {
-        width: 40px;
-        height: 40px;
+    .articleName {
+        padding-top: 10px;
     }
 }

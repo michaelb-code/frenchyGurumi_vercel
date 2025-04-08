@@ -9,7 +9,7 @@ function Slider() {
   const datas = [
     {
       id: 1, 
-      image: '/photosSlide/photoslide4.jpg',
+      image: '/photosSlide/photoslide.jpg',
       alt: 'Slider 1'
     },
     {

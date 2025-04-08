@@ -240,6 +240,7 @@ await fetchUserData();
             {success && (
                 <div className={styles.alertSuccess}>
                     Profil mis à jour avec succès! Redirection en cours...
+                    {navigate('/profil')}
                 </div>
             )}
 

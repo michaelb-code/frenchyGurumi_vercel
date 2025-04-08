@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import URL from '../../constant/api';
 
-
 const UserProfil = () => {
     const { auth, authLoading } = useAuth();
     const navigate = useNavigate();
@@ -12,14 +11,15 @@ const UserProfil = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [avis, setAvis] = useState([]);
 
     useEffect(() => {
-        // Attendre que l'authentification soit chargé
+        // Attendre que l'authentification soit chargée
         if (authLoading) {
-            return; // Ne rien faire tant que l'authentification est en cours de chargement
+            return;
         }
 
-        // Vérifier si l'utilisateur est connecté seulement après que auth soit chargé
+        // Vérifier si l'utilisateur est connecté
         if (!auth && !authLoading) {
             navigate('/login');
             return;
@@ -29,7 +29,6 @@ const UserProfil = () => {
         if (!auth) return;
 
         // Vérifier qu'on a bien un ID utilisateur
-
         const userId = auth.data?._id;
         if (!userId) {
             setError("ID utilisateur non trouvé dans les données d'authentification");
@@ -37,29 +36,22 @@ const UserProfil = () => {
             return;
         }
 
-        // Récupérer les informations de l'utilisateur
         const fetchUserData = async () => {
             try {
                 setLoading(true);
-                // Utiliser la concaténation pour l'URL
                 const response = await fetch(`${URL.GET_USER_BY_ID}/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
                 });
-                const responseData = await response.clone().json();
-                console.log('Response api:', responseData);
-                console.log('url utilisé:', `${URL.GET_USER_BY_ID}/${userId}`);
-
 
                 if (!response.ok) {
                     throw new Error("Erreur lors de la récupération des données utilisateur");
                 }
 
                 const userData = await response.json();
-                console.log('Données utilisateur completes:', userData);
+                console.log('Données utilisateur complètes:', userData);
 
-                // Extraire les données utilisateur de la propriété 'data' de la réponse
                 if (userData && userData.data) {
                     setUser(userData.data);
 
@@ -75,13 +67,10 @@ const UserProfil = () => {
                             const allOrdersData = await allOrdersResponse.json();
                             console.log('Réponse API commandes:', allOrdersData);
 
-                            // Si les commandes sont dans une propriété 'commandes'
                             const commandesList = allOrdersData.commandes || [];
 
                             // Filtrer les commandes de l'utilisateur
                             const userOrders = commandesList.filter(commande => {
-                                // Vérifier si l'ID utilisateur correspond au champ user de la commande
-                                // Le champ user peut être soit un string (ID) soit un objet contenant _id
                                 return (
                                     commande.user === userData.data._id ||
                                     (commande.user && commande.user._id === userData.data._id)
@@ -89,31 +78,64 @@ const UserProfil = () => {
                             });
 
                             console.log("Commandes de l'utilisateur:", userOrders);
-
-                            // Définir les commandes de l'utilisateur
                             setOrders(userOrders);
                         }
                     } catch (err) {
                         console.error("Erreur lors de la récupération des commandes:", err);
                     }
                 } else {
-                    // Si la structure de réponse est différente
                     setUser(userData);
                 }
 
                 setError(null);
-
             } catch (err) {
                 console.error("Erreur:", err);
                 setError("Une erreur est survenue lors du chargement de vos informations.");
-
             } finally {
                 setLoading(false);
             }
         };
 
+        const fetchAvis = async () => {
+            try {
+                const response = await fetch(`${URL.GET_ALL_AVIS}`);
+                const responseData = await response.json();
+                console.log('Response api:', responseData);
+
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des avis");
+                }
+
+                if (responseData.avis && Array.isArray(responseData.avis)) {
+                    setAvis(responseData.avis);
+
+                    // Filtrer les avis pour l'utilisateur connecté
+                    const userAvis = responseData.avis.filter(avis => 
+                        avis.user === auth.data._id ||
+                        (avis.user && avis.user._id === auth.data._id)
+                    );
+                    console.log("Avis de l'utilisateur:", userAvis);
+                    setAvis(userAvis);
+                } else {
+                    setAvis([]);
+                    console.log('Les avis reçus ne sont pas dans le format attendu:', responseData);
+                }
+            } catch (err) {
+                console.error("Erreur lors de la récupération des avis:", err);
+                setAvis([]);
+            }
+        };
+        
         fetchUserData();
+        fetchAvis();
     }, [auth, navigate, authLoading]);
+
+    const handleLogout = () => {
+        // Supprimer les informations d'authentification du localStorage
+        localStorage.removeItem('auth');
+        // Rafraîchir la page pour mettre à jour l'état d'authentification
+        window.location.reload();
+    };
 
     const handleEditProfile = () => {
         if (user) {
@@ -121,17 +143,10 @@ const UserProfil = () => {
         }
     };
 
-    const handleLogout = () => {
-        // Supprimer les informations d'authentification du localStorage
-        localStorage.removeItem('auth');
-
-        // Rafraîchir la page pour mettre à jour l'état d'authentification
-        window.location.reload();
-    };
-
     if (loading) {
         return (
-            <div className={styles.loading}><img src="/Logo/LogoMarque.jpg" alt="loading" />
+            <div className={styles.loading}>
+                <img src="/Logo/LogoMarque.jpg" alt="loading" />
                 <p className={styles.loadingTest}>Chargement...</p>
             </div>
         );
@@ -234,62 +249,108 @@ const UserProfil = () => {
                     </button>
                 </div>
 
-                <div className={styles.ordersCard}>
+                <div className={styles.userInfoCard}>
                     <div className={styles.sectionTitle}>
-                        <h5>Commandes</h5>
+                        <h5>Commandes et Avis</h5>
+                    </div>
+                    
+                    {/* Commandes */}
+                    <div className={styles.cardSection}>
+                        <h6 className={styles.subTitle}>Commandes</h6>
+                        <button
+                            className="btn btn-primary w-100"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample"
+                            aria-expanded="false"
+                            aria-controls="collapseExample"
+                        >
+                            Vos commandes
+                        </button>
+
+                        <div className="collapse" id="collapseExample">
+                            <div className="card card-body">
+                                {orders.length > 0 ? (
+                                    <div className={styles['card-body']}>
+                                        <table className={styles.ordersTable}>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Commande</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Total</th>
+                                                    <th scope="col">Statut</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {orders.map((order, index) => (
+                                                    <tr key={order._id || index}>
+                                                        <th scope="row">{index + 1}</th>
+                                                        <td title={order._id}>{order.order_number || order._id.substring(0, 8) + '...'}</td>
+                                                        <td>
+                                                            {order.createdAt
+                                                                ? new Date(order.createdAt).toLocaleDateString()
+                                                                : order.date
+                                                                    ? new Date(order.date).toLocaleDateString()
+                                                                    : 'N/A'}
+                                                        </td>
+                                                        <td>{order.total ? `${order.total} €` : 'N/A'}</td>
+                                                        <td>
+                                                            <span className={`badge ${order.statut === 'Terminé' ? 'bg-success' : order.statut === 'Annulé' ? 'bg-danger' : 'bg-warning'}`}>
+                                                                {order.statut || 'En attente'}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-center">Vous n'avez pas encore de commandes.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
-                    <button
-                        className="btn btn-primary w-100"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                    >
-                        Vos commandes
-                    </button>
+                    {/* Avis */}
+                    <div className={styles.cardSection}>
+                        <h6 className={styles.subTitle}>Avis</h6>
+                        <button
+                            className="btn btn-primary w-100"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseAvisExample"
+                            aria-expanded="false"
+                            aria-controls="collapseAvisExample"
+                        >
+                            Vos avis
+                        </button>
 
-                    <div className="collapse" id="collapseExample">
-                        <div className="card card-body">
-                            {orders.length > 0 ? (
-                                <div className={styles['card-body']}>
-                                    <table className={styles.ordersTable}>
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Commande</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Total</th>
-                                                <th scope="col">Statut</th>
+                        <div className="collapse" id="collapseAvisExample">
+                            <div className="card card-body">
+                                <table className={styles.ordersTable}>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Article</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Note</th>
+                                            <th scope="col">Commentaire</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {Array.isArray(avis) && avis.map((avisItem, index) => (
+                                            <tr key={avisItem._id || index}>
+                                                <td>{index + 1}</td>
+                                                <td>{avisItem.article?.nom || 'Article inconnu'}</td>
+                                                <td>{new Date(avisItem.createdAt).toLocaleDateString()}</td>
+                                                <td>{avisItem.note}</td>
+                                                <td>{avisItem.commentaire}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {orders.map((order, index) => (
-                                                <tr key={order._id || index}>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td title={order._id}>{order.order_number || order._id.substring(0, 8) + '...'}</td>
-                                                    <td>
-                                                        {order.createdAt
-                                                            ? new Date(order.createdAt).toLocaleDateString()
-                                                            : order.date
-                                                                ? new Date(order.date).toLocaleDateString()
-                                                                : 'N/A'}
-                                                    </td>
-                                                    <td>{order.total ? `${order.total} €` : 'N/A'}</td>
-                                                    <td>
-                                                        <span className={`badge ${order.statut === 'Terminé' ? 'bg-success' : order.statut === 'Annulé' ? 'bg-danger' : 'bg-warning'}`}>
-                                                            {order.statut || 'En attente'}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            ) : (
-                                <p className="text-center">Vous n'avez pas encore de commandes.</p>
-                            )}
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

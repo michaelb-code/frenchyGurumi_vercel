@@ -1,39 +1,45 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
 
 import * as ACTIONS from '../../redux/reducers/article.reducer';
 import * as ORDER_ACTIONS from '../../redux/reducers/commande.reducer';
 import * as USER_ACTIONS from '../../redux/reducers/user.reducer';
+import * as AVIS_ACTIONS from '../../redux/reducers/avis.reducer';
 
 import URL from '../../constant/api';
 import style from './Dashboard.module.css';
 
 const Dashboard = () => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const store = useSelector((state) => state.article.data);
     const storeOrder = useSelector((state) => state.commande.data);
     const storeUser = useSelector((state) => state.user.data);
+    const storeAvis = useSelector((state) => state.avis.data);
 
-    const [loading, setLoading] = React.useState(true);
     const [articleLoading, setArticleLoading] = React.useState(true);
     const [orderLoading, setOrderLoading] = React.useState(true);
     const [usersLoading, setUsersLoading] = React.useState(true);
+    const [avisLoading, setAvisLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
     const [successMessage, setSuccessMessage] = React.useState(null);
+    const [sectionVisible, setSectionVisible] = React.useState('article');
+    const [viewArticle, setViewArticle] = React.useState(null);
+
     const { id } = useParams();
+
+    //chargement global
+    const isLoading = articleLoading || orderLoading || usersLoading || avisLoading;
 
     useEffect(() => {
         fetchArticles();
         fetchOrders();
         fetchUsers();
+        fetchAvis();
     }, []);
 
-    // Affiche un message de succu00e8s pendant 3 secondes
     const showSuccessMessage = (message) => {
         setSuccessMessage(message);
         setTimeout(() => {
@@ -44,402 +50,425 @@ const Dashboard = () => {
     const fetchArticles = async () => {
         try {
             const response = await fetch(URL.GETALL_ARTICLES, {
-                headers: {
-                    'Content-Type': "application/json"
-                }
+                headers: { 'Content-Type': "application/json" }
             });
-            console.log(response);
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de la récupération des articles");
-            }
+            if (!response.ok) throw new Error("Erreur lors de la récupération des articles");
 
             const data = await response.json();
             dispatch(ACTIONS.FETCH_ARTICLE_SUCCESS(data.articles));
-            setError(null);
             setArticleLoading(false);
-            updateLoadingState();
-
         } catch (error) {
-            console.error("Erreur lors de la récupération des articles:", error);
+            console.error("Erreur articles:", error);
             setError(error.message || "Erreur lors de la récupération des articles");
             setArticleLoading(false);
-            updateLoadingState();
         }
     };
 
     const fetchOrders = async () => {
         try {
             const response = await fetch(URL.GET_ALL_COMMANDES, {
-                headers: {
-                    'Content-Type': "application/json"
-                }
+                headers: { 'Content-Type': "application/json" }
             });
-            console.log("reponse commande:", response);
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de la récupération des commandes");
-            }
+            if (!response.ok) throw new Error("Erreur lors de la récupération des commandes");
 
             const data = await response.json();
-            console.log("data commande:", data);
             dispatch(ORDER_ACTIONS.FETCH_ORDER_SUCCESS(data.commandes));
-
-            console.log(data);
-            setError(null);
-
             setOrderLoading(false);
-            updateLoadingState();
-
-            console.log(storeOrder);
-            console.log(store);
-
         } catch (error) {
-            console.error("Erreur lors de la récupération des commandes:", error);
+            console.error("Erreur commandes:", error);
             setError(error.message || "Erreur lors de la récupération des commandes");
             setOrderLoading(false);
-            updateLoadingState();
         }
     };
 
     const fetchUsers = async () => {
         try {
-            // Dispatch l'action de du00e9but de chargement
             dispatch(USER_ACTIONS.FETCH_USER_START());
 
             const response = await fetch(URL.GET_ALL_USERS, {
-                headers: {
-                    'Content-Type': "application/json"
-                }
+                headers: { 'Content-Type': "application/json" }
             });
-            console.log("reponse user:", response);
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de la récupération des utilisateurs");
-            }
+            if (!response.ok) throw new Error("Erreur lors de la récupération des utilisateurs");
 
             const data = await response.json();
-            console.log("data user:", data);
-
-            dispatch(USER_ACTIONS.FETCH_USER_SUCCESS(data));
-
             console.log(data);
-            setError(null);
-
+            dispatch(USER_ACTIONS.FETCH_USER_SUCCESS(data.data));
             setUsersLoading(false);
-            updateLoadingState();
-
-            console.log(store);
         } catch (error) {
-            console.error("Erreur lors de la récupération des utilisateurs:", error);
+            console.error("Erreur utilisateurs:", error);
             dispatch(USER_ACTIONS.FETCH_USER_ERROR(error.message));
             setError(error.message || "Erreur lors de la récupération des utilisateurs");
             setUsersLoading(false);
-            updateLoadingState();
+        }
+
+
+    };
+    const fetchAvis = async () => {
+        try {
+            dispatch(AVIS_ACTIONS.FETCH_AVIS_START());
+            const response = await fetch(URL.GET_ALL_AVIS, {
+                headers: { 'Content-Type': "application/json" }
+            });
+
+            if (!response.ok) throw new Error("Erreur lors de la récupération des avis");
+
+            const responseData = await response.json();
+            console.log('response avis:', responseData);
+
+
+            if (responseData.avis && Array.isArray(responseData.avis)) {
+                dispatch(AVIS_ACTIONS.FETCH_AVIS_SUCCESS(responseData.avis));
+
+            } else {
+                console.error("Format de réponse inattendu:", responseData);
+                dispatch(AVIS_ACTIONS.FETCH_AVIS_ERROR("Format de réponse invalide"));
+            }
+            setAvisLoading(false);
+
+
+        } catch (error) {
+            console.error("Erreur avis:", error);
+            dispatch(AVIS_ACTIONS.FETCH_AVIS_ERROR(error.message));
+            setError(error.message || "Erreur lors de la récupération des avis");
+            setAvisLoading(false);
         }
     };
 
-    // LES CONST DELETE
+    // --- DELETE ---
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`${URL.DELETE_USER}/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
+            const response = await fetch(`${URL.DELETE_USER}/${id}`, { method: 'DELETE' });
 
             if (response.status === 200) {
-                // Mise à jour locale de l'état Redux
                 dispatch(USER_ACTIONS.setUsers(storeUser.filter(user => user._id !== id)));
                 showSuccessMessage('Utilisateur supprimé avec succès!');
             }
-
         } catch (error) {
-            console.error("Erreur lors de la suppression de l'utilisateur:", error);
+            console.error("Erreur suppression utilisateur:", error);
             setError(error.message || "Erreur lors de la suppression de l'utilisateur");
         }
     };
 
     const deleteArticle = async (id) => {
         try {
-            const response = await fetch(`${URL.DELETE_ARTICLE}/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
+            const response = await fetch(`${URL.DELETE_ARTICLE}/${id}`, { method: 'DELETE' });
 
             if (response.status === 200) {
-                // Mise à jour locale de l'état Redux
                 dispatch(ACTIONS.setArticles(store.filter(article => article._id !== id)));
                 showSuccessMessage('Article supprimé avec succès!');
             }
-
         } catch (error) {
-            console.error("Erreur lors de la suppression de l'article:", error);
+            console.error("Erreur suppression article:", error);
             setError(error.message || "Erreur lors de la suppression de l'article");
         }
     };
 
     const deleteOrder = async (id) => {
         try {
-            console.log("Tentative de suppression de la commande ID:", id);
-            console.log("URL utilisée:", `${URL.DELETE_COMMANDE}/${id}`);
-
-            const response = await fetch(`${URL.DELETE_COMMANDE}/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
+            const response = await fetch(`${URL.DELETE_COMMANDE}/${id}`, { method: 'DELETE' });
 
             if (response.status === 200) {
-                // Mise à jour locale de l'état Redux
                 dispatch(ORDER_ACTIONS.setOrders(storeOrder.filter(order => order._id !== id)));
-                showSuccessMessage('Commande supprimé avec succès!');
+                showSuccessMessage('Commande supprimée avec succès!');
             }
-
         } catch (error) {
-            console.error("Erreur lors de la suppression de la commande:", error);
+            console.error("Erreur suppression commande:", error);
             setError(error.message || "Erreur lors de la suppression de la commande");
         }
     };
 
-    // LES CONST UPDATE
-    const updateUser = async (id) => {
+    const deleteAvis = async (id) => {
         try {
-            // Rediriger vers la page de mise à jour avec l'ID
-            navigate(`/update-profil/${id}`);
+            const response = await fetch(`${URL.DELETE_AVIS}/${id}`, { method: 'DELETE' });
+
+            if (response.status === 200) {
+                dispatch(AVIS_ACTIONS.setAvis(storeAvis.filter(avis => avis._id !== id)));
+                showSuccessMessage('Avis supprimé avec succès!');
+            }
         } catch (error) {
-            console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
-            setError(error.message || "Erreur lors de la mise à jour de l'utilisateur");
+            console.error("Erreur suppression avis:", error);
+            setError(error.message || "Erreur lors de la suppression de l'avis");
         }
     };
 
-    const updateArticle = async (id) => {
-        try {
-            // Rediriger vers la page de mise à jour avec l'ID
-            navigate(`/update/${id}`);
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour de l'article:", error);
-            setError(error.message || "Erreur lors de la mise à jour de l'article");
-        }
-    };
+    // --- UPDATE ---
+    const updateUser = (id) => navigate(`/update-profil/${id}`);
+    const updateArticle = (id) => navigate(`/update/${id}`);
+    const updateOrder = (id) => navigate(`/update-order/${id}`);
+    const updateAvis = (id) => navigate(`/update-avis/${id}`);
 
-    const updateOrder = async (id) => {
-        try {
-            // Rediriger vers la page de mise à jour avec l'ID
-            navigate(`/update-order/${id}`);
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour de la commande:", error);
-            setError(error.message || "Erreur lors de la mise à jour de la commande");
-        }
-    };
-
-    const updateLoadingState = () => {
-        console.log('état de chargement:', { articleLoading, orderLoading, usersLoading });
-        if (!articleLoading && !orderLoading && !usersLoading) {
-            setLoading(false);
-        }
-    };
-
-    // Fonction pour trouver le prix d'un article dans le store
     const findArticlePrice = (articleId) => {
         if (!Array.isArray(store)) return 'N/A';
-
         const article = store.find(art => art._id === articleId);
         return article ? `${article.prix} €` : 'N/A';
     };
 
-
-
-    if (loading) return (
-        <div className={style.loadingContainer}>
-            <img src="/Logo/LogoMarque.jpg" alt="loading" />
-            <p>Chargement...</p>
-        </div>
-    );
+    // --- Affichage ---
+    if (isLoading) {
+        return (
+            <div className={style.loadingContainer}>
+                <img src="/Logo/LogoMarque.jpg" alt="loading" />
+                <p>Chargement...</p>
+            </div>
+        );
+    }
 
     if (error) return <div className={style.errorMessage}>{error}</div>;
 
     return (
         <div className={style.dashboardContainer}>
-            {successMessage && (
-                <div className={style.successMessage}>
-                    {successMessage}
-                </div>
-            )}
+            {successMessage && <div className={style.successMessage}>{successMessage}</div>}
+
             <h1 className={style.dashboardHeading}>Dashboard</h1>
+
             <div className={style.cardContainer}>
                 <div className={style.dashboardCard}>
                     <h2>Article</h2>
-                    <button>Article</button>
+                    <button onClick={() => setSectionVisible('article')}>Article</button>
                 </div>
                 <div className={style.dashboardCard}>
                     <h2>Commande</h2>
-                    <button>Commande</button>
+                    <button onClick={() => setSectionVisible('commande')}>Commande</button>
                 </div>
                 <div className={style.dashboardCard}>
                     <h2>Utilisateur</h2>
-                    <button>Utilisateur</button>
+                    <button onClick={() => setSectionVisible('utilisateur')}>Utilisateur</button>
+                </div>
+                <div className={style.dashboardCard}>
+                    <h2>Avis</h2>
+                    <button onClick={() => setSectionVisible('avis')}>Avis</button>
                 </div>
             </div>
 
-            <div className={style.tableSection}>
-                <h2>Tableau Article</h2>
-                <div className={style.tableContainer}>
-                    <table className={style.dashboardTable}>
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Categorie</th>
-                                <th scope="col">Prix</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(store) && store.length > 0 ? (
-                                store.map((article, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{article.nom}</td>
-                                        <td>{article.categorie}</td>
-                                        <td>{article.prix} €</td>
-                                        <td><img src={article.photo[0]} alt='article' width={30} height={30} /></td>
-                                        <td>{article.stock}</td>
-                                        <td>
-                                            <button className={`${style.actionBtn} ${style.editBtn}`} onClick={() => updateArticle(article._id)}><i className="bi bi-pen-fill"></i></button>
-                                            <button className={`${style.actionBtn} ${style.deleteBtn}`} onClick={() => deleteArticle(article._id)}><i className="bi bi-trash-fill"></i></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
+            {/* Tableau Article */}
+            {sectionVisible === 'article' && (
+                <div className={style.tableSection}>
+                    <h2>Tableau Article</h2>
+                    <div className={style.tableContainer}>
+                        <table className={style.dashboardTable}>
+                            <thead>
                                 <tr>
-                                    <td colSpan="7" className="text-center">Aucun article trouvé</td>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Categorie</th>
+                                    <th>Prix</th>
+                                    <th>Image</th>
+                                    <th>Stock</th>
+                                    <th>Action</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(store) && store.length > 0 ? (
+                                    store.map((article, index) => (
+                                        <tr key={index}>
+                                            <th>{index + 1}</th>
+                                            <td>{article.nom}</td>
+                                            <td>{article.categorie}</td>
+                                            <td>{article.prix} €</td>
+                                            <td><img src={article.photo[0]} alt="article" width={30} height={30} /></td>
+                                            <td>{article.stock}</td>
+                                            <td>
+                                                <Link
+                                                    to={`/detail/${article._id}`}
+                                                    className="btn btn-info btn-sm"
+                                                >
+                                                    <i className="bi bi-eye-fill"></i>
+                                                </Link>
+                                                <button className="btn btn-warning btn-sm" onClick={() => updateArticle(article._id)}>
+                                                        <i className="bi bi-pen-fill"></i>
+                                                    </button>
+                                                    <button className="btn btn-danger btn-sm" onClick={() => deleteArticle(article._id)}>
+                                                        <i className="bi bi-trash-fill"></i>
+                                                    </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr><td colSpan="7">Aucun article trouvé</td></tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <Link to="/add" className={style.addBtn}>Ajouter un article</Link>
                 </div>
-                <Link to="/add" className={style.addBtn}>
-                    Ajouter un article
-                </Link>
-            </div>
+            )}
 
-            <div className={style.tableSection}>
-                <h2>Tableau Commande</h2>
-                <div className={style.tableContainer}>
-                    <table className={style.dashboardTable}>
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Commande</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Client</th>
-                                <th scope="col">Article</th>
-                                <th scope="col">Mode de paiement</th>
-                                <th scope="col">Statut</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(storeOrder) && storeOrder.length > 0 ? (
-                                storeOrder.map((commande, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{commande._id}</td>
-                                        <td>{new Date(commande.date).toLocaleDateString('fr-FR')}</td>
-                                        <td>{commande.user}</td>
-                                        <td>{commande.articles && commande.articles.length > 0 ? (
-                                            commande.articles.map((item, index) => (
-                                                <div key={index} className="border-bottom pb-1 mb-1">
-                                                    <strong>Article ID:</strong> {item.article}<br />
-                                                    <strong>Quantité:</strong> {item.quantite}<br />
-                                                    <strong>Prix Unitaire:</strong> {findArticlePrice(item.article)}
-                                                </div>
-                                            ))
-                                        ) : 'Aucun article'}</td>
-                                        <td>{commande.mode_de_paiement}</td>
-                                        <td>{commande.statut}</td>
-                                        <td>{commande.total} €</td>
-                                        <td>
-                                            <button className={`${style.actionBtn} ${style.editBtn}`} onClick={() => updateOrder(commande._id)}><i className="bi bi-pen-fill"></i></button>
-                                            <button className={`${style.actionBtn} ${style.deleteBtn}`} onClick={() => deleteOrder(commande._id)}><i className="bi bi-trash-fill"></i></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
+            {/* Tableau Commande */}
+            {sectionVisible === 'commande' && (
+                <div className={style.tableSection}>
+                    <h2>Tableau Commande</h2>
+                    <div className={style.tableContainer}>
+                        <table className={style.dashboardTable}>
+                            <thead>
                                 <tr>
-                                    <td colSpan="9" className="text-center">Aucune commande trouvée</td>
+                                    <th>#</th>
+                                    <th>Commande</th>
+                                    <th>Date</th>
+                                    <th>Client</th>
+                                    <th>Article</th>
+                                    <th>Mode de paiement</th>
+                                    <th>Statut</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-
+                            </thead>
+                            <tbody>
+                                {Array.isArray(storeOrder) && storeOrder.length > 0 ? (
+                                    storeOrder.map((commande, index) => (
+                                        <tr key={index}>
+                                            <th>{index + 1}</th>
+                                            <td>{commande._id}</td>
+                                            <td>{new Date(commande.date).toLocaleDateString('fr-FR')}</td>
+                                            <td>{commande.user}</td>
+                                            <td>
+                                                {commande.articles?.map((item, i) => (
+                                                    <span key={i}>
+                                                        <strong>ID:</strong> {item.article}<br />
+                                                        <strong>Quantité:</strong> {item.quantite}<br />
+                                                        <strong>Prix:</strong> {findArticlePrice(item.article)}
+                                                    </span>
+                                                )) || 'Aucun article'}
+                                            </td>
+                                            <td>{commande.mode_de_paiement}</td>
+                                            <td>{commande.statut}</td>
+                                            <td>{commande.total} €</td>
+                                            <td>
+                                                <button className="btn btn-warning btn-sm" onClick={() => updateOrder(commande._id)}><i className="bi bi-pen-fill"></i></button>
+                                                <button className="btn btn-danger btn-sm" onClick={() => deleteOrder(commande._id)}><i className="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr><td colSpan="9">Aucune commande trouvée</td></tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <Link to="/order" className={style.addBtn}>Ajouter une commande</Link>
                 </div>
-                <Link to="/order" className={`${style.actionBtn} ${style.addBtn}`}>
-                    Ajouter une commande
-                </Link>
-            </div>
+            )}
+            {/* Tableau Utilisateur */}
 
-            <div className={style.tableSection}>
-                <h2>Tableau Utilisateur</h2>
-                <div className={style.tableContainer}>
-                    <table className={style.dashboardTable}>
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prenom</th>
-                                <th scope="col">Date de naissance</th>
-                                <th scope="col">Tu00e9lu00e9phone</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Adresse</th>
-                                <th scope="col">Ville</th>
-                                <th scope="col">Code Postal</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(storeUser) && storeUser.length > 0 ? (
-                                storeUser.map((user, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{user.nom || 'Non Communiqué'}</td>
-                                        <td>{user.prenom || 'Non Communiqué'}</td>
-                                        <td>{user.date_naissance ? new Date(user.date_naissance).toLocaleDateString('fr-FR') : 'Non Communiqué'}</td>
-                                        <td>{user.telephone || 'Non Communiqué'}</td>
-                                        <td>{user.email || 'Non Communiqué'}</td>
-                                        <td>{user.adresse || 'Non Communiqué'}</td>
-                                        <td>{user.ville || 'Non Communiqué'}</td>
-                                        <td>{user.code_postal || 'Non Communiqué'}</td>
-                                        <td>{user.role || 'Non Communiqué'}</td>
-                                        <td>
-                                            <button className={`${style.actionBtn} ${style.editBtn}`} onClick={() => updateUser(user._id)}><i className="bi bi-pen-fill"></i></button>
-                                            <button className={`${style.actionBtn} ${style.deleteBtn}`} onClick={() => deleteUser(user._id)}><i className="bi bi-trash-fill"></i></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
+            {sectionVisible === 'utilisateur' && (
+                <div className={style.tableSection}>
+                    <h2>Tableau Utilisateur</h2>
+                    <div className={style.tableContainer}>
+                        <table className={style.dashboardTable}>
+                            <thead>
                                 <tr>
-                                    <td colSpan="11" className="text-center">Aucun utilisateur trouvé</td>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Date de naissance</th>
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Adresse</th>
+                                    <th>Ville</th>
+                                    <th>Code Postal</th>
+                                    <th>Rôle</th>
+                                    <th>Action</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    <Link to="/register" className={style.addBtn}>
-                        Ajouter un utilisateur
-                    </Link>
-                </div>
-            </div>
-        </div>
-    )
-}
+                            </thead>
+                            <tbody>
+                                {Array.isArray(storeUser) && storeUser.length > 0 ? (
+                                    storeUser.map((user, index) => (
+                                        <tr key={index}>
+                                            <th>{index + 1}</th>
+                                            <td>{user.nom || 'N/C'}</td>
+                                            <td>{user.prenom || 'N/C'}</td>
+                                            <td>{user.date_naissance ? new Date(user.date_naissance).toLocaleDateString('fr-FR') : 'N/C'}</td>
+                                            <td>{user.telephone || 'N/C'}</td>
+                                            <td>{user.email || 'N/C'}</td>
+                                            <td>{user.adresse || 'N/C'}</td>
+                                            <td>{user.ville || 'N/C'}</td>
+                                            <td>{user.code_postal || 'N/C'}</td>
+                                            <td>{user.role || 'N/C'}</td>
+                                            <td>
 
-export default Dashboard
+                                                <button className="btn btn-warning btn-sm" onClick={() => updateUser(user._id)}><i className="bi bi-pen-fill"></i></button>
+                                                <button className="btn btn-danger btn-sm" onClick={() => deleteUser(user._id)}><i className="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr><td colSpan="11">Aucun utilisateur trouvé</td></tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <Link to="/register" className={style.addBtn}>Ajouter un utilisateur</Link>
+                </div>
+            )}
+            {/* tableau avis */}
+            {sectionVisible === 'avis' && (
+                <div className={style.tableSection}>
+                    <h2>Tableau Avis</h2>
+                    <div className={style.tableContainer}>
+                        <table className={style.dashboardTable}>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nom Utilisateur</th>
+                                    <th scope="col">Article</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Note</th>
+                                    <th scope="col">Commentaire</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(storeAvis) && Array.isArray(store) && storeAvis.length > 0 ? (
+                                    storeAvis.map((avis, index) => (
+                                        <tr key={index}>
+                                            <th scope="row">{index + 1}</th>
+                                            <td>{avis.user && typeof avis.user === 'object' ? `${avis.user.nom} ${avis.user.prenom}` : 'N/A'}</td>
+                                            <td>{avis.article && typeof avis.article === 'object' ? avis.article.nom : 'N/A'}</td>
+                                            <td>
+                                                {(() => {
+                                                    const fullArticle = store.find(art => art._id === avis.article._id);
+                                                    console.log("Article complet trouvé:", fullArticle);
+                                                    return fullArticle && fullArticle.photo ? (
+                                                        <img
+                                                            src={`/uploads/${fullArticle.photo[0]}`}
+                                                            alt="article"
+                                                            width={30}
+                                                            height={30}
+                                                            onError={(e) => {
+                                                                console.log("Erreur de chargement de l'image");
+                                                                e.target.src = '/Logo/LogoMarque.jpg';
+                                                                e.target.onerror = null;
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <img src="/Logo/LogoMarque.jpg" alt="default" width={30} height={30} />
+                                                    );
+                                                })()}
+                                            </td>
+                                            <td>{avis.note || 'N/A'}</td>
+                                            <td>{avis.commentaire || 'N/A'}</td>
+                                            <td>{avis.createdAt ? new Date(avis.createdAt).toLocaleDateString('fr-FR') : 'N/A'}</td>
+                                            <td>
+
+                                                <button className="btn btn-warning btn-sm gap-2" onClick={() => updateAvis(avis._id)}><i className="bi bi-pen-fill"></i></button>
+                                                <button className="btn btn-danger btn-sm" onClick={() => deleteAvis(avis._id)}><i className="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr><td colSpan="8">Aucun avis trouvé</td></tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )
+            }
+        </div >
+    );
+};
+
+export default Dashboard;

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import URL from '../../constant/api'
 import styles from './Update.module.css';
+import {ToastContainer, toast} from 'react-toastify';
 
 const Update = () => {
     const { id } = useParams();
@@ -24,6 +25,8 @@ const Update = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [existingImages, setExistingImages] = useState([]);
+    const notify = () => toast.success('Article mis à jour avec succès', { autoClose: 2500, position: "top-center" });
+
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -48,7 +51,7 @@ const Update = () => {
                     categorie: data.article.categorie || '',
                     description: data.article.description || '',
                     prix: data.article.prix?.toString() || '',
-                    photo: [], // Nouvelles images à uploader
+                    photo: [],  //pour pouvoir uplod une nouvelle image
                     status: data.article.status || true,
                     stock: data.article.stock || 0
                 });
@@ -154,8 +157,10 @@ const Update = () => {
 
             const data = await response.json();
             console.log("Article mis à jour avec succès", data);
-            alert('Article mis à jour avec succès');
-            navigate(`/detail/${id}`);
+            notify();
+            setTimeout(() => {
+                navigate(`/detail/${id}`);
+            }, 3000);
 
         } catch (error) {
             console.error("Erreur lors de la mise à jour de l'article:", error.message);
@@ -293,6 +298,7 @@ const Update = () => {
                     >
                         Mettre à jour l'article
                     </button>
+                    <ToastContainer />
                 </form>
             </div>
         </div>

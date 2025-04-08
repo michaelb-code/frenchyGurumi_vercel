@@ -77,10 +77,10 @@ const NavBar = () => {
                             }}>Nos Catégories</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>A Propos</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/a-propos" onClick={closeMenu}>A Propos</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${styles.navLink}`} to="/" onClick={closeMenu}>Contact</Link>
+                            <Link className={`nav-link ${styles.navLink}`} to="/contact" onClick={closeMenu}>Contact</Link>
                         </li>
 
                         {auth && auth.data && auth.data.role === 'admin' && (
