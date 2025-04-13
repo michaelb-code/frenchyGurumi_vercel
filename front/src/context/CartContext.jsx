@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 // Création du contexte
 export const CartContext = createContext(null);
@@ -12,24 +13,42 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
     // État local pour stocker les articles du panier
     const [cart, setCart] = useState([]);
+    const { auth } = useAuth(); // Utiliser le contexte d'authentification
+    
+    // Obtenir l'ID utilisateur pour stocker le panier
+    const getUserId = () => {
+        return auth && auth.data && auth.data._id ? auth.data._id : 'guest';
+    };
+    
+    // Clé de stockage unique pour chaque utilisateur
+    const getCartKey = () => `cart_${getUserId()}`;
 
-    // Charger le panier depuis le localStorage au premier rendu
+    // Charger le panier depuis le localStorage au premier rendu et à chaque changement d'utilisateur
     useEffect(() => {
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            try {
-                setCart(JSON.parse(savedCart));
-            } catch (error) {
-                console.error('Erreur lors du chargement du panier:', error);
+        const loadCart = () => {
+            const cartKey = getCartKey();
+            const savedCart = localStorage.getItem(cartKey);
+            if (savedCart) {
+                try {
+                    setCart(JSON.parse(savedCart));
+                } catch (error) {
+                    console.error('Erreur lors du chargement du panier:', error);
+                    setCart([]);
+                }
+            } else {
+                // Si pas de panier pour cet utilisateur, panier vide
                 setCart([]);
             }
-        }
-    }, []);
+        };
+        
+        loadCart();
+    }, [auth]); // Réexécuter quand l'utilisateur change
 
     // Sauvegarder le panier dans le localStorage à chaque modification
     useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
+        const cartKey = getCartKey();
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+    }, [cart, auth]);
 
     // Ajouter un article au panier
     const addToCart = (article) => {
@@ -37,13 +56,13 @@ export const CartProvider = ({ children }) => {
         const existingItemIndex = cart.findIndex(item => item._id === article._id);
 
         if (existingItemIndex >= 0) {
-            // Si l'article existe déjà, augmenter la quantité
+            // Si l'article existe déjà, mettre à jour la quantité
             const newCart = [...cart];
-            newCart[existingItemIndex].quantity = (newCart[existingItemIndex].quantity || 1) + 1;
+            newCart[existingItemIndex].quantity = (article.quantity || 1) + (newCart[existingItemIndex].quantity || 0);
             setCart(newCart);
         } else {
-            // Sinon, ajouter l'article avec quantité 1
-            setCart([...cart, { ...article, quantity: 1 }]);
+            // Sinon, ajouter l'article avec la quantité spécifiée ou 1 par défaut
+            setCart([...cart, { ...article, quantity: article.quantity || 1 }]);
         }
     };
 

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../../constant/api';
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+
 // importation des styles
 import styles from './Home.module.css';
 
@@ -24,6 +26,7 @@ const Home = () => {
     const store = useSelector((state) => state.article.data);
     const loading = useSelector((state) => state.article.loading);
     const [error, setError] = useState(null);
+    const notify = () => toast.success('Message envoyé avec succès!', { autoClose: 2500, position: "top-center" });
     console.log("store", store);
 
 
@@ -70,6 +73,7 @@ const Home = () => {
 
     return (
         <>
+            <ToastContainer />
             <Slider />
             <SearchBar />
             {/* <CategorieCircle /> */}

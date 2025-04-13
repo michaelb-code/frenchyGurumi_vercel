@@ -18,12 +18,11 @@
 
 .input {
     width: 30%;
-    margin: 10px ;
+    margin: 10px;
     padding: 10px;
     border: 2px solid #000000;
     border-radius: 150px;
     font-style: italic;
-    
 }
 
 .form {
@@ -36,11 +35,9 @@
 /* conteneur du Button et lien */
 .button {
     width: 30%;
-    margin: 10px 50px 10px 10px ;
+    margin: 10px;
     font-family: 'Inter, sans-serif';
     font-style: italic;
-    margin: 10px; 
-    
 }
 
 .containerBtn {
@@ -52,7 +49,7 @@
 }
 
 .paragraph {
-    margin: 10px 10px;
+    margin: 10px;
     text-align: center;
     font-family: 'Amaranth', sans-serif;
     font-style: italic;
@@ -69,12 +66,11 @@
 
 .select {
     width: 30%;
-    margin: 10px ;
+    margin: 10px;
     padding: 10px;
     border: 2px solid #000000;
     border-radius: 150px;
     font-style: italic;
-    
 }
 
 /* Loading  */
@@ -101,6 +97,20 @@
     font-family: 'Amaranth', sans-serif;
     color: #f4887e;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Styles pour les erreurs */
+.inputError {
+    border: 2px solid red !important;
+}
+
+.errorText {
+    color: red;
+    font-size: 10px;
+    display: block;
+    
+    margin-left: 20px;
+    margin-bottom: 10px;
 }
 
 /* media queries */

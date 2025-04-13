@@ -3,11 +3,11 @@
     --primary-color: #f4887e;
     --primary-color-dark: #e05c78;
     --secondary-color: #6db4b8;
-    /* Couleur turquoise complu00e9mentaire */
+    /* Couleur turquoise complémentaire */
     --text-color: #f4887e;
     --background-color: #f8f9fa;
     --light-gray: #f8f9fa;
-    --transition-speed: 0.3s;
+    --transition-speed: 0.5s;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --border-radius: 6px;
 }

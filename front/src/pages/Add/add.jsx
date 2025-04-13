@@ -3,12 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import URL from '../../constant/api';
 import { useNavigate } from 'react-router-dom';
 import styles from './Add.module.css';
-
+import { RGXR, validateField } from '../../Utils/regexx';
 
 
 const AddArticle = () => {
     const navigate = useNavigate();
-
     const imgInput = ['img', 'img1', 'img2', 'img3', 'img4'];
 
     // state avec un objet article vide 
@@ -28,21 +27,40 @@ const AddArticle = () => {
     const [typeAlerte, setTypeAlerte] = useState('success');
     const [showAlert, setShowAlert] = useState(false);
 
+    const [formErrors, setFormErrors] = useState({
+        marque: { isValid: true, message: '' },
+        nom: { isValid: true, message: '' },
+        categorie: { isValid: true, message: '' },
+        description: { isValid: true, message: '' },
+        prix: { isValid: true, message: '' },
+        photo: { isValid: true, message: '' },
+        status: { isValid: true, message: '' },
+        stock: { isValid: true, message: '' }
+    });
+    
     // Fonction pour afficher une alerte
-    const showAlertMessage = (message, type) => {
+    const showAlertMessage = (message, type) =>
+    {
         setMessageAlerte(message);
         setTypeAlerte(type);
         setShowAlert(true);
 
-        // Masquer l'alerte après 5 secondes
+        // Masquer l'alerte après 4 secondes
         setTimeout(() => {
             setShowAlert(false);
-        }, 5000);
+        }, 4000);
     };
 
     const handleChange = (e) => {
 
         const { name, value, files } = e.target;
+        const regexName = name === 'nom' ? 'nom_article' : name;
+        const regex = RGXR[regexName];
+
+        if(regex) {
+            const result = validateField(value, regex, name);
+            setFormErrors(prev => ({ ...prev, [name]: result }));
+        }
 
         if (name.startsWith('img')) {
             setArticle(prev => ({
@@ -50,9 +68,7 @@ const AddArticle = () => {
 
                 photo: files ? [...prev.photo, files[0]] : prev.photo,
             }))
-
         } else {
-
             setArticle((prev) => ({ ...prev, [name]: value }));
         }
 
@@ -102,7 +118,7 @@ const AddArticle = () => {
         formData.append('stock', parseInt(article.stock));
 
         article.photo.forEach((image, index) => {
-            console.log(`ajout de limage ${index} au formdata`, image.name);
+            console.log(`ajout de l'image ${index} au formdata`, image.name);
 
             formData.append('photo', image);
 
@@ -139,9 +155,9 @@ const AddArticle = () => {
         <div className={styles.container}>
             <div className={styles.formContainer}>
                 <h2 className={styles.heading}>Ajouter un article</h2>
-                
-                
-                
+
+
+
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label className={styles.label}>Marque</label>
@@ -151,8 +167,11 @@ const AddArticle = () => {
                             onChange={handleChange}
                             placeholder="Marque de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.marque.isValid && article.marque ? styles.inputError : ''}`}
                         />
+                        {!formErrors.marque.isValid && article.marque && (
+                            <div className={styles.errorText}>{formErrors.marque.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -163,8 +182,11 @@ const AddArticle = () => {
                             onChange={handleChange}
                             placeholder="Nom de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.nom.isValid && article.nom ? styles.inputError : ''}`}
                         />
+                        {!formErrors.nom.isValid && article.nom && (
+                            <div className={styles.errorText}>{formErrors.nom.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -175,8 +197,11 @@ const AddArticle = () => {
                             onChange={handleChange}
                             placeholder="Description de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.description.isValid && article.description ? styles.inputError : ''}`}
                         />
+                        {!formErrors.description.isValid && article.description && (
+                            <div className={styles.errorText}>{formErrors.description.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -187,8 +212,11 @@ const AddArticle = () => {
                             onChange={handleChange}
                             placeholder="Catégorie de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.categorie.isValid && article.categorie ? styles.inputError : ''}`}
                         />
+                        {!formErrors.categorie.isValid && article.categorie && (
+                            <div className={styles.errorText}>{formErrors.categorie.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -201,8 +229,11 @@ const AddArticle = () => {
                             min="0"
                             step="0.01"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.prix.isValid && article.prix ? styles.inputError : ''}`}
                         />
+                        {!formErrors.prix.isValid && article.prix && (
+                            <div className={styles.errorText}>{formErrors.prix.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -220,6 +251,9 @@ const AddArticle = () => {
                                 />
                             </div>
                         ))}
+                        {!formErrors.photo.isValid && article.photo.length > 0 && (
+                            <div className={styles.errorText}>{formErrors.photo.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -230,8 +264,11 @@ const AddArticle = () => {
                             onChange={handleChange}
                             placeholder="Stock disponible"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.stock.isValid && article.stock ? styles.inputError : ''}`}
                         />
+                        {!formErrors.stock.isValid && article.stock && (
+                            <div className={styles.errorText}>{formErrors.stock.message}</div>
+                        )}
                     </div>
 
                     <div className={styles.checkboxContainer}>
@@ -240,16 +277,19 @@ const AddArticle = () => {
                             name="status"
                             onChange={e => setArticle(prev => ({ ...prev, status: e.target.checked }))}
                             checked={article.status}
-                            className={styles.checkbox}
+                            className={`${styles.checkbox} ${!formErrors.status.isValid ? styles.inputError : ''}`}
                         />
                         <label>Article disponible</label>
+                        {!formErrors.status.isValid && (
+                            <div className={styles.errorText}>{formErrors.status.message}</div>
+                        )}
                     </div>
                     {showAlert && (
-                    <div className={`alert alert-${typeAlerte} alert-dismissible fade show`} role="alert">
-                        {messageAlerte}
-                        <button type="button" className="btn-close" onClick={() => setShowAlert(false)} aria-label="Close"></button>
-                    </div>
-                )}
+                        <div className={`alert alert-${typeAlerte} alert-dismissible fade show`} role="alert">
+                            {messageAlerte}
+                            <button type="button" className="btn-close" onClick={() => setShowAlert(false)} aria-label="Close"></button>
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="btn btn-primary w-100" style={{ fontFamily: 'inter, sans-serif' }}

@@ -12,6 +12,7 @@ export const useAuth = () => {
 //creation du provider
 export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
+    
     //state pour stocker les infos du user connecté
     const [auth, setAuth] = useState(null);
     const navigate = useNavigate();

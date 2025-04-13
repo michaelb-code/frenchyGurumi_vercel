@@ -1,9 +1,14 @@
+// import react et dépendances
 import { useParams, useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
-import URL from '../../constant/api'
-import styles from './Update.module.css';
 import {ToastContainer, toast} from 'react-toastify';
+import URL from '../../constant/api'
+
+// import css
+import styles from './Update.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { RGXR, validateField } from "../../Utils/regexx";
 
 const Update = () => {
     const { id } = useParams();
@@ -27,6 +32,16 @@ const Update = () => {
     const [existingImages, setExistingImages] = useState([]);
     const notify = () => toast.success('Article mis à jour avec succès', { autoClose: 2500, position: "top-center" });
 
+    const [formErrors, setFormErrors] = useState({
+        marque: { isValid: true, message: '' },
+        nom: { isValid: true, message: '' },
+        categorie: { isValid: true, message: '' },
+        description: { isValid: true, message: '' },
+        prix: { isValid: true, message: '' },
+        photo: { isValid: true, message: '' },
+        status: { isValid: true, message: '' },
+        stock: { isValid: true, message: '' }
+    });
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -75,6 +90,13 @@ const Update = () => {
 
     const handleChange = (e) => {
         const { name, value, files, checked, type } = e.target;
+        const regexName = name === 'nom' ? 'nom_article' : name;
+                const regex = RGXR[regexName];
+        
+                if(regex) {
+                    const result = validateField(value, regex, name);
+                    setFormErrors(prev => ({ ...prev, [name]: result }));
+                }   
 
         if (name.startsWith('img')) {
             if (files && files.length > 0) {
@@ -193,8 +215,11 @@ const Update = () => {
                             onChange={handleChange}
                             placeholder="Marque de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.marque.isValid && article.marque ? styles.inputError : ''}`}
                         />
+                        {!formErrors.marque.isValid && article.marque && (
+                            <div className={styles.errorText}>{formErrors.marque.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -206,8 +231,11 @@ const Update = () => {
                             onChange={handleChange}
                             placeholder="Nom de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.nom.isValid && article.nom ? styles.inputError : ''}`}
                         />
+                        {!formErrors.nom.isValid && article.nom && (
+                            <div className={styles.errorText}>{formErrors.nom.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -219,8 +247,11 @@ const Update = () => {
                             onChange={handleChange}
                             placeholder="Description de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.description.isValid && article.description ? styles.inputError : ''}`}
                         />
+                        {!formErrors.description.isValid && article.description && (
+                            <div className={styles.errorText}>{formErrors.description.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -232,8 +263,11 @@ const Update = () => {
                             onChange={handleChange}
                             placeholder="Catégorie de l'article"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.categorie.isValid && article.categorie ? styles.inputError : ''}`}
                         />
+                        {!formErrors.categorie.isValid && article.categorie && (
+                            <div className={styles.errorText}>{formErrors.categorie.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -247,8 +281,11 @@ const Update = () => {
                             min="0"
                             step="0.01"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.prix.isValid && article.prix ? styles.inputError : ''}`}
                         />
+                        {!formErrors.prix.isValid && article.prix && (
+                            <div className={styles.errorText}>{formErrors.prix.message}</div>
+                        )}
                     </div>
 
                     <div>
@@ -277,8 +314,11 @@ const Update = () => {
                             onChange={handleChange}
                             placeholder="Stock disponible"
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${!formErrors.stock.isValid && article.stock ? styles.inputError : ''}`}
                         />
+                        {!formErrors.stock.isValid && article.stock && (
+                            <div className={styles.errorText}>{formErrors.stock.message}</div>
+                        )}
                     </div>
 
                     <div className={styles.checkboxContainer}>

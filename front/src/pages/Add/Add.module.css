@@ -75,6 +75,21 @@
     margin-bottom: 5px;
 }
 
+/* Styles pour les erreurs de validation */
+.inputError {
+    border: 2px solid #ff0000;
+    background-color: #ffebeb;
+}
+
+.errorText {
+    color: #ff0000;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    font-style: normal;
+    font-weight: 400;
+}
+
 /* Media Queries */
 @media screen and (max-width: 768px) {
     .formContainer {

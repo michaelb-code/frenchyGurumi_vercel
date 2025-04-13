@@ -203,6 +203,13 @@ return (
                         <span>🛒</span>
                     </button>
                     <button className={styles.addButton} onClick={() => {
+                        // Vérifier si l'utilisateur est connecté
+                        if (!auth || !auth.data) {
+                            // Rediriger vers la page de connexion si non connecté
+                            navigate('/login');
+                            return;
+                        }
+                        //cnnecté = ajout au panier + notification de succès
                         const articleWithQuantity = { ...article, quantity };
                         addToCart(articleWithQuantity);
                         notify()

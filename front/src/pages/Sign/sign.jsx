@@ -1,11 +1,7 @@
-//import du usecontext pour acceder au contexte d'authentification
 import React, { useState } from "react";
-//import du link pour la navigation
-import { Link } from "react-router-dom";
-//import de l'api
 import styles from './Sign.module.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -13,7 +9,8 @@ import { useAuth } from "../../context/AuthContext";
 
 
 const Sign = () => {
-    
+
+    const notify = () => toast.error('Connexion echouée! Email ou Mot de passe incorrect', { position: "top-center" }, { autoClose: 2500 });
 
     const { login, isLoading } = useAuth();
     const [formData, setFormData] = useState({
@@ -21,7 +18,7 @@ const Sign = () => {
         password: "",
     });
 
-    
+
 
     const [error, setError] = useState("");
 
@@ -36,8 +33,8 @@ const Sign = () => {
 
         try {
             login(formData);
+            notify();
             
-
         } catch (error) {
             console.log(error);
             setError(error.message || "Connexion echouée");
@@ -45,6 +42,7 @@ const Sign = () => {
     };
     return (
         <>
+            <ToastContainer />
             <div className={styles.blockSign}>
                 <div className={styles.signContainer}>
                     <h1 className={`${styles.heading} text-center mb-4`}>Connexion</h1>
@@ -82,7 +80,7 @@ const Sign = () => {
                         />
 
 
-                        <button 
+                        <button
                             type="submit"
                             className={`${styles.button} btn btn-primary`}
                             disabled={isLoading}
