@@ -14,6 +14,12 @@ const URL = {
   //BEST SELLER
   GET_ALL_BEST_SELLERS: `${API_BASE_URL}/api/best-seller`,
 
+  //CONTACT
+  CREATE_CONTACT: `${API_BASE_URL}/api/contact`,
+
+  //PAYMENT
+  CREATE_PAYMENT: `${API_BASE_URL}/api/payment`,
+
   //USER
   GET_ALL_USERS: `${API_BASE_URL}/api/user/get`,
   GET_USER_BY_ID: `${API_BASE_URL}/api/user/get`,

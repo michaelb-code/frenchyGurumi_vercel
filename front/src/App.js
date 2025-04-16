@@ -16,6 +16,8 @@ import Creation from "./pages/Creations/creation";
 import PremiersSouvenirs from "./pages/PremiersSouvenirs/PremiersSouvenirs";
 import Anigurumi from "./pages/Anigurumi/anigurumi";
 import Dashboard from "./pages/Dashboard/dashboard";
+import ContainerStripe from "./Stripe/ContainerStripe";
+import Confirmation from "./pages/Confirmation/confirmation";
 
 // import components
 import NavBar from "./components/NavBar/NaveBar";
@@ -51,6 +53,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/profil" element={<UserProfil />} />
             <Route path="/update-profil/:id" element={<UpdateProfil />} />
+            <Route path="/paiement" element={<ContainerStripe />} />
+            <Route path="/confirmation" element={<Confirmation />} />
           </Route>
           
           {/* Routes protégées pour administrateurs uniquement */}
@@ -58,6 +62,8 @@ function App() {
             <Route path="/add" element={<AddArticle />} />
             <Route path="/update/:id" element={<Update />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/paiement" element={<ContainerStripe />} />
+            <Route path="/confirmation" element={<Confirmation />} />
           </Route>
         </Routes>
       </main>

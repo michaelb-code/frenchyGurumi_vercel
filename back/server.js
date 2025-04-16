@@ -14,9 +14,12 @@ import categorieRoutes from "./routes/categorie.router.js" //ceci est mon import
 import bestSellerRoutes from "./routes/bestSeller.router.js" //ceci est mon import des routes best-seller
 //route pour recuperer les messages
 import contactRoutes from "./routes/contact.router.js" //ceci est mon import des routes contact
+//route pour recuperer les payments
+import paymentRoutes from "./routes/payment.router.js" //ceci est mon import des routes payment
 
 // APP EXPRESS
 const app = express() //crée une nouvelle application Express un genre de point de depart
+
 
 // PORT
 const PORT = process.env.PORT || 8080
@@ -80,6 +83,7 @@ app.use("/api/commande", commandeRoutes) // le préfixe pour toutes les routes c
 app.use("/api/categorie", categorieRoutes) // le préfixe pour toutes les routes categorie
 app.use("/api/best-seller", bestSellerRoutes) // le préfixe pour toutes les routes best-seller
 app.use("/api/contact", contactRoutes) // le préfixe pour toutes les routes contact
+app.use("/api/payment", paymentRoutes) // le préfixe pour toutes les routes payment
 
 
 // SERVER

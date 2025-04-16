@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './FormulaireContact.module.css';
 import { RGXR, validateField } from '../../Utils/regexx';
 import { ToastContainer, toast } from 'react-toastify';
-
+import URL from '../../constant/api';
 
 function FormulaireContact() {
   const notify = () => toast.success('Message envoyé avec succès!', { autoClose: 2500, position: "top-center" });
@@ -23,54 +23,72 @@ function FormulaireContact() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const regex = RGXR[name];
-    
+
     if (regex) {
       const result = validateField(value, regex, name);
       setFormErrors(prev => ({ ...prev, [name]: result }));
     }
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Vérifier si les champs sont vides
     const emptyFields = Object.entries(formData).filter(([key, value]) => !value.trim());
     if (emptyFields.length > 0) {
       alert('Veuillez remplir tous les champs obligatoires.');
       return;
     }
-    
+
     // Vérifier si tous les champs sont valides
     const isFormValid = Object.values(formErrors).every(field => field.isValid);
-    
+
     if (!isFormValid) {
       toast.error('Veuillez corriger les erreurs dans le formulaire.', { autoClose: 2500, position: "top-center" });
       return;
     }
-    
-    console.log('Formulaire soumis:', formData);
-    notify();
-    
-    // Réinitialiser le formulaire
-    setFormData({
-      nom: '',
-      prenom: '',
-      email: '',
-      message: ''
-    });
-    
-    // Réinitialiser les erreurs
-    setFormErrors({
-      nom: { isValid: true, message: '' },
-      prenom: { isValid: true, message: '' },
-      email: { isValid: true, message: '' },
-      message: { isValid: true, message: '' }
-    });
+
+    // Envoyer les données du formulaire au backend
+    try {
+      const response = await fetch(URL.CREATE_CONTACT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Message envoyé avec succès", data);
+      notify();
+
+      // Réinitialiser le formulaire
+      setFormData({
+        nom: '',
+        prenom: '',
+        email: '',
+        message: ''
+      });
+      
+      // Réinitialiser les erreurs
+      setFormErrors({
+        nom: { isValid: true, message: '' },
+        prenom: { isValid: true, message: '' },
+        email: { isValid: true, message: '' },
+        message: { isValid: true, message: '' }
+      });
+      
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du message", error);
+      toast.error("Erreur lors de l'envoi du message", { autoClose: 2500, position: "top-center" });
+    }
   };
 
   return (

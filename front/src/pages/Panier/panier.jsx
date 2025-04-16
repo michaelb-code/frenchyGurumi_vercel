@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../../context/CartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./Panier.module.css";
 
@@ -8,6 +8,7 @@ import styles from "./Panier.module.css";
 const Panier = () => {
     const { cart, removeFromCart, updateQuantity } = useCart();
     const [total, setTotal] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const total = cart.reduce((acc, item) => acc + item.prix * item.quantity, 0);
@@ -75,7 +76,7 @@ const Panier = () => {
                                     <span>Total</span>
                                     <span>{(total + 5).toFixed(2)} €</span>
                                 </div>
-                                <button className="btn btn-primary w-100">
+                                <button className="btn btn-primary w-100" onClick={() => navigate('/paiement')}>
                                     Passer la commande
                                 </button>
                                 <Link to="/" className={styles.continueShoppingLink}>

@@ -198,9 +198,18 @@ return (
                 </div>
 
                 <div className={styles.actionButtons}>
-                    <button className={styles.buyButton}>
+                    <button className={styles.buyButton} onClick={() => {
+                        // Vérifier si l'utilisateur est connecté
+                        if (auth && auth.data) {
+                            // Rediriger vers la page de paiement si connecté
+                            navigate('/paiement', { state: { article, quantity } });
+                            return;
+                        } else {
+                            navigate('/login');
+                        }
+                    }}>
                         Acheter
-                        <span>🛒</span>
+                        <span>💳</span>
                     </button>
                     <button className={styles.addButton} onClick={() => {
                         // Vérifier si l'utilisateur est connecté
