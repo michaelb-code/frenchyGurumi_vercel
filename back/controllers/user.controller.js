@@ -119,8 +119,6 @@ export const getUserById = async (req, res) => {
         const isAdmin = userConnectedRole === "admin";
         // const hisAccount = String(userConnectedId) === String(req.params.id);
 
-        
-
         const user = await Model.findById(req.params.id); // le findbyid permet de recuperer un user par son id
 
         if (!user) {
@@ -187,6 +185,7 @@ export const updateUser = async (req, res) => {
         if (req.body.role || req.body.isAdmin) {
             return res.status(403).json({ message: "Vous n'avez pas les droits pour modifier le role de cet utilisateur" });
         }
+
 
         const user = await Model.findByIdAndUpdate(req.params.id, req.body, {
             new: true,//permet de retourner l'utilisateur mis a jour

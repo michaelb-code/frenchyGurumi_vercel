@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import URL from "../constant/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const FormCheckOut = ({ amount = 1000, items = [] }) => {
   const stripe = useStripe();
@@ -10,11 +11,19 @@ const FormCheckOut = ({ amount = 1000, items = [] }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const { auth } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
+
+    // verifier si le user est connecté (voir son utilité)
+    if (!auth || !auth.data) {
+      setError("Veuillez vous connecter");
+      setLoading(false);
+      return;
+    }
 
     if (!stripe || !elements) {
       setError("Stripe n'est pas encore chargé");
@@ -46,6 +55,7 @@ const FormCheckOut = ({ amount = 1000, items = [] }) => {
         body: JSON.stringify({
           paymentMethodId: id,
           amount: amount,
+          userId: auth.data._id,
           items: items.map(item => ({
             id: item._id,
             title: item.nom,
@@ -60,11 +70,14 @@ const FormCheckOut = ({ amount = 1000, items = [] }) => {
       if (data.success) {
         setSuccess(true);
         console.log("Paiement effectué avec succès");
+        console.log("id de la commande créée:", data.commandeId || "id non disponible");
         
+
         // Redirection après 2 secondes
         setTimeout(() => {
           navigate("/confirmation");
         }, 2000);
+
       } else {
         setError(data.error || "Erreur lors du paiement");
         console.log("Paiement échoué: " + (data.error || "erreur inconnue"));

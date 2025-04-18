@@ -1,36 +1,123 @@
-import dotenv from "dotenv";
 import express from "express";
+import dotenv from "dotenv";
 import Stripe from "stripe";
-
+import Commande from "../models/commande.model.js";
 
 dotenv.config();
+
 const router = express.Router();
 
-// initialisation de stripe avec la clé secrete
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+// Initialiser Stripe avec la clé secrete
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+/**
+ * @route POST /api/payment
+ * @desc Traiter un paiement avec Stripe
+ * @access Public
+ */
 router.post("/", async (req, res) => {
   try {
-    const { amount, paymentMethodId } = req.body;
+    const { paymentMethodId, amount, items, userId } = req.body;
     console.log("Amount:", amount);
     console.log("Payment Method ID:", paymentMethodId);
+    console.log("User ID:", userId);
+    console.log("Items:", items);
 
-    // creation du paiement
+    if (!paymentMethodId || !amount) {
+      return res.status(400).json({
+        success: false,
+        message: "Méthode de paiement et montant requis",
+      });
+    }
+    
+    // Créer un paiement avec Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount, //le montant est en centime
+      amount, // Montant en centimes
       currency: "eur",
       payment_method_types: ["card"],
-      description: "Paiement pour l'achat d'un article",
+      description: `Commande Frenchy-Gurumi - ${new Date().toISOString()}`,
       payment_method: paymentMethodId,
       confirm: true,
     });
 
-    res.json({ message: "paiement effectué", success: true });
-  } catch (error) {
-    console.log("Error ...:", error);
+    console.log("Payment intent created:", paymentIntent.id);
 
-    res.status(500).json({ error: "paiement echoué", success: false });
+    // Vérifier l'état du paiement
+    if (paymentIntent.status === "succeeded") {
+      // Créer une commande dans la base de données
+      try {
+        // Transformer les items du panier en format attendu par le modèle Commande
+        const commandeItems = items.map((item) => ({
+          article: item.id,
+          quantite: item.quantity,
+        }));
+
+        // Calculer le total en euros (pas en centimes)
+        const totalEuros = amount / 100;
+
+        // Créer la commande
+        const newCommande = await Commande.create({
+          user: userId,
+          articles: commandeItems,
+          total: totalEuros,
+          date: new Date(),
+          statut: "En traitement",
+          mode_de_paiement: "card",
+        });
+
+        console.log("Commande créée:", newCommande._id);
+
+        return res.status(200).json({
+          success: true,
+          message: "Paiement réussi",
+          paymentId: paymentIntent.id,
+          commandeId: newCommande._id,
+        });
+      } catch (dbError) {
+        console.error(  
+          "Erreur lors de la création de la commande:",
+          dbError
+        );
+        return res.status(200).json({
+          success: true,
+          message:
+            "Paiement réussi, mais erreur lors de l'enregistrement de la commande",
+          paymentId: paymentIntent.id,
+        });
+      }
+    } else if (paymentIntent.status === "requires_action") {
+      // Authentification 3D Secure requise
+      return res.status(200).json({
+        success: false,
+        requires_action: true,
+        client_secret: paymentIntent.client_secret,
+        message: "Authentification supplémentaire requise",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Le paiement a echoué",
+        status: paymentIntent.status,
+      });
+    }
+  } catch (error) {
+    console.error("Erreur de paiement:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Erreur lors du traitement du paiement",
+    });
   }
+});
+
+/**
+ * @route GET /api/payment/config
+ * @desc Récupérer la clé publique Stripe pour le client
+ * @access Public
+ */
+router.get("/config", (req, res) => {
+  res.json({
+    publishableKey: process.env.PUBLIC_KEY,
+  });
 });
 
 export default router;

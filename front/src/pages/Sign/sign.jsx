@@ -9,12 +9,16 @@ import { useAuth } from "../../context/AuthContext";
 
 
 const Sign = () => {
-
-    const notify = () => toast.error('Connexion echouée! Email ou Mot de passe incorrect', { position: "top-center" }, { autoClose: 2500 });
-
+    const notify = (success) => {
+        if (!success) {
+            toast.error('Connexion echouée', { position: "top-center", autoClose: 2500 });
+        } else {
+            toast.success('Connexion réussie!', { position: "top-center", autoClose: 2500 });
+        }
+    };
     const { login, isLoading } = useAuth();
     const [formData, setFormData] = useState({
-        email: "",
+        email: "", 
         password: "",
     });
 
@@ -34,12 +38,13 @@ const Sign = () => {
         try {
             login(formData);
             notify();
-            
         } catch (error) {
             console.log(error);
             setError(error.message || "Connexion echouée");
+            notify();
         }
     };
+
     return (
         <>
             <ToastContainer />

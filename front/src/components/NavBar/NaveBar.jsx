@@ -47,7 +47,7 @@ const NavBar = () => {
         <nav className={`navbar navbar-expand-lg navbar-light bg-light ${styles.navbar}`} ref={navbarRef}>
             <div className="container">
                 <Link className={`navbar-brand ${styles.navbarBrand}`} to="/" onClick={closeMenu}>
-                    <img src="/Logo/LogoMarque2.jpg" alt="logo de la marqueFrenchyGurumi" height="70" className="me-2" />
+                    <img src="/Logo/LogoMarque2.jpg" alt="logo de la marque FrenchyGurumi" height="70" className="me-2" />
 
                 </Link>
                 <button

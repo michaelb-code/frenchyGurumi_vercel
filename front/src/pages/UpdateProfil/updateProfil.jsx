@@ -179,8 +179,16 @@ const UpdateProfil = () => {
 
             // Ajouter l'image si elle a été sélectionnée
             if (imageFile) {
-                submitData.append('photo', imageFile); // Utiliser le nom 'image' pour correspondre à la configuration multer
+                submitData.append('photo', imageFile); // Utiliser le nom 'photo' pour correspondre à la configuration multer
             }
+            console.log("img ajoutée au formdata:",imageFile.name);
+
+            // Envoyer les données au serveur
+            console.log("Données à envoyer:", {
+                formData: Object.fromEntries(submitData.entries()),
+                imageFile: imageFile ? imageFile.name : "Pas d'image"
+            });
+            
 
             // Envoyer les données au serveur
             const response = await fetch(`${URL.UPDATE_USER}/${id}`, {
@@ -220,9 +228,9 @@ await fetchUserData();
 
     if (loading) {
         return (
-            <div className="loading-container">
+            <div className={styles.loading}>
                 <img src="/Logo/LogoMarque.jpg" alt="loading" />
-                <p className="loading-text">Chargement...</p>
+                <p className={styles.loadingText}>Chargement...</p>
             </div>
         );
     }

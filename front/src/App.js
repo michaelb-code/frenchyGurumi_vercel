@@ -18,6 +18,9 @@ import Anigurumi from "./pages/Anigurumi/anigurumi";
 import Dashboard from "./pages/Dashboard/dashboard";
 import ContainerStripe from "./Stripe/ContainerStripe";
 import Confirmation from "./pages/Confirmation/confirmation";
+import MentionsLegales from "./pages/MentionsLegales/mentionsLegales";
+import Cgv from "./pages/CGV/cgv";
+
 
 // import components
 import NavBar from "./components/NavBar/NaveBar";
@@ -27,6 +30,7 @@ import { CartProvider } from "./context/CartContext";
 import QuiSommesNous from "./components/aPropos/QuiSommesNous";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -48,6 +52,8 @@ function App() {
           <Route path="/anigurumi" element={<Anigurumi />} />
           <Route path="/best-sellers" element={<BestSeller />} />
           <Route path="/a-propos" element={<QuiSommesNous />} />
+          <Route path="/mentions-legales" element={<MentionsLegales />} />
+          <Route path="/cgv" element={<Cgv />} />
           
           {/* Routes protégées pour utilisateurs connectés */}
           <Route element={<ProtectedRoute />}>
@@ -67,6 +73,7 @@ function App() {
           </Route>
         </Routes>
       </main>
+      <Footer />
       </CartProvider>
     </>
   );
