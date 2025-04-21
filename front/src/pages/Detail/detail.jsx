@@ -20,6 +20,7 @@ const Detail = () => {
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAvisForm, setShowAvisForm] = useState(false);
+    const [avisToDelete, setAvisToDelete] = useState(null);
 
     const [newAvis, setNewAvis] = useState({
         nom: '',
@@ -73,7 +74,7 @@ const Detail = () => {
 
                 const data = await response.json();
                 console.log("Donnees des avis:", data.avis);
-                
+
                 // filtre les avis pour ne garder que les avis de mon article
                 // Vérifie si article est un objet ou un ID
                 const avisFiltered = data.avis.filter(avis => {
@@ -83,12 +84,12 @@ const Detail = () => {
                         return avis.article === id || avis.articleId === id;
                     }
                 });
-                
+
                 console.log("Avis filtré pour l'article", id, ":", avisFiltered);
                 setAvis(avisFiltered);
                 setError(null);
                 setLoading(false);
-    
+
             } catch (error) {
                 setError(error.message);
                 setLoading(false);
@@ -111,8 +112,8 @@ const Detail = () => {
                 comment: newAvis.comment,
                 user: auth.data._id
             };
-            console.log("données formulaires pour l'api :",avisData);
-            
+            console.log("données formulaires pour l'api :", avisData);
+
             const response = await fetch(`${URL.CREATE_AVIS}`, {
                 method: 'POST',
                 headers: {
@@ -121,25 +122,25 @@ const Detail = () => {
                 body: JSON.stringify(avisData)
             });
 
-            console.log("response de l'api :",response);
-            
+            console.log("response de l'api :", response);
+
 
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error("texte d'erreur:", errorText) 
+                console.error("texte d'erreur:", errorText)
                 throw new Error("Erreur lors de la création de l'avis");
             }
 
             const data = await response.json();
             console.log("Avis créé avec succès, données complétées:", data);
-            
-           // Ajouter le nouvel avis à la liste des avis
+
+            // Ajouter le nouvel avis à la liste des avis
             // Vérifier la structure de la réponse
             const newAvisData = data.avis || data.data || data;
             console.log("Nouvel avis à ajouter:", newAvisData);
-            
+
             setAvis([...avis, newAvisData]);
-            
+
             // Réinitialiser le formulaire et le cacher
             setNewAvis({
                 nom: '',
@@ -147,7 +148,7 @@ const Detail = () => {
                 comment: ''
             });
             setShowAvisForm(false);
-            
+
             // Afficher un message de succès
             toast.success('Votre avis a été ajouté avec succès !', { position: "top-center" });
 
@@ -179,13 +180,37 @@ const Detail = () => {
         setShowDeleteModal(false);
     };
 
+    const handleDeleteAvis = async (avisId) => {
+        try {
+            const response = await fetch(`${URL.DELETE_AVIS}/${avisId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': "application/json",
+                    'Authorization': `Bearer ${auth.data.token}`
+                }
+            });
+
+            if (response.status === 200) {
+                toast.success('Avis supprimé avec succès!', { position: "top-center" });
+                setTimeout(() => {
+                    navigate('/');
+                }, 2500);
+            }
+        } catch (error) {
+            setError(error.message);
+        }
+        setShowDeleteModal(false);
+    };
+
     // Fonction pour ouvrir la modale de confirmation
-    const openDeleteModal = () => {
+    const openDeleteModal = (avisId) => {
+        setAvisToDelete(avisId);
         setShowDeleteModal(true);
     };
 
     // Fonction pour fermer la modale de confirmation
     const closeDeleteModal = () => {
+        setAvisToDelete(null);
         setShowDeleteModal(false);
     };
 
@@ -222,6 +247,8 @@ const Detail = () => {
     const selectImage = (index) => {
         setCurrentImgIndex(index);
     };
+
+
 
     if (error) {
         return <div className={styles.errorMessage}>Erreur : {error}</div>
@@ -373,102 +400,112 @@ const Detail = () => {
                     </div>
                 </div>
             )}
-              {/* Section des avis */}
-              <div className="container mt-5 mb-5">
-                <h3 className="mb-4">Avis clients</h3>
+            {/* Section des avis */}
+            <div className={styles.avisSection}>
+                <h3 className={styles.avisTitle}>Avis clients</h3>
                 {avis.length > 0 ? (
                     <div className="row">
                         {avis.map((avis) => (
                             <div key={avis._id} className="col-md-6 mb-3">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5 className="card-title">{/* Gestion des différentes structures possibles pour l'utilisateur */}
-                                            {avis.user && typeof avis.user === 'object' 
-                                                ? `${avis.user.nom || ''} ${avis.user.prenom || ''}`.trim() 
-                                                : avis.nom || 'Utilisateur'}</h5>
-                                        <div className="mb-2">
-                                            {[...Array(5)].map((_, i) => (
-                                                <i 
-                                                    key={i} 
-                                                    className={`bi ${i < (avis.note || avis.rating || 0) ? 'bi-star-fill' : 'bi-star'}`}
-                                                    style={{color: '#FFD700'}}
-                                                ></i>
-                                            ))}
-                                        </div>
-                                        <p className="card-text">{avis.commentaire || avis.comment || "Pas de commentaire"}</p>
-                                        <small className="text-muted">
-                                            {(avis.createdAt || avis.date) 
-                                                ? new Date(avis.createdAt || avis.date).toLocaleDateString() 
+                                <div className={styles.avisCard}>
+                                    <div className={styles.avisHeader}>
+                                        <h5 className={styles.avisAuthor}>
+                                            {/* Gestion des diffu00e9rentes structures possibles pour l'utilisateur */}
+                                            {avis.user && typeof avis.user === 'object'
+                                                ? `${avis.user.nom || ''} ${avis.user.prenom || ''}`.trim()
+                                                : avis.nom || 'Utilisateur'}
+                                        </h5>
+                                        <small className={styles.avisDate}>
+                                            {(avis.createdAt || avis.date)
+                                                ? new Date(avis.createdAt || avis.date).toLocaleDateString()
                                                 : "Date non disponible"}
                                         </small>
+                                    </div>
+                                    <div className={styles.avisRating}>
+                                        {[...Array(5)].map((_, i) => (
+                                            <i
+                                                key={i}
+                                                className={`bi ${i < (avis.note || avis.rating || 0) ? 'bi-star-fill' : 'bi-star'}`}
+                                            ></i>
+                                        ))}
+                                    </div>
+                                    <p className={styles.avisComment}>{avis.commentaire || avis.comment || "Pas de commentaire"}</p>
+                                    <div className={styles.avisActions}>
+                                        <button className={styles.avisDeleteBtn} onClick={() => openDeleteModal(avis._id)}>
+                                            <i className="bi bi-trash"></i> Supprimer
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <p>Aucun avis pour cet article pour le moment.</p>
+                    <div className={styles.noAvis}>Aucun avis pour cet article</div>
                 )}
-                
+
                 {auth && auth.data && (
                     <>
-                    <div className="mt-4">
-                        <button className="btn btn-primary" onClick={() => {if (auth && auth.data) {
-                                setNewAvis({
-                                    ...newAvis,
-                                    nom: `${auth.data.nom || ''} ${auth.data.prenom || ''}`.trim()
-                                });
-                            } setShowAvisForm(!showAvisForm)}}>
-                            Laisser un avis
-                        </button>
-                    </div>
-                    {showAvisForm && (
-                        <form onSubmit={handleAvisSubmit} className="mt-4 p-4 border rounded bg-light">
-                            <div className="mb-3">
-                                <label htmlFor="avisNom" className="form-label">Nom</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    id="avisNom"
-                                    value={newAvis.nom} 
-                                    onChange={(e) => setNewAvis({ ...newAvis, nom: e.target.value })} 
-                                    placeholder="Votre nom" 
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="avisNote" className="form-label">Note</label>
-                                <select 
-                                    className="form-select" 
-                                    id="avisNote"
-                                    value={newAvis.rating} 
-                                    onChange={(e) => setNewAvis({ ...newAvis, rating: parseInt(e.target.value) })}
-                                >
-                                    <option value="1">1 étoile</option>
-                                    <option value="2">2 étoiles</option>
-                                    <option value="3">3 étoiles</option>
-                                    <option value="4">4 étoiles</option>
-                                    <option value="5">5 étoiles</option>
-                                </select>
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="avisCommentaire" className="form-label">Commentaire</label>
-                                <textarea 
-                                    className="form-control" 
-                                    id="avisCommentaire"
-                                    value={newAvis.comment} 
-                                    onChange={(e) => setNewAvis({ ...newAvis, comment: e.target.value })} 
-                                    placeholder="Votre avis nous interesse" 
-                                    rows="4"
-                                    required
-                                ></textarea>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <button type="submit" className="btn btn-primary">Envoyer</button>
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowAvisForm(false)}>Annuler</button>
-                            </div>
-                        </form>
-                    )}
+                        <div className="mt-4">
+                            <button className={styles.addAvisBtn} onClick={() => {
+                                if (auth && auth.data) {
+                                    setNewAvis({
+                                        ...newAvis,
+                                        nom: `${auth.data.nom || ''} ${auth.data.prenom || ''}`.trim()
+                                    });
+                                }
+                                setShowAvisForm(!showAvisForm)
+                            }}>
+                                {showAvisForm ? 'Annuler' : 'Laisser un avis'}
+                            </button>
+                        </div>
+                        {showAvisForm && (
+                            <form onSubmit={handleAvisSubmit} className={styles.avisForm}>
+                                <h4 className={styles.avisFormTitle}>Partagez votre expérience</h4>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="avisNom" className={styles.formLabel}>Nom</label>
+                                    <input
+                                        type="text"
+                                        className={styles.formInput}
+                                        id="avisNom"
+                                        value={newAvis.nom}
+                                        onChange={(e) => setNewAvis({ ...newAvis, nom: e.target.value })}
+                                        placeholder="Votre nom"
+                                        required
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="avisNote" className={styles.formLabel}>Note</label>
+                                    <select
+                                        className={styles.formSelect}
+                                        id="avisNote"
+                                        value={newAvis.rating}
+                                        onChange={(e) => setNewAvis({ ...newAvis, rating: parseInt(e.target.value) })}
+                                    >
+                                        <option value="1">1 étoile</option>
+                                        <option value="2">2 étoiles</option>
+                                        <option value="3">3 étoiles</option>
+                                        <option value="4">4 étoiles</option>
+                                        <option value="5">5 étoiles</option>
+                                    </select>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="avisCommentaire" className={styles.formLabel}>Commentaire</label>
+                                    <textarea
+                                        className={styles.formTextarea}
+                                        id="avisCommentaire"
+                                        value={newAvis.comment}
+                                        onChange={(e) => setNewAvis({ ...newAvis, comment: e.target.value })}
+                                        placeholder="Votre avis nous interesse"
+                                        rows="4"
+                                        required
+                                    ></textarea>
+                                </div>
+                                <div className={styles.formActions}>
+                                    <button type="submit" className={styles.submitBtn}>Envoyer</button>
+                                    <button type="button" className={styles.cancelBtn} onClick={() => setShowAvisForm(false)}>Annuler</button>
+                                </div>
+                            </form>
+                        )}
                     </>
                 )}
             </div>
