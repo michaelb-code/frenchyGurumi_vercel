@@ -130,7 +130,7 @@ const Home = () => {
             </div>
             <BestSeller />
             <hr className={styles.hr} />
-            <div className={styles.block}>
+            <div id="a-propos" className={styles.block}>
                 <div className={styles.blockTitre}>
                     <h3 className={styles.h3}>A propos de nous...</h3>
                     <div className={styles.blockIcon}>
@@ -142,7 +142,7 @@ const Home = () => {
             <QuiSommesNous />
 
             <hr className={styles.hr} />
-            <div className={styles.block}>
+            <div id="contact" className={styles.block}>
                 <div className={styles.blockTitre}>
                     <h3 className={styles.h3}>Contactez Nous...</h3>
                     <div className={styles.blockIcon}>

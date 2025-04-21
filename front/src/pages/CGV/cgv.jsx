@@ -9,7 +9,7 @@ const cgv = () => {
             </div>
             <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>1. Présentation du site</h2>
-                <p className={styles.paragraph}>Le site Frenchy Gurumi propose à la vente des poupués en crochet, entièrement faites main. Chaque création est unique et peut être personnalisée sur demande.</p>
+                <p className={styles.paragraph}>Le site Frenchy Gurumi propose à la vente des poupées en crochet, entièrement faites main. Chaque création est unique et peut être personnalisée sur demande.</p>
             </div>
             <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>2. Produits</h2>

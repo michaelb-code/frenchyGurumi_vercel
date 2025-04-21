@@ -15,7 +15,7 @@ const UserRegister = () => {
     const { loading } = useSelector((state) => state.user);
     const notify = () => toast.success('Utilisateur créé avec succès', { autoClose: 2500, position: "top-center" });
     const navigate = useNavigate();
-    const { auth } = useAuth();
+    const { auth, login } = useAuth();
 
      // Déterminer si l'utilisateur actuel est un administrateur
     //  en verifiant si auth existe , si les données utilisateur existent et si le role de l'utilisateur est admin
@@ -96,9 +96,12 @@ const UserRegister = () => {
             const data = await response.json();
             console.log("Utilisateur créé", data);
             notify();
-            setTimeout(() => {
-                navigate('/');
-            }, 2500);
+            
+            // connexion de lutilisateur apres son inscription
+            await login({
+                email: user.email,
+                password: user.password
+            })
 
         } catch (error) {
             console.error(error.message);

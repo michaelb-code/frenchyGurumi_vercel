@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './UserProfil.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import URL from '../../constant/api';
 
@@ -12,6 +12,8 @@ const UserProfil = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [avis, setAvis] = useState([]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [avisToDelete, setAvisToDelete] = useState(null);
 
     useEffect(() => {
         // Attendre que l'authentification soit chargée
@@ -141,6 +143,53 @@ const UserProfil = () => {
         if (user) {
             navigate(`/update-profil/${user._id}`);
         }
+    };
+
+    const handleDeleteAvis = async (avisId) => {
+        try{
+           
+            const response = await fetch(`${URL.DELETE_AVIS}/${avisId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${auth.token}`
+                }
+            });
+            
+            console.log('Réponse de suppression:', response);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Erreur lors de la suppression de l'avis");
+            }
+            
+            const data = await response.json();
+            console.log("Avis supprimé:", data);
+            
+            // Mettre à jour la liste des avis
+            setAvis(avis.filter(avis => avis._id !== avisId));
+            setShowDeleteModal(false);
+            
+            // Afficher un message de succès
+            alert("Avis supprimé avec succès");
+            
+        } catch (error) {
+            console.error("Erreur lors de la suppression de l'avis:", error);
+            alert(error.message || "Erreur lors de la suppression de l'avis");
+            setError(error.message);
+            setShowDeleteModal(false);
+        }
+    }
+       // Fonction pour ouvrir la modale de confirmation
+       const openDeleteModal = (avisId) => {
+        setAvisToDelete(avisId);
+        setShowDeleteModal(true);
+    };
+
+    // Fonction pour fermer la modale de confirmation
+    const closeDeleteModal = () => {
+        setAvisToDelete(null);
+        setShowDeleteModal(false);
     };
 
     if (loading) {
@@ -336,6 +385,7 @@ const UserProfil = () => {
                                             <th scope="col">Date</th>
                                             <th scope="col">Note</th>
                                             <th scope="col">Commentaire</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -346,9 +396,34 @@ const UserProfil = () => {
                                                 <td>{new Date(avisItem.createdAt).toLocaleDateString()}</td>
                                                 <td>{avisItem.note}</td>
                                                 <td>{avisItem.commentaire}</td>
+                                                <td>
+                                                    {/* Modale de confirmation de suppression */}
+                                                            {showDeleteModal && avisToDelete === avisItem._id && (
+                                                                <div className={styles.modalOverlay}>
+                                                                    <div className={styles.modal}>
+                                                                        <div className={styles.modalHeader}>
+                                                                            <h2>Confirmation de suppression</h2>
+                                                                            <button className={styles.closeButton} onClick={closeDeleteModal}>&times;</button>
+                                                                        </div>
+                                                                        <div className={styles.modalBody}>
+                                                                        <p>Vous voulez supprimer l'avis pour <strong>{avisItem.article?.nom || 'cet article'}</strong> ?</p>
+                                                                            <p>Cette action est irréversible.</p>
+                                                                        </div>
+                                                                        <div className={styles.modalFooter}>
+                                                                            <button className={styles.cancelButton} onClick={closeDeleteModal}>Annuler</button>
+                                                                            <button className={styles.confirmButton} onClick={() => handleDeleteAvis(avisItem._id)}>Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                    <button className="btn btn-danger btn-sm" onClick={() => openDeleteModal(avisItem._id)}>
+                                                        <i className="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
+                                    
                                 </table>
                             </div>
                         </div>

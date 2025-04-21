@@ -61,6 +61,7 @@ function App() {
             <Route path="/update-profil/:id" element={<UpdateProfil />} />
             <Route path="/paiement" element={<ContainerStripe />} />
             <Route path="/confirmation" element={<Confirmation />} />
+            
           </Route>
           
           {/* Routes protégées pour administrateurs uniquement */}
@@ -70,6 +71,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/paiement" element={<ContainerStripe />} />
             <Route path="/confirmation" element={<Confirmation />} />
+            
           </Route>
         </Routes>
       </main>

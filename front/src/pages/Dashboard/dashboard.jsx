@@ -23,6 +23,7 @@ const Dashboard = () => {
     const [orderLoading, setOrderLoading] = React.useState(true);
     const [usersLoading, setUsersLoading] = React.useState(true);
     const [avisLoading, setAvisLoading] = React.useState(true);
+    
     const [error, setError] = React.useState(null);
     const [successMessage, setSuccessMessage] = React.useState(null);
     const [sectionVisible, setSectionVisible] = React.useState('article');
@@ -200,11 +201,29 @@ const Dashboard = () => {
     const updateOrder = (id) => navigate(`/update-order/${id}`);
     const updateAvis = (id) => navigate(`/update-avis/${id}`);
 
+
+
+// dans mon tableau commande
+// fonction pour trouver le prix de l'article à partir de l'ID
     const findArticlePrice = (articleId) => {
         if (!Array.isArray(store)) return 'N/A';
         const article = store.find(art => art._id === articleId);
         return article ? `${article.prix} €` : 'N/A';
     };
+
+    // Fonction pour trouver le nom d'utilisateur à partir de l'ID
+const findUserName = (userId) => {
+    if (!Array.isArray(storeUser)) return 'Client inconnu';
+    const user = storeUser.find(user => user._id === userId);
+    return user ? `${user.nom} ${user.prenom}` : 'Client inconnu';
+};
+
+// Fonction pour trouver le nom de l'article à partir de l'ID
+const findArticleName = (articleId) => {
+    if (!Array.isArray(store)) return 'Article inconnu';
+    const article = store.find(art => art._id === articleId);
+    return article ? article.nom : 'Article inconnu';
+};
 
     // --- Affichage ---
     if (isLoading) {
@@ -322,11 +341,11 @@ const Dashboard = () => {
                                             <th>{index + 1}</th>
                                             <td>{commande._id}</td>
                                             <td>{new Date(commande.date).toLocaleDateString('fr-FR')}</td>
-                                            <td>{commande.user}</td>
+                                            <td>{commande.user ? findUserName(commande.user) : commande.nom || 'Client inconnu'}</td>
                                             <td>
                                                 {commande.articles?.map((item, i) => (
                                                     <span key={i}>
-                                                        <strong>ID:</strong> {item.article}<br />
+                                                            <strong>Article:</strong> {findArticleName(item.article)}<br />
                                                         <strong>Quantité:</strong> {item.quantite}<br />
                                                         <strong>Prix:</strong> {findArticlePrice(item.article)}
                                                     </span>
@@ -453,7 +472,7 @@ const Dashboard = () => {
                                             <td>{avis.createdAt ? new Date(avis.createdAt).toLocaleDateString('fr-FR') : 'N/A'}</td>
                                             <td>
 
-                                                <button className="btn btn-warning btn-sm gap-2" onClick={() => updateAvis(avis._id)}><i className="bi bi-pen-fill"></i></button>
+                                                {/* <button className="btn btn-warning btn-sm gap-2" onClick={() => updateAvis(avis._id)}><i className="bi bi-pen-fill"></i></button> */}
                                                 <button className="btn btn-danger btn-sm" onClick={() => deleteAvis(avis._id)}><i className="bi bi-trash-fill"></i></button>
                                             </td>
                                         </tr>

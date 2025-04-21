@@ -210,7 +210,7 @@ export const deleteAvis = async (req, res) => {
         
         //verification si user est bien celui qui a fait l'avis
         if (avis.user._id.toString() !== req.user.id.toString()) {
-            return res.status(403).json({ message: "Vous ne pouvez pas supprimer cet avis,Seul son auteur peut le supprimer." });
+            return res.status(403).json({ message: "Vous ne pouvez pas supprimer cet avis, Seul son auteur peut le supprimer." });
         }
         //suppression de lavis
         await Avis.findByIdAndDelete(req.params.id);
