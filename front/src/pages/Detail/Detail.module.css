@@ -473,12 +473,12 @@
 .avisAuthor {
     font-weight: bold;
     font-size: 1.1rem;
-    color: #333;
+    color: #555558;
 }
 
 .avisDate {
     font-size: 0.85rem;
-    color: #888;
+    color: #555558;
 }
 
 .avisRating {
@@ -493,7 +493,7 @@
 .avisComment {
     font-size: 1rem;
     line-height: 1.6;
-    color: #555;
+    color: #555558;
     margin-bottom: 15px;
 }
 
@@ -503,7 +503,7 @@
 }
 
 .avisDeleteBtn {
-    background-color: #f4887e;
+    background-color: #e50707;
     color: white;
     border: none;
     border-radius: 5px;
@@ -517,7 +517,7 @@
 }
 
 .avisDeleteBtn:hover {
-    background-color: #e57268;
+    background-color: #e50707;
 }
 
 /* Styles pour le formulaire d'ajout d'avis */
@@ -526,7 +526,7 @@
     border-radius: 12px;
     padding: 25px;
     margin-top: 30px;
-    border: 2px solid #f4887e;
+    border: 2px solid #F4887E;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -546,7 +546,7 @@
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #555;
+    color: #555558;
 }
 
 .formInput,

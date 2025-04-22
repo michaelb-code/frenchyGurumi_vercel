@@ -432,7 +432,7 @@ const Detail = () => {
                                     <p className={styles.avisComment}>{avis.commentaire || avis.comment || "Pas de commentaire"}</p>
                                     <div className={styles.avisActions}>
                                         <button className={styles.avisDeleteBtn} onClick={() => openDeleteModal(avis._id)}>
-                                            <i className="bi bi-trash"></i> Supprimer
+                                            <i className="bi bi-trash"></i> 
                                         </button>
                                     </div>
                                 </div>
