@@ -12,10 +12,6 @@ const SchemaAvis = mongoose.Schema(
             ref: "Article", // relation avec le model article
             required: true,
         },
-        // avatar: {
-        //     type: String,
-        //     required: true,
-        // },
         note: {
             type: Number,
             required: true,

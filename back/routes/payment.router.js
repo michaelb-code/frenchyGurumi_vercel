@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import Stripe from "stripe";
 import Commande from "../models/commande.model.js";
+import { envoyerEmailConfirmationCommande } from "../Service/email.service.js";
+import User from "../models/user.model.js";
 
 dotenv.config();
 
@@ -29,7 +31,7 @@ router.post("/", async (req, res) => {
         message: "Méthode de paiement et montant requis",
       });
     }
-    
+
     // Créer un paiement avec Stripe
     const paymentIntent = await stripe.paymentIntents.create({
       amount, // Montant en centimes
@@ -67,6 +69,29 @@ router.post("/", async (req, res) => {
 
         console.log("Commande créée:", newCommande._id);
 
+        // Récupérer les informations de l'utilisateur pour l'email
+        const user = await User.findById(userId);
+
+        if (user && user.email) {
+          try {
+            // Envoyer l'email de confirmation
+            await envoyerEmailConfirmationCommande({
+              email: user.email,
+              nom: user.nom || user.prenom || "Client",
+              commandeId: newCommande._id,
+              articles: items,
+              total: amount,
+            });
+            console.log("Email de confirmation envoyé à:", user.email);
+          } catch (emailError) {
+            console.error(
+              "Erreur lors de l'envoi de l'email de confirmation:",
+              emailError
+            );
+            // Ne pas bloquer le processus si l'email échoue
+          }
+        }
+
         return res.status(200).json({
           success: true,
           message: "Paiement réussi",
@@ -74,10 +99,7 @@ router.post("/", async (req, res) => {
           commandeId: newCommande._id,
         });
       } catch (dbError) {
-        console.error(  
-          "Erreur lors de la création de la commande:",
-          dbError
-        );
+        console.error("Erreur lors de la création de la commande:", dbError);
         return res.status(200).json({
           success: true,
           message:

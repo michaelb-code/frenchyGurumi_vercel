@@ -194,6 +194,12 @@ export const updateAvis = async (req, res) => {
 // Fonction pour supprimer un avis
 export const deleteAvis = async (req, res) => {
     try {
+        console.log("Tentative de suppression d'avis. User:", req.user);
+        console.log("ID de l'avis à supprimer:", req.params.id);
+
+        if (!req.user) {
+            return res.status(401).json({ message: "Authentification requise" });
+        }
         //recuperartion de lavis avec les infos user et article
         const avis = await Avis.findById(req.params.id)
             .populate({
@@ -204,14 +210,16 @@ export const deleteAvis = async (req, res) => {
                 path: 'article',
                 select: 'nom'
             });
+            console.log("Avis trouvé:", avis);
         if (!avis) {
             return res.status(404).json({ message: "avis non trouvé" });
         }
         
-        //verification si user est bien celui qui a fait l'avis
+         //verification si user est bien celui qui a fait l'avis
         if (avis.user._id.toString() !== req.user.id.toString()) {
             return res.status(403).json({ message: "Vous ne pouvez pas supprimer cet avis, Seul son auteur peut le supprimer." });
         }
+        
         //suppression de lavis
         await Avis.findByIdAndDelete(req.params.id);
         res.status(200).json({

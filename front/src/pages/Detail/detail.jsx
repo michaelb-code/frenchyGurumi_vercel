@@ -18,9 +18,11 @@ const Detail = () => {
     const [error, setError] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showArticleDeleteModal, setShowArticleDeleteModal] = useState(false);
+    const [showAvisDeleteModal, setShowAvisDeleteModal] = useState(false);
     const [showAvisForm, setShowAvisForm] = useState(false);
     const [avisToDelete, setAvisToDelete] = useState(null);
+    const [articleToDelete, setArticleToDelete] = useState(null);
 
     const [newAvis, setNewAvis] = useState({
         nom: '',
@@ -57,7 +59,7 @@ const Detail = () => {
                 setLoading(false);
 
             }
-            setShowDeleteModal(false);
+            setShowArticleDeleteModal(false);
         };
 
         const fetchAvis = async () => {
@@ -177,11 +179,19 @@ const Detail = () => {
         } catch (error) {
             setError(error.message);
         }
-        setShowDeleteModal(false);
+        setShowArticleDeleteModal(false);
     };
 
     const handleDeleteAvis = async (avisId) => {
         try {
+            console.log("Tentative de suppression de l'avis:", avisId);
+            console.log("Auth state:", auth);
+
+            if (!auth || !auth.data || !auth.data.token) {
+                toast.error("Vous devez être connecté pour supprimer un avis", { position: "top-center" });
+                return;
+            }
+            console.log("URL de suppression:", `${URL.DELETE_AVIS}/${avisId}`);
             const response = await fetch(`${URL.DELETE_AVIS}/${avisId}`, {
                 method: 'DELETE',
                 headers: {
@@ -189,29 +199,43 @@ const Detail = () => {
                     'Authorization': `Bearer ${auth.data.token}`
                 }
             });
+            console.log("Réponse du serveur:", response);
 
-            if (response.status === 200) {
+            if (response.ok) {
+                setAvis(avis.filter(a => a._id !== avisId));
                 toast.success('Avis supprimé avec succès!', { position: "top-center" });
-                setTimeout(() => {
-                    navigate('/');
-                }, 2500);
+
             }
         } catch (error) {
             setError(error.message);
+            console.log("Erreur lors de la suppression de l'avis:", error);
+            toast.error("Erreur lors de la suppression de l'avis", { position: "top-center" });
+        } finally {
+            setShowAvisDeleteModal(false);
         }
-        setShowDeleteModal(false);
     };
 
-    // Fonction pour ouvrir la modale de confirmation
-    const openDeleteModal = (avisId) => {
+    // Fonction pour ouvrir la modale de confirmation de suppression d'avis
+    const openAvisDeleteModal = (avisId) => {
         setAvisToDelete(avisId);
-        setShowDeleteModal(true);
+        setShowAvisDeleteModal(true);
     };
 
-    // Fonction pour fermer la modale de confirmation
-    const closeDeleteModal = () => {
+    // Fonction pour fermer la modale de confirmation de suppression d'avis
+    const closeAvisDeleteModal = () => {
         setAvisToDelete(null);
-        setShowDeleteModal(false);
+        setShowAvisDeleteModal(false);
+    };
+    // Fonction pour ouvrir la modale de confirmation de suppression d'article
+    const openArticleDeleteModal = (articleId) => {
+        setArticleToDelete(articleId);
+        setShowArticleDeleteModal(true);
+    };
+
+    // Fonction pour fermer la modale de confirmation de suppression d'article
+    const closeArticleDeleteModal = () => {
+        setArticleToDelete(null);
+        setShowArticleDeleteModal(false);
     };
 
     const decreaseQuantity = () => {
@@ -374,7 +398,7 @@ const Detail = () => {
                         </div>
                         {auth && auth.data && auth.data.role === 'admin' && (
                             <div className={styles.adminButtons}>
-                                <button className={styles.deleteButton} onClick={openDeleteModal}>Supprimer</button>
+                                <button className={styles.deleteButton} onClick={openArticleDeleteModal}>Supprimer</button>
                                 <Link to={`/update/${article._id}`} className={styles.editButton}>Modifier</Link>
                             </div>
                         )}
@@ -382,19 +406,19 @@ const Detail = () => {
                 </div>
             </div>
             {/* Modale de confirmation de suppression */}
-            {showDeleteModal && (
+            {showArticleDeleteModal && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modal}>
                         <div className={styles.modalHeader}>
                             <h2>Confirmation de suppression</h2>
-                            <button className={styles.closeButton} onClick={closeDeleteModal}>&times;</button>
+                            <button className={styles.closeButton} onClick={closeArticleDeleteModal}>&times;</button>
                         </div>
                         <div className={styles.modalBody}>
                             <p>Vous voulez supprimer l'article <strong>{article.nom}</strong> ?</p>
                             <p>Cette action est irréversible.</p>
                         </div>
                         <div className={styles.modalFooter}>
-                            <button className={styles.cancelButton} onClick={closeDeleteModal}>Annuler</button>
+                            <button className={styles.cancelButton} onClick={closeArticleDeleteModal}>Annuler</button>
                             <button className={styles.confirmButton} onClick={deleteArticle}>Confirmer</button>
                         </div>
                     </div>
@@ -430,11 +454,14 @@ const Detail = () => {
                                         ))}
                                     </div>
                                     <p className={styles.avisComment}>{avis.commentaire || avis.comment || "Pas de commentaire"}</p>
-                                    <div className={styles.avisActions}>
-                                        <button className={styles.avisDeleteBtn} onClick={() => openDeleteModal(avis._id)}>
-                                            <i className="bi bi-trash"></i> 
-                                        </button>
-                                    </div>
+
+                                    {auth && auth.data && (auth.data._id === (avis.user?._id || avis.userId) || auth.data.role === 'admin') && (
+                                        <div className={styles.avisActions}>
+                                            <button className={styles.avisDeleteBtn} onClick={() => openAvisDeleteModal(avis._id)}>
+                                                <i className="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -509,6 +536,25 @@ const Detail = () => {
                     </>
                 )}
             </div>
+            {/* Modale de confirmation de suppression d'avis */}
+            {showAvisDeleteModal && avisToDelete && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <div className={styles.modalHeader}>
+                            <h2>Confirmation de suppression</h2>
+                            <button className={styles.closeButton} onClick={closeAvisDeleteModal}>&times;</button>
+                        </div>
+                        <div className={styles.modalBody}>
+                            <p>êtes-vous sûr de vouloir supprimer cet avis ?</p>
+                            <p>Cette action est irreversible.</p>
+                        </div>
+                        <div className={styles.modalFooter}>
+                            <button className={styles.cancelButton} onClick={closeAvisDeleteModal}>Annuler</button>
+                            <button className={styles.confirmButton} onClick={() => handleDeleteAvis(avisToDelete)}>Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

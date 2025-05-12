@@ -7,7 +7,7 @@ import { env } from "../config/index.js";
 
 export const signup = async (req, res) => {
     try {
-        //verification des champs sont presents:
+        //verification des champs sont presents obligatoires:
         const requiredFields = ["nom","prenom","email","password","sexe","date_naissance","adresse","code_postal","ville","telephone"];
 
         const FieldsMissing = requiredFields.find((field) => !req.body[field]);
@@ -42,18 +42,21 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
     try {
+        //validation des données d'entrée
         const { email, password } = req.body;
         if (!email || !password) {
             return res
                 .status(400)
                 .json({ message: "Tous les champs sont obligatoires" }); //message erreur pour specifier que tous les champs sont obligatoires
         }
+        //verification de l'utilisateur
         const user = await Model.findOne({ email: req.body.email }).select(
             "+password"
         ); //findOne permet de trouver un user par son email
         if (!user) {
             return res.status(404).json({ message: "Utilisateur non trouvé" }); //message erreur pour specifier que l'utilisateur n'a pas ete trouver
         }
+        //verification du mot de passe
         const passwordValid = await bcrypt.compare(
             req.body.password,
             user.password
@@ -63,15 +66,18 @@ export const signin = async (req, res) => {
                 .status(401)
                 .json({ message: "Email ou Mot de passe incorrect" }); //message erreur pour specifier que le mot de passe est incorrect
         }
+        //Générer le token d'authentification
         const token = jwt.sign({ id: user._id, role: user.role }, env.TOKEN, { expiresIn: "24h" }); //sign permet de signer le token avec l'id du user
 
         const userObject = user.toObject();//permet de convertir le doc mongoose en objet js
         delete userObject.password;//supprime le mot de passe de l'objet user
 
+        //Stockage du token dans un cookie sécurisé
         res.cookie('access_token', token, {
             httpOnly: true,
         });
 
+        //reponse avec token et données du user
         res.status(200).json({
             message: "Connexion reussie",
             token: token,
@@ -149,6 +155,7 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
+        //recuperation des id et role de l'utilisateur connecté
         const userConnectedId = req.user.id;
         const userConnectedRole = req.user.role;
 

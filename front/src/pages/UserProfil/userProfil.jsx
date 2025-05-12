@@ -3,6 +3,7 @@ import styles from './UserProfil.module.css';
 import { useNavigate} from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import URL from '../../constant/api';
+import { ToastContainer, toast } from 'react-toastify';
 
 const UserProfil = () => {
     const { auth, authLoading } = useAuth();
@@ -171,11 +172,11 @@ const UserProfil = () => {
             setShowDeleteModal(false);
             
             // Afficher un message de succès
-            alert("Avis supprimé avec succès");
+            toast.success("Avis supprimé avec succès");
             
         } catch (error) {
             console.error("Erreur lors de la suppression de l'avis:", error);
-            alert(error.message || "Erreur lors de la suppression de l'avis");
+            toast.error(error.message || "Erreur lors de la suppression de l'avis");
             setError(error.message);
             setShowDeleteModal(false);
         }

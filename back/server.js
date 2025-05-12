@@ -68,6 +68,7 @@ app.use(cors({
 // MIDDLEWARES pour gerer les requetes options
 app.options("*", cors());
 
+
 app.use(express.json());// permet de lire le corps de la requete en json
 app.use(express.urlencoded({ extended: true })); // permet de lire le corps de la requete en urlencoded
 app.use(cookieParser());// permet de lire les cookies enoyé par le navigateur
@@ -88,6 +89,6 @@ app.use("/api/payment", paymentRoutes) // le préfixe pour toutes les routes pay
 
 // SERVER
 app.listen(PORT, () => {
-    console.log(`LISTENING AT http: //localhost:${PORT}`)
+    console.log(`LISTENING AT http://localhost:${PORT}`)
 })
 

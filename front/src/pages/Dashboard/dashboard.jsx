@@ -138,7 +138,7 @@ const Dashboard = () => {
         }
     };
 
-    // --- DELETE ---
+    // DELETE
     const deleteUser = async (id) => {
         try {
             const response = await fetch(`${URL.DELETE_USER}/${id}`, { method: 'DELETE' });
@@ -195,7 +195,7 @@ const Dashboard = () => {
         }
     };
 
-    // --- UPDATE ---
+    // UPDATE 
     const updateUser = (id) => navigate(`/update-profil/${id}`);
     const updateArticle = (id) => navigate(`/update/${id}`);
     const updateOrder = (id) => navigate(`/update-order/${id}`);
@@ -206,7 +206,7 @@ const Dashboard = () => {
 // dans mon tableau commande
 // fonction pour trouver le prix de l'article à partir de l'ID
     const findArticlePrice = (articleId) => {
-        if (!Array.isArray(store)) return 'N/A';
+        if (!Array.isArray(store)|| !articleId) return 'N/A';
         const article = store.find(art => art._id === articleId);
         return article ? `${article.prix} €` : 'N/A';
     };
@@ -220,12 +220,12 @@ const findUserName = (userId) => {
 
 // Fonction pour trouver le nom de l'article à partir de l'ID
 const findArticleName = (articleId) => {
-    if (!Array.isArray(store)) return 'Article inconnu';
+    if (!Array.isArray(store)|| !articleId) return 'Article inconnu';
     const article = store.find(art => art._id === articleId);
     return article ? article.nom : 'Article inconnu';
 };
 
-    // --- Affichage ---
+    // Affichage 
     if (isLoading) {
         return (
             <div className={style.loadingContainer}>
@@ -366,7 +366,7 @@ const findArticleName = (articleId) => {
                             </tbody>
                         </table>
                     </div>
-                    <Link to="/order" className={style.addBtn}>Ajouter une commande</Link>
+                    {/* <Link to="/order" className={style.addBtn}>Ajouter une commande</Link> */}
                 </div>
             )}
             {/* Tableau Utilisateur */}
@@ -450,7 +450,7 @@ const findArticleName = (articleId) => {
                                                 {(() => {
                                                     const fullArticle = store.find(art => art._id === avis.article._id);
                                                     console.log("Article complet trouvé:", fullArticle);
-                                                    return fullArticle && fullArticle.photo ? (
+                                                    return fullArticle && fullArticle.photo && fullArticle.photo.length > 0 ? (
                                                         <img
                                                             src={`/uploads/${fullArticle.photo[0]}`}
                                                             alt="article"

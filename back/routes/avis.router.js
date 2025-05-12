@@ -1,4 +1,4 @@
-import express from "express"; // express framework pour la creation des routes et pour gerer les requetes
+import express from "express"; // import du framework express pour la creation des routes et pour gerer les requetes
 import { createAvis, getAllAvis, getAvisById, updateAvis, deleteAvis, getAvisByArticleId, getAvisByArticleName } from "../controllers/avis.controller.js";
 import { verifyToken } from "../middlewares/auth.js";
 

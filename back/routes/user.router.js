@@ -3,10 +3,8 @@ import { signup, signin, getUsers, getUserById, updateUser, deleteUser } from ".
 import { verifyToken } from "../middlewares/auth.js";
 import upload from "../middlewares/upload.js";
 
-
-
-
 const router = express.Router();
+
 router.post("/signup", signup);// ceci est ma route pour la creation de compte
 router.post("/signin", signin);// ceci est ma route pour la connexion du user
 

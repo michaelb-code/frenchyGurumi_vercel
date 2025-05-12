@@ -12,10 +12,12 @@ export const useAuth = () => {
 //creation du provider
 export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
+    
     
     //state pour stocker les infos du user connecté
     const [auth, setAuth] = useState(null);
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         isLoggedIN();
@@ -34,13 +36,13 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(dataForm)
             });
 
-            // const data = await response.json();
             if (response.status === 200) {
                 const data = await response.json();
                 localStorage.setItem("auth", JSON.stringify(data))
                 setAuth(data)
                 navigate("/")
                 setIsLoading(false)
+            
             }
             else {
                 const errordata = await response.json().catch(() =>({message: 'erreur de connexion'}))
@@ -59,9 +61,12 @@ export const AuthProvider = ({ children }) => {
             const savedAuth = await localStorage.getItem("auth")
             setAuth(savedAuth ? JSON.parse(savedAuth) : null)
             setIsLoading(false)
+            setAuthLoading(false)
+            
         } catch (error) {
             console.error("Erreur lors du parsing", error)
             setIsLoading(false)
+            setAuthLoading(false)
         }
     }
     const logout = () => {
@@ -77,7 +82,10 @@ export const AuthProvider = ({ children }) => {
             isLoading,
             auth,
             login,
-            logout
+            logout,
+            authLoading,
+            
+            
         }}>
             {children}
         </AuthContext.Provider>

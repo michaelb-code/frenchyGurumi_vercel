@@ -1,89 +1,101 @@
 import React, { useState } from "react";
 import styles from './Sign.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ToastContainer, toast } from 'react-toastify';
-
+import { ToastContainer, toast } from "react-toastify";
+import { RGXR, validateField } from "../../Utils/regexx";
 import { useAuth } from "../../context/AuthContext";
 
-
-
-
 const Sign = () => {
-    const notify = (success) => {
-        if (!success) {
-            toast.error('Connexion echouée', { position: "top-center", autoClose: 2500 });
+    const notify = () => {
+        if (auth) {
+            toast.success("Connexion réussie", { position: "top-center", autoClose: 2500 });
         } else {
-            toast.success('Connexion réussie!', { position: "top-center", autoClose: 2500 });
+            toast.error("Connexion échouée", { position: "top-center", autoClose: 2500 });
         }
     };
-    const { login, isLoading } = useAuth();
+    const { auth, login, isLoading } = useAuth();
     const [formData, setFormData] = useState({
-        email: "", 
+        email: "",
         password: "",
     });
-
-
-
-    const [error, setError] = useState("");
+    const [formErrors, setFormErrors] = useState({
+        email: { isValid: true, message: '' },
+        password: { isValid: true, message: '' },
+    }); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const regex = RGXR[name];
+
+        if (regex) {
+            const result = validateField(value, regex, name);
+            setFormErrors(prev => ({
+                ...prev,
+                [name]: result
+            }));
+        }
+
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
+        setFormErrors({
+            email: { isValid: true, message: '' },
+            password: { isValid: true, message: '' },
+        });
 
         try {
-            login(formData);
+            await login(formData);
             notify();
+
         } catch (error) {
             console.log(error);
-            setError(error.message || "Connexion echouée");
+            setFormErrors(prev => ({
+                ...prev,
+                password: { isValid: false, message: error.message || "Connexion echouée" },
+            }));
             notify();
         }
     };
 
     return (
         <>
-            <ToastContainer />
+            <ToastContainer/>
             <div className={styles.blockSign}>
                 <div className={styles.signContainer}>
                     <h1 className={`${styles.heading} text-center mb-4`}>Connexion</h1>
 
-                    {error && (
+                    {formErrors.password.isValid === false && (
                         <div className="alert alert-danger" role="alert">
-                            {error}
+                            {formErrors.password.message}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit}>
-
-                        {/* <label htmlFor="email" className="label form-label">Email:</label> */}
                         <input
                             type="email"
-                            className={`${styles.input} form-control`}
                             id="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
                             required placeholder="Email"
-                        />
+                            className={`${styles.input} ${!formErrors.email.isValid && formData.email ? styles.inputError : ''}`} />
+                        {!formErrors.email.isValid && formData.email && (
+                            <div className={styles.errorText}>{formErrors.email.message}</div>
+                        )}
 
-
-
-                        {/* <label htmlFor="password" className="label form-label">Mot de passe:</label> */}
                         <input
                             type="password"
-                            className={`${styles.input} form-control`}
                             id="password"
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
                             required placeholder="Mot de passe"
-                        />
-
+                            className={`${styles.input} ${!formErrors.password.isValid && formData.password ? styles.inputError : ''}`} />
+                        {!formErrors.password.isValid && formData.password && (
+                            <div className={styles.errorText}>{formErrors.password.message}</div>
+                        )}
 
                         <button
                             type="submit"
@@ -92,7 +104,6 @@ const Sign = () => {
                         >
                             {isLoading ? 'Connexion...' : 'Se connecter'}
                         </button>
-
                         <div className="text-center mt-3">
                             <p>Pas encore inscrit ?<a href="/register"> Créer un compte ici</a></p>
                         </div>

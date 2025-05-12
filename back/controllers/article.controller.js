@@ -63,7 +63,7 @@ export const createArticle = async (req, res) => {
         }
         console.log("fichiers recus par multer", req.files);
 
-        console.log("📄 Corps de la requête:", req.body);
+        console.log(" Corps de la requête:", req.body);
 
         const baseUrl = `${req.protocol}://${req.get("host")}/`; // Ex: http://localhost:8000/
         const photoUrls = req.files.map(

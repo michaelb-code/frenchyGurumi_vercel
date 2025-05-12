@@ -128,11 +128,12 @@
 }
 
 .formNote {
-    font-size: 12px;
+    font-size: 11px;
     color: #888;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 20px;
+    font-family: 'abeezee', sans-serif;
 }
 
 .submitButton {
@@ -161,7 +162,7 @@
 
 .errorText {
     color: red;
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 5px;
 }
 

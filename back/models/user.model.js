@@ -25,13 +25,11 @@ const userSchema = mongoose.Schema({
                 enum: ["masculin", "feminin"],
                 required: true
         },
-
         email: {
                 type: String,
                 required: true,
                 unique: true
         },
-
         password: {
                 type: String,
                 required: true
@@ -54,7 +52,7 @@ const userSchema = mongoose.Schema({
         },
         role: {
                 type: String,
-                enum: ["admin", "user", "visiteur"],
+                enum: ["admin", "user"],
                 default: "user"
         },
         date_inscription: {
@@ -64,7 +62,6 @@ const userSchema = mongoose.Schema({
 },
         { timestamps: { createdAt: true } }
 )
-
 userSchema.plugin(mongooseUniqueValidator)
 
 export default mongoose.model("User", userSchema)
